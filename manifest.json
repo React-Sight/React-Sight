@@ -1,16 +1,22 @@
 {
-  "name": "Chrome Query",
-  "version": "1.1",
-  "description": "Extends the Developer Tools, adding a sidebar that displays the jQuery data associated with the selected DOM element.",
+  "name": "VisualizeIO",
+  "version": "0.1",
+  "description": "Extends the Developer Tools, adding a sidebar that displays React Component Hierarchy.",
   "devtools_page": "devtools.html",
   "manifest_version": 2,
   "background": {
     "scripts": [
-      "devtools.js",
-      "data.js"
+      "background.js"
     ]
   },
   "permissions": [
-    "activeTab"
-  ]  
+    "activeTab",
+    "http://*/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],      
+      "js": ["background.js"]
+    }
+  ]
 }
