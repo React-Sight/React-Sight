@@ -10,13 +10,8 @@
     ]
   },
   "permissions": [
-    "activeTab",
-    "http://*/"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["http://*/*"],      
-      "js": ["background.js"]
-    }
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ]
 }
