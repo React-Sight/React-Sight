@@ -6,7 +6,7 @@ function createChannel() {
 
   port.onMessage.addListener(function (data) {
     console.log('GOT THE DATA', data)
-    drawChart(data.data[0].children[0])
+    drawChart(data.data[0])
   })
 };
 
@@ -46,8 +46,8 @@ function sendObjectToDevTools(message) {
 
 function drawChart(treeData) {
   var margin = { top: 50, right: 50, bottom: 50, left: 50 },
-    width = 1000 - margin.right - margin.left,
-    height = 960 - margin.top - margin.bottom;
+    width = 5000 - margin.right - margin.left,
+    height = 5000 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   // appends a 'group' element to 'svg'
@@ -75,18 +75,18 @@ function drawChart(treeData) {
   root.y0 = 0;
 
   // Collapse after the second level
-  root.children.forEach(collapse);
+  // root.children.forEach(collapse);
 
   update(root);
 
   // Collapse the node and all it's children
-  function collapse(d) {
-    if (d.children) {
-      d._children = d.children
-      d._children.forEach(collapse)
-      d.children = null
-    }
-  }
+  // function collapse(d) {
+  //   if (d.children) {
+  //     d._children = d.children
+  //     d._children.forEach(collapse)
+  //     d.children = null
+  //   }
+  // }
 
   function update(source) {
 
@@ -254,8 +254,8 @@ function drawChart(treeData) {
       update(d);
     }
   }
-  /* 
-  D3 code to create our visualization by appending onto this.svg 
+  /*
+  D3 code to create our visualization by appending onto this.svg
   */
 
   // At some point we render a child, say a tooltip
