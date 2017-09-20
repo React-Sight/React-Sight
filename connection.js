@@ -16,26 +16,11 @@ function sendObjectToInspectedPage(message) {
   chrome.extension.sendMessage(message)
 }
 
-// run a listening script for messages
-
-
-
-// chrome.extension.onMessage.addListener(function(myMessage, sender, sendResponse){
-//   //do something that only the extension has privileges here
-//   console.log('MESSAGE')
-//   return true;
-// });
-// when message is recieved, we will need to update data in the tree
-
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("dataViz", null, "devtools.html", function () {
   createChannel()
   console.log('in the callback');
   sendObjectToInspectedPage({ action: "script", content: "messageback-script.js" })
-
-  // drawChart()
-
-  // drawChart(treeData);
 });
 
 function sendObjectToDevTools(message) {
@@ -74,22 +59,9 @@ function drawChart(treeData) {
   root.x0 = height / 2;
   root.y0 = 0;
 
-  // Collapse after the second level
-  root.children.forEach(collapse);
-
   update(root);
 
-  // Collapse the node and all it's children
-  function collapse(d) {
-    if (d.children) {
-      d._children = d.children
-      d._children.forEach(collapse)
-      d.children = null
-    }
-  }
-
   function update(source) {
-
     // Assigns the x and y position for the nodes
     var treeData = treemap(root);
 
@@ -98,7 +70,7 @@ function drawChart(treeData) {
       links = treeData.descendants().slice(1);
 
     // Normalize for fixed-depth.
-    nodes.forEach(function (d) { d.y = d.depth * 180 });
+    nodes.forEach(function (d) { d.y = d.depth * 60 }); // magic number is distance between each node
 
     // ****************** Nodes section ***************************
 
@@ -147,8 +119,6 @@ function drawChart(treeData) {
           .duration(500)
           .style("opacity", 0);
       });
-
-
 
     // Add labels for the nodes
     nodeEnter.append('text')
@@ -254,13 +224,6 @@ function drawChart(treeData) {
       update(d);
     }
   }
-  /* 
-  D3 code to create our visualization by appending onto this.svg 
-  */
-
-  // At some point we render a child, say a tooltip
-  // const tooltipData = ...
-  // this.renderTooltip([50, 100], tooltipData);
 }
 
 function update(source) {
@@ -289,13 +252,32 @@ function update(source) {
     })
     .on('click', click);
 
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
   // Add Circle for the nodes
   nodeEnter.append('circle')
     .attr('class', 'node')
     .attr('r', 1e-6)
     .style("fill", function (d) {
       return d._children ? "lightsteelblue" : "#fff";
-    });
+    })
+    .style("pointer-events", "visible")
+    .on("mouseover", function (d) {
+      console.log('data', d)
+      console.log('mouseover')
+
+      div.transition()
+        .duration(1000)
+        .style("opacity", .9);
+      div.html(
+        "Name of Component: " + d.data.name + "<br />" +
+        "Level:" + d.depth
+      )
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+    })
 
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -379,40 +361,17 @@ function update(source) {
   });
 
   // Creates a curved (diagonal) path from parent to the child nodes
-  function diagonal(s, d) {
-    console.log(s, d)
-
-    // let path = `M ${(s.x + d.x) / 2} ${s.y},
-    // ${(s.x + d.x) / 2} ${d.y},
-    // ${d.x} ${d.y},
-    // C ${s.x} ${s.y}`
-
-    //   let path = `M ${s.x} ${s.y}
-    //   C ${(s.x + d.x) / 2} ${s.y},
-    //     ${(s.x + d.x) / 2} ${d.y},
-    //     ${d.x} ${d.y}`
-
-    let path = "M" + s.x + "," + s.y
+  const diagonal = (s, d) => {
+    const path = "M" + s.x + "," + s.y
       + "C" + s.x + "," + (s.y + d.y) / 2
       + " " + d.x + "," + (s.y + d.y) / 2
       + " " + d.x + "," + d.y
-
-
-
-
-
-
-
-    // let path = `M ${s.x} ${s.y}
-    // C ${(s.x + d.x - 50) / 2} ${s.y+100},
-    //   ${(s.x + d.x + 25) / 2} ${d.y+100},
-    //   ${d.x} ${d.y}`
 
     return path
   }
 
   // Toggle children on click.
-  function click(d) {
+  const click = d => {
     if (d.children) {
       d._children = d.children;
       d.children = null;
