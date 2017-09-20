@@ -10,8 +10,9 @@
     ]
   },
   "permissions": [
-    "activeTab",
-    "http://*/"
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ],
   "content_scripts": [
     {

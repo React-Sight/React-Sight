@@ -46,23 +46,30 @@ var treeData =
   };
 
 // run a listening script for messages
-// window.addEventListener('message', function(e) {
-//   if (e.origin != 'http://localhost:5000') return;
-//   console.log(e);
-// });
 
-chrome.extension.onMessage.addListener(function(myMessage, sender, sendResponse){
-  //do something that only the extension has privileges here
-  console.log('MESSAGE')
-  return true;
-});
+
+
+// chrome.extension.onMessage.addListener(function(myMessage, sender, sendResponse){
+//   //do something that only the extension has privileges here
+//   console.log('MESSAGE')
+//   return true;
+// });
 // when message is recieved, we will need to update data in the tree
 
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("dataViz", null, "devtools.html", function () {
   console.log('in the callback');
+  sendObjectToInspectedPage({ action: "script", content: "messageback-script.js" })
   drawChart(treeData);
 });
+
+function sendObjectToDevTools(message) {
+  chrome.extension.sendMessage(message, function (message) {
+    console.log('HELLO YOU SENT A MESSAGE BACK: ', message)
+    drawChart(message.data)
+  })
+}
+
 
 // function to draw d3 chart
 const drawChart = (treeData) => {
@@ -250,4 +257,5 @@ const drawChart = (treeData) => {
     // At some point we render a child, say a tooltip
     // const tooltipData = ...
     // this.renderTooltip([50, 100], tooltipData);
+}
 }
