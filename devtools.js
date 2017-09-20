@@ -46,49 +46,29 @@ var treeData =
   };
 
 // run a listening script for messages
-// window.addEventListener('message', function(e) {
-//   if (e.origin != 'http://localhost:5000') return;
-//   console.log(e);
+
+
+
+// chrome.extension.onMessage.addListener(function(myMessage, sender, sendResponse){
+//   //do something that only the extension has privileges here
+//   console.log('MESSAGE')
+//   return true;
 // });
-
-
-console.log('[devtools.js]')
-
-
 // when message is recieved, we will need to update data in the tree
 
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("dataViz", null, "devtools.html", function () {
   console.log('in the callback');
+  sendObjectToInspectedPage({ action: "script", content: "messageback-script.js" })
   drawChart(treeData);
 });
 
-// DevTools page -- devtools.js
-// Create a connection to the background page
-var backgroundPageConnection = chrome.runtime.connect({
-  name: "devtools-page"
-});
-
-backgroundPageConnection.onMessage.addListener(function (message) {
-  // Handle responses from the background page, if any
-});
-
-// Relay the tab ID to the background page
-chrome.runtime.sendMessage({
-  tabId: chrome.devtools.inspectedWindow.tabId,
-  scriptToInject: "background.js"
-});
-
-// Create a connection to the background page
-var backgroundPageConnection = chrome.runtime.connect({
-  name: "panel"
-});
-
-backgroundPageConnection.postMessage({
-  name: 'init',
-  tabId: chrome.devtools.inspectedWindow.tabId
-});
-
+function sendObjectToDevTools(message) {
+  chrome.extension.sendMessage(message, function (message) {
+    console.log('HELLO YOU SENT A MESSAGE BACK: ', message)
+    drawChart(message.data)
+  })
+}
 
 
 // function to draw d3 chart
@@ -270,5 +250,12 @@ const drawChart = (treeData) => {
       }
       update(d);
     }
-  }
+    /*
+      D3 code to create our visualization by appending onto this.svg
+    */
+
+    // At some point we render a child, say a tooltip
+    // const tooltipData = ...
+    // this.renderTooltip([50, 100], tooltipData);
+}
 }
