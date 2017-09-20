@@ -44,14 +44,14 @@ function drawChart(treeData) {
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-  .attr("transform", "translate("
-  + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate("
+    + margin.left + "," + margin.top + ")")
 
   d3.select("body")
     .call(d3.zoom().on("zoom", function () {
       svg.attr("transform", d3.event.transform)
     })
-    .scaleExtent([1, 8]))
+      .scaleExtent([1, 8]))
 
 
 
