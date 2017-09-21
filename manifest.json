@@ -12,12 +12,7 @@
   "permissions": [
     "tabs",
     "http://*/*",
-    "https://*/*"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["http://*/*"],
-      "js": ["background.js"]
-    }
+    "https://*/*",
+    "file:///*"
   ]
 }
