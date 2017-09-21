@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './connection.js',
+  entry: './chrome-ext/connection.js',
   output: {
-    filename: './build/bundle.js',
+    filename: './chrome-ext/build/bundle.js',
   },
   // use a load for .jsx and ES6
   module: {
