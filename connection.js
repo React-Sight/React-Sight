@@ -60,7 +60,7 @@ function drawChart(treeData) {
   root.y0 = 0;
 
   update(root);
-  
+
   function update(source) {
     // Assigns the x and y position for the nodes
     var treeData = treemap(root);
