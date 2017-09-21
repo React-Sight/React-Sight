@@ -1,6 +1,6 @@
+let d3 = require('d3')
 
-
-function drawChart(treeData) {
+export function drawChart(treeData) {
     var margin = { top: 50, right: 50, bottom: 50, left: 50 },
       width = 1000 - margin.right - margin.left,
       height = 960 - margin.top - margin.bottom;

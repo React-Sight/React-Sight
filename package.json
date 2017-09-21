@@ -27,5 +27,8 @@
     "css-loader": "^0.28.7",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "d3": "^4.10.2"
   }
 }
