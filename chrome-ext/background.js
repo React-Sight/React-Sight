@@ -40,7 +40,7 @@ chrome.extension.onConnect.addListener(function (port) {
   port.onDisconnect.addListener(function (port) {
 
     console.log('disconnecting')
-    chrome.extension.onMessage.removeListener(extensionListener);
+    // chrome.extension.onMessage.removeListener(extensionListener);
   });
 
   // port.onMessage.addListener(function (message) {
