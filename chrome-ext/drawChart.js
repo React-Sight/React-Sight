@@ -42,6 +42,7 @@ export function drawChart(treeData) {
 
   function update(source) {
     // Assigns the x and y position for the nodes
+    // var treeData = treemap(root);
     var treeData = treemap(root);
 
     // Compute the new tree layout.
@@ -89,9 +90,9 @@ export function drawChart(treeData) {
         let stateString = ''
 
         /**
-         * Flatten an object into a string. The key: value will be 
+         * Flatten an object into a string. The key: value will be
          * appended to a string to be presented on the tooltip
-         * @param {object} item 
+         * @param {object} item
          */
         function walkState(item) {
           for (let key in item) {
@@ -225,4 +226,3 @@ export function drawChart(treeData) {
     }
   }
 }
-
