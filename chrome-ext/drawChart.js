@@ -1,3 +1,8 @@
+/**
+ * SQUARES
+ * 
+ * 
+ */
 // const d3 = require('d3')
 
 // export function drawChart(treeData) {
@@ -281,6 +286,12 @@
 //   }
 // }
 
+/**
+ *  CIRCLE NODES
+ * 
+ * 
+ * 
+ */
 const d3 = require('d3')
 
 
