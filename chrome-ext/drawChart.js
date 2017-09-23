@@ -1,23 +1,27 @@
 const d3 = require('d3')
 
 export function drawChart(treeData) {
-  console.log('tree', treeData)
-  var margin = { top: 50, right: 50, bottom: 50, left: 50 },
-    width = 1000 - margin.right - margin.left,
-    height = 960 - margin.top - margin.bottom;
-
-  // append the svg object to the body of the page
+  // console.log('tree', treeData)
+  var margin = {
+    top: 20,
+    right: 120,
+    bottom: 20,
+    left: 120
+  },
+    width = 960 - margin.right - margin.left,
+    height = 800 - margin.top - margin.bottom;  // append the svg object to the body of the page
   // appends a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
 
-  d3.select("body").selectAll("*").remove();
+  d3.select(".tree").selectAll("*").remove();
 
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.right + margin.left)
-    .attr("height", height + margin.top + margin.bottom)
+  var svg = d3.select(".tree").append("svg")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 1200 800")
     .append("g")
-    .attr("transform", "translate("
-    + margin.left + "," + margin.top + ")")
+    .classed("svg-content-responsive", true)
+    .attr("transform", d => "translate(528,71) scale(1)")
 
   d3.select("body")
     .call(d3.zoom().on("zoom", function () {
@@ -25,29 +29,32 @@ export function drawChart(treeData) {
     })
       .scaleExtent([1, 8]))
 
-
-
   var i = 0,
     duration = 750,
-    root;
+    root,
+    rectW = 120,
+    rectH = 30
 
   // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]);
+  var treemap = d3.tree()
+    // .size([height, width])
+    .nodeSize([rectW, rectH])
+    .separation(function (a, b) { return a.parent === b.parent ? 1 : .25 })
 
   // Assigns parent, children, height, depth
-  root = d3.hierarchy(treeData, function (d) { return d.children; });
-  root.x0 = height / 2;
+  root = d3.hierarchy(treeData, function (d) { return d.children; })
+  root.x0 = height / 2
   root.y0 = 0;
 
   update(root);
 
   function update(source) {
     // Assigns the x and y position for the nodes
-    var treeData = treemap(root);
+    var treeData = treemap(root)
 
     // Compute the new tree layout.
-    var nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
+    var nodes = treeData.descendants()
+    var links = treeData.descendants().slice(1)
 
     // Normalize for fixed-depth.
     nodes.forEach(function (d) { d.y = d.depth * 60 }); // magic number is distance between each node
@@ -56,14 +63,13 @@ export function drawChart(treeData) {
 
     // Update the nodes...
     var node = svg.selectAll('g.node')
-      .data(nodes, function (d) { return d.id || (d.id = ++i); });
+      .data(nodes,
+      d => d.id || (d.id = ++i))
 
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
-      .attr("transform", function (d) {
-        return "translate(" + source.x0 + "," + source.y0 + ")";
-      })
+      .attr("transform", d => "translate(" + source.x0 + "," + source.y0 + ")")
       .on('click', click)
 
     var div = d3.select("body").append("div")
@@ -71,12 +77,26 @@ export function drawChart(treeData) {
       .style("opacity", 0);
 
     // Add Circle for the nodes
-    nodeEnter.append('circle')
+    // nodeEnter.append('circle')
+    //   .attr('class', 'node')
+    //   .attr('r', 5)
+    //   .style("fill", function (d) {
+    //     return d._children ? "lightsteelblue" : "#fff";
+    //   })
+    nodeEnter.append('rect')
+      .attr("rx", 6)
+      .attr("ry", 6)
       .attr('class', 'node')
-      .attr('r', 5)
-      .style("fill", function (d) {
-        return d._children ? "lightsteelblue" : "#fff";
+      .attr("width", rectW)
+      .attr("height", rectH)
+      .attr("transform", function (d) {
+        return "translate(" + (- (rectW / 2)) + "," + (-rectH) + ")";
       })
+      .style("fill", function (d) {
+        return d._children ? "lightsteelblue" : "#59ABA8";
+      })
+
+
       .style("pointer-events", "visible")
 
       .on("mouseover", function (d) {
@@ -123,12 +143,20 @@ export function drawChart(treeData) {
 
     // Add labels for the nodes
     nodeEnter.append('text')
+      .attr("x", 0)
+      .attr("y", -rectH / 2)
       .attr("dy", ".35em")
-      .attr("y", function (d) {
-        return d.children || d._children ? -18 : 18;
-      })
       .attr("text-anchor", "middle")
-      .text(function (d) { return d.data.name; })
+      .text(d => d.data.name)
+
+    // nodeEnter.append('text')
+    // .attr("dy", ".35em")
+    // .attr("y", function (d) {
+    //   return d.children || d._children ? -18 : 18;
+    // })
+    // .attr("text-anchor", "middle")
+    // .text(function (d) { return d.data.name; })
+
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
@@ -141,12 +169,20 @@ export function drawChart(treeData) {
       });
 
     // Update the node attributes and style
-    nodeUpdate.select('circle.node')
-      .attr('r', 10)
-      .style("fill", function (d) {
-        return d._children ? "lightsteelblue" : "#fff";
-      })
+    // nodeUpdate.select('circle.node')
+    //   .attr('r', 10)
+    //   .style("fill", function (d) {
+    //     return d._children ? "lightsteelblue" : "#fff";
+    //   })
+    //   .attr('cursor', 'pointer');
+    nodeUpdate.select('rect.node')
+      .attr("width", rectW)
+      .attr("height", rectH)
+      // .style("fill", function (d) {
+      //   return d._children ? "lightsteelblue" : "#fff";
+      // })
       .attr('cursor', 'pointer');
+
 
 
     // Remove any exiting nodes
@@ -158,8 +194,15 @@ export function drawChart(treeData) {
       .remove();
 
     // On exit reduce the node circles size to 0
-    nodeExit.select('circle')
-      .attr('r', 1e-6);
+    // nodeExit.select('circle')
+    //   .attr('r', 1e-6);
+    nodeExit.select("rect")
+      .attr("width", rectW)
+      .attr("height", rectH)
+    // nodeExit.select("rect")
+    //   .attr("width", rectW)
+    //   .attr("height", rectH)
+
 
     // On exit reduce the opacity of text labels
     nodeExit.select('text')
@@ -169,11 +212,13 @@ export function drawChart(treeData) {
 
     // Update the links...
     var link = svg.selectAll('path.link')
-      .data(links, function (d) { return d.id; });
+      .data(links, d => d.id)
 
     // Enter any new links at the parent's previous position.
-    var linkEnter = link.enter().insert('path', "g")
+    var linkEnter = link.enter().insert('path', 'g')
       .attr("class", "link")
+      .attr('x', rectW / 2)
+      .attr("y", rectH / 2)
       .attr('d', function (d) {
         var o = { x: source.x0, y: source.y0 }
         return diagonal(o, o)
@@ -226,4 +271,3 @@ export function drawChart(treeData) {
     }
   }
 }
-
