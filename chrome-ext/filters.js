@@ -27,7 +27,7 @@ export function filterRedux(data) {
 /** Removes ReactRouter v4 components from JSON */
 export function filterRouter(data) {
   const filtered = { data: [] }
-  const names = ['BrowserRouter', 'Router', 'Switch', 'Route'];
+  const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
 
   recurFilter(data.data[0], filtered.data, names)
   return filtered;
