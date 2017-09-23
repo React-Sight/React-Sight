@@ -2,6 +2,6 @@
 function inserted() {
 	console.log('External script attached');
 	var event = new Event('attached');
-	window.dispatchEvent(event);		
+	window.dispatchEvent(event);
 }
 inserted();
