@@ -1,6 +1,7 @@
 const drawChart = require("./drawChart")
 import { filterRedux, filterRouter } from './filters'
 
+// Bad globals
 var curData
 var noRouter
 var noRedux
@@ -9,28 +10,28 @@ var noRouterRedux
 var hideRouter = false
 var hideRedux = false
 
-function createChannel() {
+const createChannel = () => {
   console.log('Creating connection...')
-  var port = chrome.extension.connect({
+  const port = chrome.extension.connect({
     name: "connecting to VisualizeIO"
   })
 
   console.log('# port.onMessage.addListener')
-  port.onMessage.addListener(function (data) {
+  port.onMessage.addListener(data => {
     console.log('got data')
     curData = data;
     draw();
   })
 }
 
-function sendObjectToInspectedPage(message) {
+const sendObjectToInspectedPage = message => {
   message.tabId = chrome.devtools.inspectedWindow.tabId
-  console.log('# chrome.extension.sendMessage')
-  console.log(message)
+  console.log('# CONNECT chrome.extension.sendMessage')
+  // console.log(message)
   chrome.extension.sendMessage(message)
 }
 
-function routerButton() {
+const routerButton = () => {
   if (hideRouter) {
     hideRouter = false
     draw()
@@ -41,7 +42,7 @@ function routerButton() {
   }
 }
 
-function reduxButton() {
+const reduxButton = () => {
   if (hideRedux) {
     hideRedux = false
     draw()
@@ -52,9 +53,13 @@ function reduxButton() {
   }
 }
 
-
-function draw() {
-  if (hideRouter && hideRedux) {
+/**
+ * Abstracting the drawing function to one command.
+ * This func conditionally renders based on the router and redux checkboxes
+ */
+const draw = () => {
+  if (!hideRedux && !hideRouter) drawChart.drawChart(curData.data[0])
+  else if (hideRouter && hideRedux) {
     noRouterRedux = filterRedux(curData)
     noRouterRedux = filterRouter(noRouterRedux)
     drawChart.drawChart(noRouterRedux.data[0])
@@ -67,7 +72,7 @@ function draw() {
     noRedux = filterRedux(curData)
     drawChart.drawChart(noRedux.data[0])
   }
-  else drawChart.drawChart(curData.data[0])
+  else console.log('HUGE ERROR!!!!!')
 }
 
 // attach panel to chrome dev tools
