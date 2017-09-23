@@ -1,6 +1,5 @@
 let d3 = require('d3')
 
-export function drawChart(treeData) {
   var margin = { top: 50, right: 50, bottom: 50, left: 50 },
     width = 1000 - margin.right - margin.left,
     height = 960 - margin.top - margin.bottom;
@@ -9,7 +8,7 @@ export function drawChart(treeData) {
   // appends a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
 
-  d3.select("body").selectAll("*").remove();
+  // d3.select("body").selectAll("*").remove();
 
   var svg = d3.select("body").append("svg")
     .attr("width", width + margin.right + margin.left)
@@ -23,8 +22,6 @@ export function drawChart(treeData) {
       svg.attr("transform", d3.event.transform)
     })
       .scaleExtent([1, 8]))
-
-
 
   var i = 0,
     duration = 750,
@@ -40,11 +37,11 @@ export function drawChart(treeData) {
 
   update(root);
 
-  function update(source) {
+  export default function update(source) {
     // Assigns the x and y position for the nodes
     // var treeData = treemap(root);
     var treeData = treemap(root);
-
+    console.log('THIS IS THE ROOT: ', treeData)
     // Compute the new tree layout.
     var nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
@@ -56,8 +53,20 @@ export function drawChart(treeData) {
 
     // Update the nodes...
     var node = svg.selectAll('g.node')
-      .data(nodes, function (d) { return d.id || (d.id = ++i); });
+      .data(nodes, function (d) {
+        console.log('THIS IS NODES~~~~~~~~~~~~~~~~~~~~', nodes)
+        console.log('THIS IS THE D: ', d)
+        return d.data.name
+        // return d.id || (d.id = ++i);
+       });
 
+    // Remove any exiting nodes
+    var nodeExit = node.exit().transition()
+     .duration(duration)
+     .attr("transform", function (d) {
+       return "translate(" + source.x + "," + source.y + ")";
+     })
+     .remove();
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
@@ -109,7 +118,8 @@ export function drawChart(treeData) {
         div.html(
           "Name: " + d.data.name + "<br />" +
           "Level: " + d.depth + "<br />" +
-          "State: " + stateString
+          "state: " + stateString + "<br />" +
+          "props: " + d.data.props
         )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
@@ -149,13 +159,7 @@ export function drawChart(treeData) {
       .attr('cursor', 'pointer');
 
 
-    // Remove any exiting nodes
-    var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function (d) {
-        return "translate(" + source.x + "," + source.y + ")";
-      })
-      .remove();
+
 
     // On exit reduce the node circles size to 0
     nodeExit.select('circle')
@@ -225,4 +229,3 @@ export function drawChart(treeData) {
       update(d);
     }
   }
-}

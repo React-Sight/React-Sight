@@ -7,17 +7,17 @@ function createChannel() {
     name: "connecting to VisualizeIO"
   });
 
-  console.log('# port.onMessage.addListener')  
+  console.log('# port.onMessage.addListener')
   port.onMessage.addListener(function (data) {
-    drawChart.drawChart(data.data[0].children[0])
+    drawChart.update(data.data[0].children[0])
   })
 };
 
 function sendObjectToInspectedPage(message) {
   // console.log('sending something !!!!')
   message.tabId = chrome.devtools.inspectedWindow.tabId;
-  console.log('# chrome.extension.sendMessage')  
-  console.log(message)  
+  console.log('# chrome.extension.sendMessage')
+  console.log(message)
   chrome.extension.sendMessage(message)
 }
 
@@ -25,8 +25,8 @@ function sendObjectToInspectedPage(message) {
 chrome.devtools.panels.create("dataViz", null, "devtools.html", function () {
   console.log('# chrome.devtools.panels.create')
   createChannel()
-  console.log('# sendObjectToInspectedPage')  
+  console.log('# sendObjectToInspectedPage')
   sendObjectToInspectedPage({ action: "script", content: "messageback-script.js" })
   sendObjectToInspectedPage({action: "script", content: "inserted-script.js"});
-  
+
 });
