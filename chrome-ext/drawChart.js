@@ -1,4 +1,5 @@
-let d3 = require('d3')
+const d3 = require('d3')
+
 
   var margin = { top: 50, right: 50, bottom: 50, left: 50 },
     width = 1000 - margin.right - margin.left,
@@ -23,6 +24,9 @@ let d3 = require('d3')
     })
       .scaleExtent([1, 8]))
 
+
+export function drawChart(treeData) {
+
   var i = 0,
     duration = 750,
     root;
@@ -37,11 +41,11 @@ let d3 = require('d3')
 
   update(root);
 
-  export default function update(source) {
+  function update(source) {
+
     // Assigns the x and y position for the nodes
     // var treeData = treemap(root);
     var treeData = treemap(root);
-    console.log('THIS IS THE ROOT: ', treeData)
     // Compute the new tree layout.
     var nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
@@ -54,9 +58,8 @@ let d3 = require('d3')
     // Update the nodes...
     var node = svg.selectAll('g.node')
       .data(nodes, function (d) {
-        console.log('THIS IS NODES~~~~~~~~~~~~~~~~~~~~', nodes)
-        console.log('THIS IS THE D: ', d)
-        return d.data.name
+
+        return d.data.id
         // return d.id || (d.id = ++i);
        });
 
@@ -173,7 +176,7 @@ let d3 = require('d3')
 
     // Update the links...
     var link = svg.selectAll('path.link')
-      .data(links, function (d) { return d.id; });
+      .data(links, function (d) { return d.data.id; });
 
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
@@ -229,3 +232,4 @@ let d3 = require('d3')
       update(d);
     }
   }
+}

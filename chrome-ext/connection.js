@@ -1,5 +1,6 @@
-const messageback = require("./messageback-script")
-const drawChart = require("./drawChart.js")
+const drawChart = require("./drawChart")
+import messageback from './messageback-script'
+import { filterRedux, filterRouter } from './filters'
 
 function createChannel() {
   console.log('Creating connection...')
@@ -9,7 +10,10 @@ function createChannel() {
 
   console.log('# port.onMessage.addListener')
   port.onMessage.addListener(function (data) {
-    drawChart.update(data.data[0].children[0])
+    console.log('got data BEFORE RENDERING FORREAL FORREAL FOREEAL: ', data);
+    // data = filterRedux(data);
+    // data = filterRouter(data);
+    drawChart.drawChart(data.data[0])
   })
 };
 
@@ -22,11 +26,10 @@ function sendObjectToInspectedPage(message) {
 }
 
 // attach panel to chrome dev tools
-chrome.devtools.panels.create("dataViz", null, "devtools.html", function () {
+chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", function () {
   console.log('# chrome.devtools.panels.create')
   createChannel()
   console.log('# sendObjectToInspectedPage')
   sendObjectToInspectedPage({ action: "script", content: "messageback-script.js" })
-  sendObjectToInspectedPage({action: "script", content: "inserted-script.js"});
-
+  sendObjectToInspectedPage({ action: "script", content: "inserted-script.js" });
 });
