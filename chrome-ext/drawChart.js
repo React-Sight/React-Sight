@@ -1,3 +1,5 @@
+import * as d3 from 'd3'
+
 /**
  * Flatten an object into a string. The key: value will be
  * appended to a string to be presented on the tooltip
@@ -18,7 +20,6 @@ function flatten(item, stringArr) {
  * 
  * 
  */
-// import * as d3 from 'd3'
 
 // export function drawChart(treeData) {
 //   // console.log('tree', treeData)
@@ -307,8 +308,6 @@ function flatten(item, stringArr) {
  * 
  * 
  */
-import * as d3 from 'd3'
-
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
   width = 1000 - margin.right - margin.left,
