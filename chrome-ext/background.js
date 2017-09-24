@@ -14,5 +14,7 @@ chrome.extension.onConnect.addListener(function (port) {
   }
   // Listens to messages sent from the panel
   chrome.extension.onMessage.addListener(extensionListener);
+  port.onDisconnect.addListener(function (port) {
+  })    
 });
 
