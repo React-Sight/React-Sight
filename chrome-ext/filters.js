@@ -1,7 +1,7 @@
 /** Parse JSON recursively and remove unwanted items */
 const recurFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return
-  const newObj = { name: node.name, children: [], id: node.id, props: node.props }
+  const newObj = { name: node.name, children: [], id: node.id, props: node.props, state: node.state }
   if (filter.includes(node.name)) {
     node.children.forEach(child => {
       recurFilter(child, parentArr, filter);
