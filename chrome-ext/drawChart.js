@@ -18,7 +18,7 @@ function flatten(item, stringArr) {
  * 
  * 
  */
-// const d3 = require('d3')
+// import * as d3 from 'd3'
 
 // export function drawChart(treeData) {
 //   // console.log('tree', treeData)
@@ -307,7 +307,7 @@ function flatten(item, stringArr) {
  * 
  * 
  */
-const d3 = require('d3')
+import * as d3 from 'd3'
 
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
