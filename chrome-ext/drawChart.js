@@ -58,7 +58,7 @@ export function drawChart(treeData) {
     // Update the nodes...
     var node = svg.selectAll('g.node')
       .data(nodes, function (d) {
-
+        console.log(d.data.id, d.data.name)
         return d.data.id
         // return d.id || (d.id = ++i);
        });

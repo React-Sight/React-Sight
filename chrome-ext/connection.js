@@ -10,18 +10,19 @@ function createChannel() {
 
   console.log('# port.onMessage.addListener')
   port.onMessage.addListener(function (data) {
-    console.log('got data BEFORE RENDERING FORREAL FORREAL FOREEAL: ', data);
+    // console.log('got data BEFORE RENDERING FORREAL FORREAL FOREEAL: ', data);
     // data = filterRedux(data);
     // data = filterRouter(data);
+
     drawChart.drawChart(data.data[0])
   })
 };
 
 function sendObjectToInspectedPage(message) {
-  // console.log('sending something !!!!')
+  // console.log('sending something !!!!')x
   message.tabId = chrome.devtools.inspectedWindow.tabId;
-  console.log('# chrome.extension.sendMessage')
-  console.log(message)
+  // console.log('# chrome.extension.sendMessage')
+  // console.log(message)
   chrome.extension.sendMessage(message)
 }
 
