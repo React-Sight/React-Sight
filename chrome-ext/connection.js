@@ -1,4 +1,4 @@
-const drawChart = require("./drawChart")
+import * as drawChart from './drawChart'
 import { filterRedux, filterRouter } from './filters'
 
 // Bad globals
