@@ -1,4 +1,19 @@
 /**
+ * Flatten an object into a string. The key: value will be
+ * appended to a string to be presented on the tooltip
+ * @param {object} item
+ */
+function flatten(item, stringArr) {
+  const keys = Object.keys(item);
+  keys.forEach(key => {
+    const value = item[key]
+    console.log(`KEY: ${key}  VALUE: ${value}`)
+    if (typeof value === 'object') flatten(value, stringArr)
+    else stringArr.push(`${key}: ${value}<br />`)
+  })
+}
+
+/**
  * SQUARES
  * 
  * 
@@ -295,28 +310,28 @@
 const d3 = require('d3')
 
 
-  var margin = { top: 50, right: 50, bottom: 50, left: 50 },
-    width = 1000 - margin.right - margin.left,
-    height = 960 - margin.top - margin.bottom;
+var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+  width = 1000 - margin.right - margin.left,
+  height = 960 - margin.top - margin.bottom;
 
-  // append the svg object to the body of the page
-  // appends a 'group' element to 'svg'
-  // moves the 'group' element to the top left margin
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
 
-  // d3.select("body").selectAll("*").remove();
+// d3.select("body").selectAll("*").remove();
 
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.right + margin.left)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate("
-    + margin.left + "," + margin.top + ")")
+var svg = d3.select("body").append("svg")
+  .attr("width", width + margin.right + margin.left)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate("
+  + margin.left + "," + margin.top + ")")
 
-  d3.select("body")
-    .call(d3.zoom().on("zoom", function () {
-      svg.attr("transform", d3.event.transform)
-    })
-      .scaleExtent([1, 8]))
+d3.select("body")
+  .call(d3.zoom().on("zoom", function () {
+    svg.attr("transform", d3.event.transform)
+  })
+    .scaleExtent([1, 8]))
 
 
 export function drawChart(treeData) {
@@ -355,15 +370,15 @@ export function drawChart(treeData) {
 
         return d.data.id
         // return d.id || (d.id = ++i);
-       });
+      });
 
     // Remove any exiting nodes
     var nodeExit = node.exit().transition()
-     .duration(duration)
-     .attr("transform", function (d) {
-       return "translate(" + source.x + "," + source.y + ")";
-     })
-     .remove();
+      .duration(duration)
+      .attr("transform", function (d) {
+        return "translate(" + source.x + "," + source.y + ")";
+      })
+      .remove();
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
@@ -393,30 +408,30 @@ export function drawChart(treeData) {
           .duration(1000)
           .style("opacity", .9);
 
-        let stateString = ''
-
-        /**
-         * Flatten an object into a string. The key: value will be
-         * appended to a string to be presented on the tooltip
-         * @param {object} item
-         */
-        function walkState(item) {
-          for (let key in item) {
-            if (typeof item[key] === 'object') {
-              walkState(item[key])
-            }
-            else stateString += key + ' ' + item[key] + '<br />'
-          }
-        }
+        // let stateString = `State:<br />`
+        let stateString = ['State:<br />']
+        let propsString = ['Props:<br />']
 
         if (!d.data.state) stateString += ' null'
-        else if (typeof d.data.state === 'object') walkState(d.data.state);
+        else if (typeof d.data.state === 'object') {
+          flatten(d.data.state, stateString);
+          stateString = stateString.join('');
+        }
+
+        if (!d.data.props) propsString += ' null'
+        else if (typeof d.data.props === 'object') {
+          flatten(d.data.props, propsString);
+          propsString = propsString.join('');
+        }
+
+        console.log('STATE STRING: ', stateString)
+        console.log('STATE STRING: ', propsString)
 
         div.html(
           "Name: " + d.data.name + "<br />" +
           "Level: " + d.depth + "<br />" +
-          "state: " + stateString + "<br />" +
-          "props: " + d.data.props
+          stateString + "<br />" +
+          propsString + "<br />" 
         )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
