@@ -36,13 +36,10 @@ export function filterRouter(data) {
   return filtered;
 }
 
-/**
- * EXPERIMENTAL
- * 
- *  Removes Basic DOM components from tree */
+/** Removes Basic DOM components from tree */
 export function filterDOM(data) {
   const filtered = { data: [] }
-  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button'];
+  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img'];
 
   recurFilter(data.data[0], filtered.data, names)
   return filtered;
