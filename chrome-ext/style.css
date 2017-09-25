@@ -1,16 +1,17 @@
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 3px;
+.node rect {
+  /* stroke: #59ABA8; */
+  stroke: black;
+  stroke-width: 1px;
 }
 
 .node text {
+  color: #5A5151;
   font: 12px sans-serif;
 }
 
 .link {
   fill: none;
-  stroke: #ccc;
+  stroke: #a9e4ef;
   stroke-width: 2px;
 }
 
@@ -25,4 +26,34 @@ div.tooltip {
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+}
+
+.store {
+  height: 200px;
+  width: 200px;
+  border: 1px solid red;
+}
+
+.tree {
+  background-color: #5A5151;
+}
+
+body {
+  background-color: #5A5151;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  margin: 0 auto;
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
 }
