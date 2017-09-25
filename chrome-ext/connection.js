@@ -1,22 +1,23 @@
-const drawChart = require("./drawChart")
-import { filterRedux, filterRouter } from './filters'
+import * as drawChart from './drawChart'
+import { filterRedux, filterRouter, filterDOM } from './filters'
 
-// Bad globals
+// Bad globals - variables that store last snapshot of data
 var curData
 var noRouter
 var noRedux
 var noRouterRedux
+var noDOM
+var noDOMnoRedux
+var noDOMnoRouter
 
-var hideRouter = false
-var hideRedux = false
-
+/** Create a connection to the current tab and set up listener */
 const createChannel = () => {
   console.log('Creating connection...')
   const port = chrome.extension.connect({
     name: "connecting to VisualizeIO"
   })
 
-  //listening for messages sent to chrome.extension
+
   port.onMessage.addListener(data => {
     curData = data;
     // draw();
@@ -24,33 +25,12 @@ const createChannel = () => {
   })
 }
 
+/** Select current tab and send message */
 const sendObjectToInspectedPage = message => {
   message.tabId = chrome.devtools.inspectedWindow.tabId
-  console.log('# CONNECT chrome.extension.sendMessage')
+  console.log('# CONNECT chrome.extension.sendMessage', message)
   // console.log(message)
   chrome.extension.sendMessage(message)
-}
-
-const routerButton = () => {
-  if (hideRouter) {
-    hideRouter = false
-    draw()
-  }
-  else {
-    hideRouter = true
-    draw()
-  }
-}
-
-const reduxButton = () => {
-  if (hideRedux) {
-    hideRedux = false
-    draw()
-  }
-  else {
-    hideRedux = true
-    draw()
-  }
 }
 
 /**
@@ -58,11 +38,33 @@ const reduxButton = () => {
  * This func conditionally renders based on the router and redux checkboxes
  */
 const draw = () => {
-  if (!hideRedux && !hideRouter) drawChart.drawChart(curData.data[0])
+  const hideRouter = document.querySelector('#router-btn').checked
+  const hideRedux = document.querySelector('#redux-btn').checked
+  const hideDOM = document.querySelector('#dom-btn').checked
+
+  if (!hideRedux && !hideRouter && !hideDOM) drawChart.drawChart(curData.data[0])
   else if (hideRouter && hideRedux) {
     noRouterRedux = filterRedux(curData)
     noRouterRedux = filterRouter(noRouterRedux)
     drawChart.drawChart(noRouterRedux.data[0])
+  }
+  else if (hideDOM && hideRedux) {
+    noDOMnoRedux = filterRedux(curData)
+    noDOMnoRedux = filterDOM(noDOMnoRedux)
+    drawChart.drawChart(noDOMnoRedux.data[0])
+
+  }
+
+  else if (hideDOM && hideRouter) {
+    noDOMnoRouter = filterDOM(curData)
+    noDOMnoRouter = filterRouter(noRouterRedux)
+    drawChart.drawChart(noDOMnoRouter.data[0])
+
+  }
+
+  else if (hideDOM) {
+    noDOM = filterDOM(curData)
+    drawChart.drawChart(noDOM.data[0])
   }
   else if (hideRouter) {
     noRouter = filterRouter(curData)
@@ -72,18 +74,20 @@ const draw = () => {
     noRedux = filterRedux(curData)
     drawChart.drawChart(noRedux.data[0])
   }
-  else console.log('HUGE ERROR!!!!!')
+  else throw console.log('Error drawing chart')
 }
 
 // attach panel to chrome dev tools
 console.log('# creating a panel')
-chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", function () {
+chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", () => {
   console.log('# chrome.devtools.panels.create')
 
-  document.querySelector('#router-btn').addEventListener('change', routerButton)
-  document.querySelector('#redux-btn').addEventListener('click', reduxButton)
+  // wire up buttons to actions
+  document.querySelector('#router-btn').addEventListener('change', draw)
+  document.querySelector('#redux-btn').addEventListener('click', draw)
+  document.querySelector('#dom-btn').addEventListener('click', draw)
 
   createChannel()
-  console.log('# sendObjectToInspectedPage')
+  // send inital message so that we have data when the extension is first opened
   sendObjectToInspectedPage({ action: "script", content: "inserted-script.js" })
 })
