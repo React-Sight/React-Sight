@@ -1,4 +1,7 @@
-/** Parse JSON recursively and remove unwanted items */
+/** Parse JSON recursively and remove unwanted items
+ * 
+ * Shared between all filters
+ */
 const recurFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return
   const newObj = { name: node.name, children: [], id: node.id, props: node.props, state: node.state }
@@ -21,7 +24,6 @@ export function filterRedux(data) {
   const names = ['Provider', 'Connect'];
 
   recurFilter(data.data[0], filtered.data, names)
-  console.log('# filtered Redux', filtered)
   return filtered;
 }
 
@@ -31,6 +33,17 @@ export function filterRouter(data) {
   const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
 
   recurFilter(data.data[0], filtered.data, names)
-  console.log('# filtered Router', filtered)
+  return filtered;
+}
+
+/**
+ * EXPERIMENTAL
+ * 
+ *  Removes Basic DOM components from tree */
+export function filterDOM(data) {
+  const filtered = { data: [] }
+  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button'];
+
+  recurFilter(data.data[0], filtered.data, names)
   return filtered;
 }

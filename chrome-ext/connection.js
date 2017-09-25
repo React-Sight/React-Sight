@@ -1,11 +1,14 @@
 import * as drawChart from './drawChart'
-import { filterRedux, filterRouter } from './filters'
+import { filterRedux, filterRouter, filterDOM } from './filters'
 
-// Bad globals
+// Bad globals - variables that store last snapshot of data
 var curData
 var noRouter
 var noRedux
 var noRouterRedux
+var noDOM
+var noDOMnoRedux
+var noDOMnoRouter
 
 /** Create a connection to the current tab and set up listener */
 const createChannel = () => {
@@ -38,12 +41,31 @@ const sendObjectToInspectedPage = message => {
 const draw = () => {
   const hideRouter = document.querySelector('#router-btn').checked
   const hideRedux = document.querySelector('#redux-btn').checked
-
-  if (!hideRedux && !hideRouter) drawChart.drawChart(curData.data[0])
+  const hideDOM = document.querySelector('#dom-btn').checked
+  
+  if (!hideRedux && !hideRouter && !hideDOM) drawChart.drawChart(curData.data[0])
   else if (hideRouter && hideRedux) {
     noRouterRedux = filterRedux(curData)
     noRouterRedux = filterRouter(noRouterRedux)
     drawChart.drawChart(noRouterRedux.data[0])
+  }
+  else if (hideDOM && hideRedux) {
+    noDOMnoRedux = filterRedux(curData)
+    noDOMnoRedux = filterDOM(noDOMnoRedux)
+    drawChart.drawChart(noDOMnoRedux.data[0])
+
+  }
+
+  else if (hideDOM && hideRouter) {
+    noDOMnoRouter = filterDOM(curData)
+    noDOMnoRouter = filterRouter(noRouterRedux)
+    drawChart.drawChart(noDOMnoRouter.data[0])
+
+  }
+
+  else if (hideDOM) {
+    noDOM = filterDOM(curData)
+    drawChart.drawChart(noDOM.data[0])
   }
   else if (hideRouter) {
     noRouter = filterRouter(curData)
@@ -64,7 +86,8 @@ chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", () => {
   // wire up buttons to actions
   document.querySelector('#router-btn').addEventListener('change', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
-
+  document.querySelector('#dom-btn').addEventListener('click', draw)
+  
   createChannel()
 
   console.log('# sendObjectToInspectedPage')
