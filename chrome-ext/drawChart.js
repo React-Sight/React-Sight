@@ -156,7 +156,6 @@ export function drawChart(treeData) {
 
       // add mouse over handler
       .on('mouseover', d => {
-        
         let stateString = ['State:<br />']
         let propsString = ['Props:<br />']
         tooltip.d = d
