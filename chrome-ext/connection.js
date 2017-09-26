@@ -4,6 +4,10 @@ import { filterRedux, filterRouter, filterDOM } from './filters'
 // stores last snapshot of data
 var curData
 
+// *************
+// * FUNCTIONS *
+// *************
+
 /** Create a connection to the current tab and set up listener */
 const createChannel = () => {
   console.log('Creating connection...')
@@ -14,7 +18,7 @@ const createChannel = () => {
   // add listener to port and update chart with new data
   console.log('# port.onMessage.addListener')
   port.onMessage.addListener(data => {
-    console.log('got data')
+    console.log('got data', data)
     curData = data;
     draw();
   })
@@ -34,15 +38,19 @@ const sendObjectToInspectedPage = message => {
  */
 const draw = () => {
   const hideDOM = document.querySelector('#dom-btn').checked
-  const hideRedux = document.querySelector('#redux-btn').checked  
+  const hideRedux = document.querySelector('#redux-btn').checked
   const hideRouter = document.querySelector('#router-btn').checked
- 
+
   let datas = curData
   if (hideRedux) datas = filterRedux(datas)
   if (hideDOM) datas = filterDOM(datas)
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
-  }
+}
+
+// ****************
+// ***** MAIN *****
+// ****************
 
 // attach panel to chrome dev tools
 console.log('# creating a panel')
@@ -53,7 +61,7 @@ chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", () => {
   document.querySelector('#router-btn').addEventListener('change', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
-  
+
   createChannel()
 
   console.log('# sendObjectToInspectedPage')
