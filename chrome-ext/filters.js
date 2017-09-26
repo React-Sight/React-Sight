@@ -4,7 +4,7 @@
  */
 const recurFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return
-  const newObj = { name: node.name, children: [], id: node.id, props: node.props, state: node.state }
+  const newObj = { name: node.name, children: [], id: node.id, props: node.props, state: node.state, methods: node.methods }
   if (filter.includes(node.name)) {
     node.children.forEach(child => {
       recurFilter(child, parentArr, filter);
@@ -22,7 +22,6 @@ const recurFilter = (node, parentArr, filter) => {
 export function filterRedux(data) {
   const filtered = { data: [] }
   const names = ['Provider', 'Connect'];
-
   recurFilter(data.data[0], filtered.data, names)
   return filtered;
 }
@@ -31,7 +30,6 @@ export function filterRedux(data) {
 export function filterRouter(data) {
   const filtered = { data: [] }
   const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
-
   recurFilter(data.data[0], filtered.data, names)
   return filtered;
 }
@@ -39,8 +37,7 @@ export function filterRouter(data) {
 /** Removes Basic DOM components from tree */
 export function filterDOM(data) {
   const filtered = { data: [] }
-  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img'];
-
+  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img', 'form'];
   recurFilter(data.data[0], filtered.data, names)
   return filtered;
 }
