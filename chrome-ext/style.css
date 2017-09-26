@@ -15,7 +15,7 @@
   stroke-width: 2px;
 }
 
-div.tooltip {
+.tooltip {
   position: absolute;
   text-align: center;
   width: 200px;
@@ -25,7 +25,8 @@ div.tooltip {
   background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
-  pointer-events: none;
+  /* pointer-events: none; */
+  overflow-y: scroll;  
 }
 
 .store {
@@ -56,4 +57,13 @@ body {
   position: absolute;
   top: 10px;
   left: 0;
+}
+
+.panel {
+  background-color: white;
+}
+
+.zoom {
+  fill: none;
+  pointer-events: all;
 }
