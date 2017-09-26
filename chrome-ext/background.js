@@ -1,5 +1,7 @@
 chrome.extension.onConnect.addListener(function (port) {
+  console.log('PORT: ', port)
   var extensionListener = (message, sender, sendResponse) => {
+    console.log(message, sender)
     if (message.tabId && message.content) {
       if (message.action === 'code') {
         chrome.tabs.executeScript(message.tabId, { code: message.content });
@@ -15,6 +17,6 @@ chrome.extension.onConnect.addListener(function (port) {
   // Listens to messages sent from the panel
   chrome.extension.onMessage.addListener(extensionListener);
   port.onDisconnect.addListener(function (port) {
-  })    
-});
-
+    console.log('HANDLE DISCONNECT CHROME EXT.')
+  })
+})

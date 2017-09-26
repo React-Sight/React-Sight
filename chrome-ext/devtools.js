@@ -24,7 +24,6 @@ const createChannel = () => {
     drawChart.drawChart(data.data[0])
   })
 }
-
 /** Select current tab and send message */
 const sendObjectToInspectedPage = message => {
   message.tabId = chrome.devtools.inspectedWindow.tabId
@@ -32,6 +31,20 @@ const sendObjectToInspectedPage = message => {
   // console.log(message)
   chrome.extension.sendMessage(message)
 }
+
+console.log('# creating a panel')
+chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", () => {
+  console.log('# chrome.devtools.panels.create')
+
+  // wire up buttons to actions
+  document.querySelector('#router-btn').addEventListener('change', draw)
+  document.querySelector('#redux-btn').addEventListener('click', draw)
+  document.querySelector('#dom-btn').addEventListener('click', draw)
+
+  createChannel()
+  // send inital message so that we have data when the extension is first opened
+  sendObjectToInspectedPage({ action: "script", content: "inserted-script.js" })
+})
 
 /**
  * Abstracting the drawing function to one command.
@@ -78,16 +91,3 @@ const draw = () => {
 }
 
 // attach panel to chrome dev tools
-console.log('# creating a panel')
-chrome.devtools.panels.create("VisualizeIO", null, "devtools.html", () => {
-  console.log('# chrome.devtools.panels.create')
-
-  // wire up buttons to actions
-  document.querySelector('#router-btn').addEventListener('change', draw)
-  document.querySelector('#redux-btn').addEventListener('click', draw)
-  document.querySelector('#dom-btn').addEventListener('click', draw)
-
-  createChannel()
-  // send inital message so that we have data when the extension is first opened
-  sendObjectToInspectedPage({ action: "script", content: "inserted-script.js" })
-})

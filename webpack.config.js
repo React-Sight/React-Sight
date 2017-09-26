@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './chrome-ext/connection.js',
+  entry: './chrome-ext/devtools.js',
   output: {
     filename: './chrome-ext/build/bundle.js',
   },
