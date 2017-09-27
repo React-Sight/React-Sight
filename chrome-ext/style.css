@@ -4,6 +4,11 @@
   stroke-width: 1px;
 }
 
+.node circle {
+  stroke: black;
+  stroke-width: 1px;
+}
+
 .node text {
   color: #5A5151;
   font: 12px sans-serif;
@@ -11,7 +16,7 @@
 
 .link {
   fill: none;
-  stroke: #a9e4ef;
+  stroke: #009AB2;
   stroke-width: 2px;
 }
 
@@ -26,7 +31,7 @@
   border: 0px;
   border-radius: 8px;
   /* pointer-events: none; */
-  overflow-y: scroll;  
+  overflow-y: scroll;
 }
 
 .store {
@@ -36,11 +41,11 @@
 }
 
 .tree {
-  background-color: #5A5151;
+  background-color: #fff;
 }
 
 body {
-  background-color: #5A5151;  
+  background-color: #fff;
 }
 
 .svg-container {
