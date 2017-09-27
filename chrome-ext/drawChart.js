@@ -43,7 +43,7 @@ const updatePanel = (stateString, propsString) => {
 
 /**
  *  CIRCLE NODES
- * 
+ *
  */
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -278,7 +278,7 @@ export function drawChart(treeData) {
 
 /**
  * SQUARES
- * 
+ *
  */
 
 // var margin = { top: 20, right: 120, bottom: 20, left: 120 }
@@ -502,7 +502,7 @@ export function drawChart(treeData) {
 //       .remove();
 
 //     // Store the old positions for transition.
-//     nodes.forEach(function (d) {
+//     nodes.forEach(funcntion (d) {
 //       d.x0 = d.x;
 //       d.y0 = d.y;
 //     });
