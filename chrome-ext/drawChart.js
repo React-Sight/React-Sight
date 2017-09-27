@@ -1,5 +1,4 @@
 import * as d3 from 'd3'
-
 /**
  * Flatten an object into a string. The key: value will be
  * appended to a string to be presented on the tooltip
@@ -142,7 +141,7 @@ export function drawChart(treeData) {
           .style('height', '1px')
       })
 
-      // add click handler
+      //  fadd click handler
       .on('click', () => {
         updatePanel(tooltip.stateString, tooltip.propsString)
       })
