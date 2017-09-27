@@ -265,12 +265,6 @@ function update(source) {
 }
 
 export function drawChart(treeData) {
-
-
-  // var i = 0
-  // var duration = 500
-  // var root
-
   // declares a tree layout and assigns the size
   treemap = d3.tree().size([height, width]);
 
@@ -281,7 +275,6 @@ export function drawChart(treeData) {
 
   update(root);
 }
-
 
 /**
  * SQUARES
