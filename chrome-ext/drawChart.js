@@ -1,5 +1,10 @@
 import * as d3 from 'd3'
 
+var i = 0
+var duration = 500
+var root
+var treemap
+
 /**
  * Flatten an object into a string. The key: value will be
  * appended to a string to be presented on the tooltip
@@ -60,7 +65,7 @@ var svg = d3.select('.tree').append('svg')
 // .attr("transform", "translate("
 // + margin.left + "," + margin.top + ")")
 
-export function drawChart(treeData) {
+function update(source) {
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
     const path = 'M' + s.x + ',' + s.y
@@ -70,24 +75,204 @@ export function drawChart(treeData) {
     return path
   }
 
+  // Collapse the node and all it's children
+  function collapse(d) {
+    if (d.children) {
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
+    }
+  }
+
   // Toggle children on click.
   const click = d => {
+    console.log('d', d)
     if (d.children) {
       d._children = d.children;
       d.children = null;
+      d.clickHide = true
     } else {
       d.children = d._children;
       d._children = null;
+      d.clickHide = false
     }
     update(d);
   }
+  // Assigns the x and y position for the nodes
+  // var treeData = treemap(root);
+  var treeData = treemap(root);
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+    links = treeData.descendants().slice(1);
 
-  var i = 0
-  var duration = 750
-  var root
+  // Normalize for fixed-depth.
+  nodes.forEach(d => { d.y = d.depth * 60 }); // magic number is distance between each node
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+    .data(nodes, d => d.data.id);
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+    .duration(duration)
+    .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
+    .remove();
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+    .attr('class', 'node')
+    .attr('transform', d => 'translate(' + source.x0 + ',' + source.y0 + ')')
+    .on('click', click)
+
+  var mouseOn = false
+  var tooltip = d3.select('.tree').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0)
+
+    // allow mouse events on tool tips for scrolling
+    .on('mouseout', d => {
+      console.log('OFF TOOLTIP')
+
+      tooltip.transition()
+        .duration(250)
+        .style('opacity', 0)
+        .style('width', '1px')
+        .style('height', '1px')
+    })
+
+    // add click handler
+    .on('click', () => {
+      updatePanel(tooltip.stateString, tooltip.propsString)
+    })
+
+  // Add Circle for the nodes
+  nodeEnter.append('circle')
+    .attr('class', 'node')
+    .attr('r', 5)
+    .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+    .style('pointer-events', 'visible')
+
+    // add mouse over handler
+    .on('mouseover', d => {
+      let stateString = ['State:<br />']
+      let propsString = ['Props:<br />']
+      tooltip.d = d
+      tooltip.transition()
+        .duration(250) // animation time
+        .style('opacity', .9)
+        .style('width', '200px')
+        .style('height', '80px')
+
+      // Get the state
+      if (!d.data.state) stateString += ' null'
+      else if (typeof d.data.state === 'object') {
+        flatten(d.data.state, stateString);
+        stateString = stateString.join('');
+      }
+      tooltip.stateString = stateString
+
+      // Get the props
+      if (!d.data.props) propsString += ' null'
+      else if (typeof d.data.props === 'object') {
+        flatten(d.data.props, propsString);
+        propsString = propsString.join('');
+      }
+      tooltip.propsString = propsString
+
+      tooltip.html(
+        'Name: ' + d.data.name + '<br />' +
+        'Level: ' + d.depth + '<br />'
+        + stateString + '<br />'
+        + propsString + "<br />"
+      )
+        // position of tooltip on page
+        .style('left', (d3.event.pageX + 10) + 'px')
+        .style('top', (d3.event.pageY - 28) + 'px')
+    })
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+    .attr('dy', '.35em')
+    .attr('y', d => d.children || d._children ? -18 : 18)
+    .attr('text-anchor', 'middle')
+    .text(d => d.data.name)
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+    .attr('cursor', 'pointer');
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+    .data(links, d => d.data.id);
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', 'g')
+    .attr('class', 'link')
+    .attr('d', d => {
+      var o = { x: source.x0, y: source.y0 }
+      return diagonal(o, o)
+    });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+    .duration(duration)
+    .attr('d', d => diagonal(d, d.parent));
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+    .duration(duration)
+    .attr('d', d => {
+      var o = { x: source.x, y: source.y }
+      return diagonal(o, o)
+    })
+    .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(d => {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  root.children.forEach(child => {
+    console.log('child:', child)
+    if (child.clickHide === true) collapse()
+  })
+}
+
+export function drawChart(treeData) {
+
+
+  // var i = 0
+  // var duration = 500
+  // var root
 
   // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]);
+  treemap = d3.tree().size([height, width]);
 
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
@@ -95,169 +280,6 @@ export function drawChart(treeData) {
   root.y0 = 0;
 
   update(root);
-
-  function update(source) {
-
-    // Assigns the x and y position for the nodes
-    // var treeData = treemap(root);
-    var treeData = treemap(root);
-    // Compute the new tree layout.
-    var nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
-
-    // Normalize for fixed-depth.
-    nodes.forEach(d => { d.y = d.depth * 60 }); // magic number is distance between each node
-
-    // ****************** Nodes section ***************************
-
-    // Update the nodes...
-    var node = svg.selectAll('g.node')
-      .data(nodes, d => d.data.id);
-
-    // Remove any exiting nodes
-    var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
-      .remove();
-
-    // Enter any new modes at the parent's previous position.
-    var nodeEnter = node.enter().append('g')
-      .attr('class', 'node')
-      .attr('transform', d => 'translate(' + source.x0 + ',' + source.y0 + ')')
-      .on('click', click)
-
-    var mouseOn = false
-    var tooltip = d3.select('.tree').append('div')
-      .attr('class', 'tooltip')
-      .style('opacity', 0)
-
-      // allow mouse events on tool tips for scrolling
-      .on('mouseout', d => {
-        console.log('OFF TOOLTIP')
-
-        tooltip.transition()
-          .duration(250)
-          .style('opacity', 0)
-          .style('width', '1px')
-          .style('height', '1px')
-      })
-
-      // add click handler
-      .on('click', () => {
-        updatePanel(tooltip.stateString, tooltip.propsString)
-      })
-
-    // Add Circle for the nodes
-    nodeEnter.append('circle')
-      .attr('class', 'node')
-      .attr('r', 5)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-      .style('pointer-events', 'visible')
-
-      // add mouse over handler
-      .on('mouseover', d => {
-        let stateString = ['State:<br />']
-        let propsString = ['Props:<br />']
-        tooltip.d = d
-        tooltip.transition()
-          .duration(250) // animation time
-          .style('opacity', .9)
-          .style('width', '200px')
-          .style('height', '80px')
-
-        // Get the state
-        if (!d.data.state) stateString += ' null'
-        else if (typeof d.data.state === 'object') {
-          flatten(d.data.state, stateString);
-          stateString = stateString.join('');
-        }
-        tooltip.stateString = stateString
-
-        // Get the props
-        if (!d.data.props) propsString += ' null'
-        else if (typeof d.data.props === 'object') {
-          flatten(d.data.props, propsString);
-          propsString = propsString.join('');
-        }
-        tooltip.propsString = propsString
-
-        tooltip.html(
-          'Name: ' + d.data.name + '<br />' +
-          'Level: ' + d.depth + '<br />'
-          + stateString + '<br />'
-          + propsString + "<br />"
-        )
-          // position of tooltip on page
-          .style('left', (d3.event.pageX + 10) + 'px')
-          .style('top', (d3.event.pageY - 28) + 'px')
-      })
-
-    // Add labels for the nodes
-    nodeEnter.append('text')
-      .attr('dy', '.35em')
-      .attr('y', d => d.children || d._children ? -18 : 18)
-      .attr('text-anchor', 'middle')
-      .text(d => d.data.name)
-
-    // UPDATE
-    var nodeUpdate = nodeEnter.merge(node);
-
-    // Transition to the proper position for the node
-    nodeUpdate.transition()
-      .duration(duration)
-      .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
-
-    // Update the node attributes and style
-    nodeUpdate.select('circle.node')
-      .attr('r', 10)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-      .attr('cursor', 'pointer');
-
-    // On exit reduce the node circles size to 0
-    nodeExit.select('circle')
-      .attr('r', 1e-6);
-
-    // On exit reduce the opacity of text labels
-    nodeExit.select('text')
-      .style('fill-opacity', 1e-6);
-
-    // ****************** links section ***************************
-
-    // Update the links...
-    var link = svg.selectAll('path.link')
-      .data(links, d => d.data.id);
-
-    // Enter any new links at the parent's previous position.
-    var linkEnter = link.enter().insert('path', 'g')
-      .attr('class', 'link')
-      .attr('d', d => {
-        var o = { x: source.x0, y: source.y0 }
-        return diagonal(o, o)
-      });
-
-    // UPDATE
-    var linkUpdate = linkEnter.merge(link);
-
-    // Transition back to the parent element position
-    linkUpdate.transition()
-      .duration(duration)
-      .attr('d', d => diagonal(d, d.parent));
-
-    // Remove any exiting links
-    var linkExit = link.exit().transition()
-      .duration(duration)
-      .attr('d', d => {
-        var o = { x: source.x, y: source.y }
-        return diagonal(o, o)
-      })
-      .remove();
-
-    // Store the old positions for transition.
-    nodes.forEach(d => {
-      d.x0 = d.x;
-      d.y0 = d.y;
-    });
-  }
 }
 
 
