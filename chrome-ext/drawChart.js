@@ -1,5 +1,10 @@
 import * as d3 from 'd3'
 
+var i = 0
+var duration = 500
+var root
+var treemap
+
 /**
  * Flatten an object into a string. The key: value will be
  * appended to a string to be presented on the tooltip
@@ -60,30 +65,7 @@ var svg = d3.select('.tree').append('svg')
 // .attr("transform", "translate("
 // + margin.left + "," + margin.top + ")")
 
-export function drawChart(treeData) {
-
-  var i = 0
-  var duration = 750
-  var root
-
-  // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]);
-
-  // Assigns parent, children, height, depth
-  root = d3.hierarchy(treeData, d => d.children);
-  root.x0 = height / 2;
-  root.y0 = 0;
-
-  update(root);
-}
-
 function update(source) {
-  var i = 0
-  var duration = 750
-
-  // declares a tree layout and assigns the size
-  var treemap = d3.tree().size([height, width]);
-
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
     const path = 'M' + s.x + ',' + s.y
@@ -93,21 +75,32 @@ function update(source) {
     return path
   }
 
+  // Collapse the node and all it's children
+  function collapse(d) {
+    if (d.children) {
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
+    }
+  }
+
   // Toggle children on click.
   const click = d => {
+    console.log('d', d)
     if (d.children) {
       d._children = d.children;
       d.children = null;
+      d.clickHide = true
     } else {
       d.children = d._children;
       d._children = null;
+      d.clickHide = false
     }
     update(d);
   }
-
   // Assigns the x and y position for the nodes
   // var treeData = treemap(root);
-  var treeData = treemap(source);
+  var treeData = treemap(root);
   // Compute the new tree layout.
   var nodes = treeData.descendants(),
     links = treeData.descendants().slice(1);
@@ -264,6 +257,23 @@ function update(source) {
     d.x0 = d.x;
     d.y0 = d.y;
   });
+
+  root.children.forEach(child => {
+    console.log('child:', child)
+    if (child.clickHide === true) collapse()
+  })
+}
+
+export function drawChart(treeData) {
+  // declares a tree layout and assigns the size
+  treemap = d3.tree().size([height, width]);
+
+  // Assigns parent, children, height, depth
+  root = d3.hierarchy(treeData, d => d.children);
+  root.x0 = height / 2;
+  root.y0 = 0;
+
+  update(root);
 }
 
 /**
