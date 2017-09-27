@@ -4,7 +4,7 @@ var i = 0
 var duration = 500
 var root
 var treemap
-var squares = true
+var squares = false
 
 // squares
 var rectW = 120
@@ -45,6 +45,12 @@ const updatePanel = (stateString, propsString) => {
   document.getElementById('state').innerText = stateString
   document.getElementById('props').innerText = propsString
 }
+
+/** Update the state/ props for a selected node */
+const updatePanelRev = (state) => {
+  document.getElementById('state').innerText = JSON.stringify(state)
+}
+
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
   width = 1000 - margin.right - margin.left,
@@ -144,7 +150,8 @@ function update(source) {
     })
     // add click handler
     .on('click', () => {
-      updatePanel(tooltip.stateString, tooltip.propsString)
+      // updatePanelRev(d.data.state)
+      // updatePanel(tooltip.stateString, tooltip.propsString)
     })
 
   if (squares) {
@@ -206,6 +213,8 @@ function update(source) {
 
       // add mouse over handler
       .on('mouseover', d => {
+        updatePanelRev(d.data.state)
+        
         let stateString = ['State:<br />']
         let propsString = ['Props:<br />']
         tooltip.d = d
