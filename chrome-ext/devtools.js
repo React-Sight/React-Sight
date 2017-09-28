@@ -27,6 +27,12 @@ const draw = () => {
   drawChart.drawChart(datas.data[0])
   drawStore(datas.store)
 }
+
+$("#menu-toggle").click(function(e) {
+  e.preventDefault();
+  $("#wrapper").toggleClass("toggled");
+});
+
 // ****************
 // ***** MAIN *****
 // ****************
