@@ -7,7 +7,14 @@ const drawStore = (data) => {
   store.innerHTML = ''
   reduxStore.forEach(state => {
     console.log('redux state:', state)
-    const newValue = new JSONFormatter(data[state], 1, {hoverPreviewEnabled: true})
+    const newValue = new JSONFormatter(data[state], 1, {
+      hoverPreviewEnabled: false,
+      hoverPreviewArrayCount: 100,
+      hoverPreviewFieldCount: 5,
+      theme: 'dark',
+      animateOpen: true,
+      animateClose: true
+    })
     const newItem = document.createElement('li')
     const newState = document.createElement('p')
     newState.innerHTML = state

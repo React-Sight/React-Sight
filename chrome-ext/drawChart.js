@@ -73,7 +73,14 @@ const updatePanel = (stateString, propsString) => {
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
   // state
-  const formatter = new JSONFormatter(state)
+  const formatter = new JSONFormatter(state, 1, {
+    hoverPreviewEnabled: false,
+    hoverPreviewArrayCount: 100,
+    hoverPreviewFieldCount: 5,
+    theme: 'dark',
+    animateOpen: true,
+    animateClose: true
+  })
   let node = document.getElementById('state')
   node.innerHTML = ''
   const text = document.createTextNode('State:\n')
@@ -81,7 +88,14 @@ const updatePanelRev = (state, props) => {
   node.appendChild(formatter.render())
 
   // props
-  const propsFomatter = new JSONFormatter(props)
+  const propsFomatter = new JSONFormatter(props, 1, {
+    hoverPreviewEnabled: false,
+    hoverPreviewArrayCount: 100,
+    hoverPreviewFieldCount: 5,
+    theme: 'dark',
+    animateOpen: true,
+    animateClose: true
+  })
   let propsNode = document.getElementById('props')
   propsNode.innerHTML = ''
   const propsText = document.createTextNode('Props:\n')

@@ -71,6 +71,12 @@
     margin-right: -250px;
 }
 
+
+
+.panel {
+    word-break: break-all
+}
+
 /* Sidebar Styles */
 
 .sidebar-nav {
