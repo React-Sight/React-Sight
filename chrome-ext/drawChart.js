@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import JSONFormatter from 'json-formatter-js'
 
 var i = 0
 var duration = 500
@@ -9,6 +10,29 @@ var squares = false
 // squares
 var rectW = 120
 var rectH = 30
+
+// function myFunction() {
+//   console.log('hello')
+// }
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   console.log('DOCUMENT READY')
+//   var domTree = document.getElementById('tree')
+
+//   document.addEventListener('wheel', () => {
+//     console.log('WHEEL')
+//   }, false)
+//   // document.addEventListener('mousewheel', () => {
+//   //   console.log('mWHEEL')
+//   // }, false)
+
+//   document.addEventListener('mousewheel', e => {
+//     console.log('mWheel')
+//   }, false)
+
+// })
+
+
 
 /**
  * Flatten an object into a string. The key: value will be
@@ -47,9 +71,23 @@ const updatePanel = (stateString, propsString) => {
 }
 
 /** Update the state/ props for a selected node */
-// const updatePanelRev = (state) => {
-//   document.getElementById('state').innerText = JSON.stringify(state)
-// }
+const updatePanelRev = (state, props) => {
+  // state
+  const formatter = new JSONFormatter(state)
+  let node = document.getElementById('state')
+  node.innerHTML = ''
+  const text = document.createTextNode('State:\n')
+  node.appendChild(text)
+  node.appendChild(formatter.render())
+
+  // props
+  const propsFomatter = new JSONFormatter(props)
+  let propsNode = document.getElementById('props')
+  propsNode.innerHTML = ''
+  const propsText = document.createTextNode('Props:\n')
+  propsNode.appendChild(propsText)
+  propsNode.appendChild(propsFomatter.render())
+}
 
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -63,16 +101,21 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 },
 var svg = d3.select('.tree').append('svg')
   .attr('width', width + margin.right + margin.left)
   .attr('height', height + margin.top + margin.bottom)
-  .call(d3.zoom().on('zoom', () => {
-    svg.attr('transform', d3.event.transform)
-  }))
+  .call(d3.zoom()
+    .on('zoom', () => {
+      console.log('ZOOMED!!!')
+      console.log('event: ', d3.event)
+      svg.attr('transform', d3.event.transform)
+    }))
   .on('dblclick.zoom', null)
-
-  //container class to make it responsive
-  // .classed("svg-container", true)
-  // .attr("preserveAspectRatio", "xMinYMin meet")
-  // .attr("viewBox", "0 0 1200 800")
   .append('g')
+
+
+// .on('dblclick.zoom', null)
+//container class to make it responsive
+// .classed("svg-container", true)
+// .attr("preserveAspectRatio", "xMinYMin meet")
+// .attr("viewBox", "0 0 1200 800")
 // more responsive code
 // .classed("svg-content-responsive", true)
 // .attr("transform", d => "translate(528,71) scale(1)")
@@ -213,8 +256,10 @@ function update(source) {
 
       // add mouse over handler
       .on('mouseover', d => {
-        updatePanelRev(d.data.state)
-        
+        console.log('d', d)
+        console.log('props:', d.data.props)
+        updatePanelRev(d.data.state, d.data.props)
+
         let stateString = ['State:<br />']
         let propsString = ['Props:<br />']
         tooltip.d = d
