@@ -22,13 +22,16 @@
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-stage-2": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
+    "materialize-css": "^0.100.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
-    "d3": "^4.10.2"
+    "d3": "^4.10.2",
+    "json-formatter-js": "^2.2.0",
+    "jsonformatter": "^0.6.0"
   }
 }
