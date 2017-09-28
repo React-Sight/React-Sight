@@ -4,14 +4,12 @@
   "description": "",
   "main": "background.js",
   "scripts": {
+    "webpackdev": "webpack-dev-server --hot --colors --progress --watch --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --hot --colors --progress --watch --inline",
+    "start": "npm-run-all build webpackdev",
     "build": "webpack -w"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hewilliam/VisualizeChromeExt.git"
-  },
+  "repository": "git+https://github.com/React-Sight/React-SightChromeExt.git",
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -26,6 +24,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
     "json-formatter-js": "^2.2.0",
+    "npm-run-all": "^4.1.1",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
   },
