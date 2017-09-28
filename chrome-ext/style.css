@@ -9,6 +9,10 @@
   stroke-width: 1px;
 }
 
+svg {
+  border: 1px solid black;
+}
+
 .node text {
   color: #5A5151;
   font: 12px sans-serif;
@@ -23,8 +27,8 @@
 .tooltip {
   position: absolute;
   text-align: center;
-  width: 200px;
-  height: 80px;
+  width: 250px;
+  height: 200px;
   padding: 2px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -71,4 +75,8 @@ body {
 .zoom {
   fill: none;
   pointer-events: all;
+}
+
+.json-formatter-row {
+  text-align: left;
 }
