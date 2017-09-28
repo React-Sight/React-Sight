@@ -6,11 +6,11 @@
   "scripts": {
     "webpackdev": "webpack-dev-server --hot --colors --progress --watch --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm-run-all -p build webpackdev",
+    "start": "npm-run-all build webpackdev",
     "build": "webpack -w"
   },
-  "repository": "git+https://github.com/hewilliam/VisualizeChromeExt.git",
-  "author": "<davidcsally@gmail.com>",
+  "repository": "git+https://github.com/React-Sight/React-SightChromeExt.git",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hewilliam/VisualizeChromeExt/issues"
