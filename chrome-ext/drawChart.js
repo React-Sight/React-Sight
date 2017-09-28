@@ -11,6 +11,7 @@ var squares = false
 var rectW = 120
 var rectH = 30
 
+// experimental -> trying to debug zoom feature
 // document.addEventListener('DOMContentLoaded', function () {
 //   console.log('DOCUMENT READY')
 //   var domTree = document.getElementById('tree')
