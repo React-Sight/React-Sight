@@ -1,4 +1,4 @@
-// input: store data { messages: [], greeting: 'hello', currentUser: {}}
+
 import JSONFormatter from 'json-formatter-js'
 
 const drawStore = (data) => {
@@ -7,7 +7,13 @@ const drawStore = (data) => {
   store.innerHTML = ''
   reduxStore.forEach(state => {
     console.log('redux state:', state)
-    const newValue = new JSONFormatter(data[state], 0, {hoverPreviewEnabled: true, hoverPreviewArrayCount: 10})
+    const newValue = new JSONFormatter(data[state], 1, {
+      hoverPreviewEnabled: true,
+      hoverPreviewArrayCount: 10,
+      theme: 'dark',
+      animateOpen: true,
+      animateClose: true
+    })
     const newItem = document.createElement('li')
     const newState = document.createElement('p')
     newState.innerHTML = state

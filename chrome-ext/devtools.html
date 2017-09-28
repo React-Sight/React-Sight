@@ -1,30 +1,105 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="style.css">
 
-  </head>
-  <body>
-    <div id='store-container'>
-      <h1>Store</h1>
-      <ul id="store">
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>React Sight</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/simple-sidebar.css" rel="stylesheet">
+
+  <!-- Temporary fix for navbar responsiveness -->
+  <style>
+    .navbar-toggler {
+      z-index: 1;
+    }
+
+    @media (max-width: 576px) {
+      nav>.container {
+        width: 100%;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+          <a href="#">React Sight</a>
+        </li>
+        <li>
+          <input id='router-btn' type='checkbox' unchecked>
+          <label for="router-btn" id="textrouter">Hide Router</label>
+        </li>
+        <li>
+          <input id='dom-btn' type='checkbox' unchecked>
+          <label for="router-btn" id="textrouter">Hide DOM</label>
+        </li>
+        <li>
+          <input id='redux-btn' type='checkbox' unchecked>
+          <label for="router-btn" id="textrouter">Hide Redux</label>
+        </li>
+          <div id='store-container'>
+            <h1>Store</h1>
+            <ul id="store">
+            </ul>
+          </div>
+        <li>
+            <h5 id='state'></h5>
+            <h5 id='props'></h5>
+        </li>
       </ul>
     </div>
-    <div class='filters'>
-      <input id='router-btn' type='checkbox' unchecked>Hide Router<br>
-      <input id='redux-btn' type='checkbox' unchecked>Hide Redux<br>
-      <input id='dom-btn' type='checkbox' unchecked>Hide DOM<br>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <h1>React Sight</h1>
+        <h5>A React Visualization Tool</h5>
+        <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
+        <div class='tree'></div>
+      </div>
     </div>
-    <div class='tree'></div>
-    <div class='panel'>
-      <h1 id='state'></h1>
-      <h1 id='props'></h1>
-    </div>
-    <ol class='breadcrumb'>
-      <li><a href="#" class="active">God</a></li>
-      <li><a href="#">Provider</a></li>
-    	<li><a href="#">BrowserRouter</a></li>
-    	<li><a href="#">Router</a></li>
-    </ol>
-    <script src="./build/bundle.js"></script>
-  </body>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- jQuery Version 3.1.1 -->
+  <script src="js/jquery.js"></script>
+
+  <!-- Tether -->
+  <script src="js/tether.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <!-- <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        </script> -->
+  <script src="./build/bundle.js"></script>
+</body>
+
 </html>
