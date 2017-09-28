@@ -7,10 +7,14 @@ var root
 var treemap
 var squares = false
 
+var onNode = false
+var onTT = false
+
 // squares
 var rectW = 120
 var rectH = 30
 
+// experimental -> trying to debug zoom feature
 // document.addEventListener('DOMContentLoaded', function () {
 //   console.log('DOCUMENT READY')
 //   var domTree = document.getElementById('tree')
@@ -27,30 +31,12 @@ var rectH = 30
 //   var newEvent = new Event('mouseWheel')
 // })
 
-/**
- * Flatten an object into a string. The key: value will be
- * appended to a string to be presented on the tooltip
- * @param {object} item
- */
-const flatten = (item, stringArr) => {
-  const keys = Object.keys(item);
-  keys.forEach(key => {
-    const value = item[key]
-
-    // bad -> return
-    if (value == null || value == undefined) return
-    // empty object -> return
-    if (Object.keys(value).length === 0 && value.constructor === Object) return
-
-    // if object
-    if (typeof value === 'object') flatten(value, stringArr)
-
-    // console.log('VALUE', value)
-    if (String(value).includes('function')) {
-      stringArr.push(`${key}: function<br />`)
-    }
-    else stringArr.push(`${key}: ${value}<br />`)
-  })
+/** Remove all elements of a given class, used to remove any duplicate tooltips that are generated */
+const removeElementsByClass = className => {
+  const elements = document.getElementsByClassName(className);
+  while (elements.length > 0) {
+    elements[0].parentNode.removeChild(elements[0]);
+  }
 }
 
 /** Update the state/ props for a selected node */
@@ -76,7 +62,6 @@ const updatePanelRev = (state, props) => {
   }
 }
 
-
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
   width = 1000 - margin.right - margin.left,
   height = 960 - margin.top - margin.bottom;
@@ -84,13 +69,6 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 },
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-// var zoom = d3.zoom().on('zoom', zoomed)
-// function zoomed() {
-//   console.log('HELLO ZOOM')
-//   svg.attr("transform", d3.event.transform)
-// }
-
-
 
 var svg = d3.select('.tree').append('svg')
   .attr('width', width + margin.right + margin.left)
@@ -161,117 +139,127 @@ function update(source) {
       .on('click', click)
   }
 
+
+
+  removeElementsByClass('tooltip')
+
+  console.log('making tooltip')
   var tooltip = d3.select('.tree').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0)
-    // allow mouse events on tool tips for scrolling
-    .on('mouseout', d => {
-      // console.log('OFF TOOLTIP')
-      // tooltip.transition()
-      //   .duration(250)
-      //   .style('opacity', 0)
-      //   .style('width', '1px')
-      //   .style('height', '1px')
-    })
     // add click handler
     .on('click', () => {
       updatePanelRev(tooltip.d.data.state, tooltip.d.data.props)
     })
 
-  if (squares) {
-    nodeEnter.append('rect')
-      .attr('rx', 6)
-      .attr('ry', 6)
-      .attr('class', 'node')
-      .attr('width', rectW)
-      .attr('height', rectH)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
-      .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
-      .style('pointer-events', 'visible')
-      // add mouse over handler
-      .on('mouseover', d => {
-        let stateString = ['State:<br />']
-        let propsString = ['Props:<br />']
-        tooltip.d = d
+  // if (squares) {
+  //   nodeEnter.append('rect')
+  //     .attr('rx', 6)
+  //     .attr('ry', 6)
+  //     .attr('class', 'node')
+  //     .attr('width', rectW)
+  //     .attr('height', rectH)
+  //     .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
+  //     .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
+  //     .style('pointer-events', 'visible')
+  //     // add mouse over handler
+  //     .on('mouseover', d => {
+  //       tooltip.d = d
+  //       tooltip.transition()
+  //         .duration(250) // animation time
+  //         .style('opacity', .9)
+  //         .style('width', '250px')
+  //         .style('height', '140px')
+
+  //       tooltip.html(
+  //         'Name: ' + d.data.name + '<br />' +
+  //         'Level: ' + d.depth + '<br />'
+  //       )
+  //         // position of tooltip on page
+  //         .style('left', (d3.event.pageX + 10) + 'px')
+  //         .style('top', (d3.event.pageY - 28) + 'px')
+  //     })
+
+  // }
+  // else {
+  // Add Circle for the nodes
+  nodeEnter.append('circle')
+    .attr('class', 'node')
+    .attr('r', 5)
+    .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+    .style('pointer-events', 'visible')
+    // add mouse over handler
+    .on('mouseover', d => {
+      tooltip.d = d
+      // tool tip animation
+      tooltip.transition()
+        .duration(250) // animation time
+        .style('opacity', .9)
+        .style('width', '250px')
+        .style('height', '140px')
+        .style('left', (d3.event.pageX + 10) + 'px')
+        .style('top', (d3.event.pageY - 28) + 'px')
+
+      // tooltip styling
+      tooltip
+        .style('left', (d3.event.pageX + 10) + 'px')
+        .style('top', (d3.event.pageY - 28) + 'px')
+
+      const tt = document.querySelector('.tooltip')
+      tt.innerHTML = ''
+      tt.addEventListener('mouseover', () => { onTT = true })
+      tt.addEventListener('mouseout', e => {
+        onTT = false
+        if (e.fromElement) {
+          if (e.fromElement.className.includes('json-formatter')) return
+        }
         tooltip.transition()
-          .duration(250) // animation time
-          .style('opacity', .9)
-          .style('width', '250px')
-          .style('height', '140px')
-
-        // Get the state
-        if (!d.data.state) stateString += ' null'
-        else if (typeof d.data.state === 'object') {
-          flatten(d.data.state, stateString);
-          stateString = stateString.join('');
-        }
-        tooltip.stateString = stateString
-
-        // Get the props
-        if (!d.data.props) propsString += ' null'
-        else if (typeof d.data.props === 'object') {
-          flatten(d.data.props, propsString);
-          propsString = propsString.join('');
-        }
-        tooltip.propsString = propsString
-
-        tooltip.html(
-          'Name: ' + d.data.name + '<br />' +
-          'Level: ' + d.depth + '<br />'
-          + stateString + '<br />'
-          + propsString + "<br />"
-        )
-          // position of tooltip on page
-          .style('left', (d3.event.pageX + 10) + 'px')
-          .style('top', (d3.event.pageY - 28) + 'px')
+          .duration(250)
+          .style('opacity', 0)
+          .style('width', '1px')
+          .style('height', '1px')
       })
 
-  }
-  else {
-    // Add Circle for the nodes
-    nodeEnter.append('circle')
-      .attr('class', 'node')
-      .attr('r', 5)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-      .style('pointer-events', 'visible')
-      // add mouse over handler
-      .on('mouseover', d => {
-        tooltip.d = d
+      // append a pretty json element to the tooltip
+      if (d.data.state) {
+        if (Object.keys(d.data.state) === 0) {
+          const none = document.createTextNode('State: Empty Object\n')
+          tt.appendChild(none)
+        } else {
+          const stateJSON = new JSONFormatter(d.data.state)
+          tt.appendChild(stateJSON.render())
+        }
+      } else {
+        const none = document.createTextNode('State: None\n')
+        tt.appendChild(none)
+      }
 
-        // tool tip animation
-        tooltip.transition()
-          .duration(250) // animation time
-          .style('opacity', .9)
-          .style('width', '250px')
-          .style('height', '140px')
-          .style('left', (d3.event.pageX + 10) + 'px')
-          .style('top', (d3.event.pageY - 28) + 'px')
-
-
-        // tooltip styling
-        tooltip
-          .style('left', (d3.event.pageX + 10) + 'px')
-          .style('top', (d3.event.pageY - 28) + 'px')
-
-        // append a pretty json element to the tooltip
-        const stateJSON = new JSONFormatter(d.data.state)
-        const tt = document.querySelector('.tooltip')
-        tt.innerHTML = ''
-        tt.appendChild(stateJSON.render())
-
-        // collapse tooltip when user mouses off 
-        tt.addEventListener('mouseout', (e) => {
-          if (e.fromElement) {
-            if (e.fromElement.className.includes('json-formatter')) return
-          }
+      if (d.data.props) {
+        if (Object.keys(d.data.props) === 0) {
+          const none = document.createTextNode('Props: Empty Object\n')
+          tt.appendChild(none)
+        } else {
+          const propsJSON = new JSONFormatter(d.data.props)
+          tt.appendChild(propsJSON.render())
+        }
+      } else {
+        const none = document.createTextNode('Props: None\n')
+        tt.appendChild(none)
+      }
+    })
+    .on('mouseout', () => {
+      setTimeout(() => {
+        if (!onTT) {
           tooltip.transition()
             .duration(250)
             .style('opacity', 0)
             .style('width', '1px')
             .style('height', '1px')
-        })
-      })
-  }
+          tooltip.innerHTML = ''
+        }
+      }, 500);
+    })
+  // }
 
   if (squares) {
     // Add labels for the nodes
