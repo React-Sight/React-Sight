@@ -7,7 +7,7 @@ window.addEventListener('message', e => {
   })
 });
 
-chrome.runtime.onMessage.addListener((message, sender) => {
+chrome.extension.onMessage.addListener((message, sender) => {
     var newEvent = new Event('reactsight')
     window.dispatchEvent(newEvent)
     // panelLoaded = true

@@ -1,7 +1,13 @@
 <html>
-  <link rel="stylesheet" href="style.css">
-
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
   <body>
+    <div id='store-container'>
+      <h1>Store</h1>
+      <ul id="store">
+      </ul>
+    </div>
     <div class='filters'>
       <input id='router-btn' type='checkbox' unchecked>Hide Router<br>
       <input id='redux-btn' type='checkbox' unchecked>Hide Redux<br>
@@ -12,6 +18,7 @@
       <h1 id='state'></h1>
       <h1 id='props'></h1>
     </div>
+
     <script src="./build/bundle.js"></script>
   </body>
 </html>

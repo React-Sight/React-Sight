@@ -1,5 +1,7 @@
 import * as d3 from 'd3'
 
+
+
 var i = 0
 var duration = 500
 var root
@@ -59,20 +61,30 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 },
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
+// var zoom = d3.zoom().on('zoom', zoomed)
+// function zoomed() {
+//   console.log('HELLO ZOOM')
+//   svg.attr("transform", d3.event.transform)
+// }
+
+
 
 var svg = d3.select('.tree').append('svg')
   .attr('width', width + margin.right + margin.left)
   .attr('height', height + margin.top + margin.bottom)
-  .call(d3.zoom().on('zoom', () => {
-    svg.attr('transform', d3.event.transform)
-  }))
-  .on('dblclick.zoom', null)
 
+
+
+
+  // svg.call(d3.zoom().on('zoom', (e) => {
+  //   console.log('ZOOMING..', e)
+  //   svg.attr("transform", d3.event.transform)
+  // }))
   //container class to make it responsive
   // .classed("svg-container", true)
   // .attr("preserveAspectRatio", "xMinYMin meet")
   // .attr("viewBox", "0 0 1200 800")
-  .append('g')
+
 // more responsive code
 // .classed("svg-content-responsive", true)
 // .attr("transform", d => "translate(528,71) scale(1)")
@@ -151,7 +163,7 @@ function update(source) {
     // add click handler
     .on('click', () => {
       // updatePanelRev(d.data.state)
-      // updatePanel(tooltip.stateString, tooltip.propsString)
+      updatePanel(tooltip.stateString, tooltip.propsString)
     })
 
   if (squares) {
@@ -210,11 +222,10 @@ function update(source) {
       .attr('r', 5)
       .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
       .style('pointer-events', 'visible')
-
       // add mouse over handler
       .on('mouseover', d => {
-        updatePanelRev(d.data.state)
-        
+        // updatePanelRev(d.data.state)
+
         let stateString = ['State:<br />']
         let propsString = ['Props:<br />']
         tooltip.d = d

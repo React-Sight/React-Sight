@@ -1,6 +1,6 @@
 var connections = {}
 
-chrome.runtime.onConnect.addListener(function (port) {
+chrome.extension.onConnect.addListener(function (port) {
   var extensionListener = (message, sender, res) => {
     //creates a new key/value pair of current window & devtools tab when a new devtools tab is opened
     if (message.name == 'connect' && message.tabId) {
@@ -26,7 +26,7 @@ chrome.runtime.onConnect.addListener(function (port) {
   })
 })
 //Receives message from content-scripts and checks for valid connections before posting to devtools
-chrome.runtime.onMessage.addListener(function (req, sender, res) {
+chrome.extension.onMessage.addListener(function (req, sender, res) {
   if (sender.tab) {
     var tabId = sender.tab.id
     if (tabId in connections) {

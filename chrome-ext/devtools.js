@@ -1,9 +1,12 @@
 import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
+import drawStore from './store-panel.js'
+
+
 
 // stores last snapshot of data
-
 var curData
+
 
 // *************
 // * FUNCTIONS *
@@ -22,6 +25,7 @@ const draw = () => {
   if (hideDOM) datas = filterDOM(datas)
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
+  drawStore(datas.store)
 }
 // ****************
 // ***** MAIN *****
@@ -34,7 +38,7 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
 
-  const port = chrome.runtime.connect({
+  const port = chrome.extension.connect({
     name: "React-Sight"
   })
 
@@ -45,7 +49,7 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   })
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
-    console.log('Drawing tree...')
+    console.log('Drawing tree...', msg)
     curData = msg;
     draw()
   })
