@@ -23,15 +23,12 @@ const draw = () => {
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
 }
-<<<<<<< HEAD:chrome-ext/connection.js
 
 $("#menu-toggle").click(function(e) {
   e.preventDefault();
   $("#wrapper").toggleClass("toggled");
 });
 
-=======
->>>>>>> 0774278667c84837f86064165642012a84a93877:chrome-ext/devtools.js
 // ****************
 // ***** MAIN *****
 // ****************

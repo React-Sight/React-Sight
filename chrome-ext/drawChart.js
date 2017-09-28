@@ -103,22 +103,18 @@ var svg = d3.select('.tree').append('svg')
   .attr('height', height + margin.top + margin.bottom)
   .call(d3.zoom()
     .on('zoom', () => {
-      console.log('ZOOMED!!!')
-      console.log('event: ', d3.event)
       svg.attr('transform', d3.event.transform)
     }))
   .on('dblclick.zoom', null)
   .append('g')
 
-
-// .on('dblclick.zoom', null)
-//container class to make it responsive
-// .classed("svg-container", true)
-// .attr("preserveAspectRatio", "xMinYMin meet")
-// .attr("viewBox", "0 0 1200 800")
+// container class to make it responsive
+.classed("svg-container", true)
+.attr("preserveAspectRatio", "xMinYMin meet")
+.attr("viewBox", "0 0 1200 800")
 // more responsive code
-// .classed("svg-content-responsive", true)
-// .attr("transform", d => "translate(528,71) scale(1)")
+.classed("svg-content-responsive", true)
+.attr("transform", d => "translate(528,71) scale(1)")
 
 function update(source) {
   // Creates a curved (diagonal) path from parent to the child nodes
