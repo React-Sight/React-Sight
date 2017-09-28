@@ -11,10 +11,6 @@ var squares = false
 var rectW = 120
 var rectH = 30
 
-// function myFunction() {
-//   console.log('hello')
-// }
-
 // document.addEventListener('DOMContentLoaded', function () {
 //   console.log('DOCUMENT READY')
 //   var domTree = document.getElementById('tree')
@@ -22,17 +18,14 @@ var rectH = 30
 //   document.addEventListener('wheel', () => {
 //     console.log('WHEEL')
 //   }, false)
-//   // document.addEventListener('mousewheel', () => {
-//   //   console.log('mWHEEL')
-//   // }, false)
 
 //   document.addEventListener('mousewheel', e => {
 //     console.log('mWheel')
 //   }, false)
+//   console.log('done')
 
+//   var newEvent = new Event('mouseWheel')
 // })
-
-
 
 /**
  * Flatten an object into a string. The key: value will be
@@ -61,32 +54,26 @@ const flatten = (item, stringArr) => {
 }
 
 /** Update the state/ props for a selected node */
-const updatePanel = (stateString, propsString) => {
-  console.log('stateString    ', stateString)
-  console.log('propsString    ', propsString)
-  stateString = stateString.replace(/<br ?\/?>/g, "\n") // convert <br /> to \n
-  propsString = propsString.replace(/<br ?\/?>/g, "\n") // convert <br /> to \n
-  document.getElementById('state').innerText = stateString
-  document.getElementById('props').innerText = propsString
-}
-
-/** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
   // state
-  const formatter = new JSONFormatter(state)
-  let node = document.getElementById('state')
-  node.innerHTML = ''
-  const text = document.createTextNode('State:\n')
-  node.appendChild(text)
-  node.appendChild(formatter.render())
+  if (state != - null) {
+    const formatter = new JSONFormatter(state)
+    let node = document.getElementById('state')
+    node.innerHTML = ''
+    const text = document.createTextNode('State:\n')
+    node.appendChild(text)
+    node.appendChild(formatter.render())
+  }
 
   // props
-  const propsFomatter = new JSONFormatter(props)
-  let propsNode = document.getElementById('props')
-  propsNode.innerHTML = ''
-  const propsText = document.createTextNode('Props:\n')
-  propsNode.appendChild(propsText)
-  propsNode.appendChild(propsFomatter.render())
+  if (props != null) {
+    const propsFomatter = new JSONFormatter(props)
+    let propsNode = document.getElementById('props')
+    propsNode.innerHTML = ''
+    const propsText = document.createTextNode('Props:\n')
+    propsNode.appendChild(propsText)
+    propsNode.appendChild(propsFomatter.render())
+  }
 }
 
 
@@ -110,22 +97,10 @@ var svg = d3.select('.tree').append('svg')
   .attr('height', height + margin.top + margin.bottom)
   .call(d3.zoom()
     .on('zoom', () => {
-      console.log('ZOOMED!!!')
-      console.log('event: ', d3.event)
       svg.attr('transform', d3.event.transform)
     }))
   .on('dblclick.zoom', null)
   .append('g')
-
-
-// .on('dblclick.zoom', null)
-//container class to make it responsive
-// .classed("svg-container", true)
-// .attr("preserveAspectRatio", "xMinYMin meet")
-// .attr("viewBox", "0 0 1200 800")
-// more responsive code
-// .classed("svg-content-responsive", true)
-// .attr("transform", d => "translate(528,71) scale(1)")
 
 function update(source) {
   // Creates a curved (diagonal) path from parent to the child nodes
@@ -191,17 +166,16 @@ function update(source) {
     .style('opacity', 0)
     // allow mouse events on tool tips for scrolling
     .on('mouseout', d => {
-      console.log('OFF TOOLTIP')
-      tooltip.transition()
-        .duration(250)
-        .style('opacity', 0)
-        .style('width', '1px')
-        .style('height', '1px')
+      // console.log('OFF TOOLTIP')
+      // tooltip.transition()
+      //   .duration(250)
+      //   .style('opacity', 0)
+      //   .style('width', '1px')
+      //   .style('height', '1px')
     })
     // add click handler
     .on('click', () => {
-      // updatePanelRev(d.data.state)
-      updatePanel(tooltip.stateString, tooltip.propsString)
+      updatePanelRev(tooltip.d.data.state, tooltip.d.data.props)
     })
 
   if (squares) {
@@ -222,8 +196,8 @@ function update(source) {
         tooltip.transition()
           .duration(250) // animation time
           .style('opacity', .9)
-          .style('width', '200px')
-          .style('height', '80px')
+          .style('width', '250px')
+          .style('height', '140px')
 
         // Get the state
         if (!d.data.state) stateString += ' null'
@@ -262,44 +236,40 @@ function update(source) {
       .style('pointer-events', 'visible')
       // add mouse over handler
       .on('mouseover', d => {
-        console.log('d', d)
-        console.log('props:', d.data.props)
-        updatePanelRev(d.data.state, d.data.props)
-
-        let stateString = ['State:<br />']
-        let propsString = ['Props:<br />']
         tooltip.d = d
+
+        // tool tip animation
         tooltip.transition()
           .duration(250) // animation time
           .style('opacity', .9)
-          .style('width', '200px')
-          .style('height', '80px')
-
-        // Get the state
-        if (!d.data.state) stateString += ' null'
-        else if (typeof d.data.state === 'object') {
-          flatten(d.data.state, stateString);
-          stateString = stateString.join('');
-        }
-        tooltip.stateString = stateString
-
-        // Get the props
-        if (!d.data.props) propsString += ' null'
-        else if (typeof d.data.props === 'object') {
-          flatten(d.data.props, propsString);
-          propsString = propsString.join('');
-        }
-        tooltip.propsString = propsString
-
-        tooltip.html(
-          'Name: ' + d.data.name + '<br />' +
-          'Level: ' + d.depth + '<br />'
-          + stateString + '<br />'
-          + propsString + "<br />"
-        )
-          // position of tooltip on page
+          .style('width', '250px')
+          .style('height', '140px')
           .style('left', (d3.event.pageX + 10) + 'px')
           .style('top', (d3.event.pageY - 28) + 'px')
+
+
+        // tooltip styling
+        tooltip
+          .style('left', (d3.event.pageX + 10) + 'px')
+          .style('top', (d3.event.pageY - 28) + 'px')
+
+        // append a pretty json element to the tooltip
+        const stateJSON = new JSONFormatter(d.data.state)
+        const tt = document.querySelector('.tooltip')
+        tt.innerHTML = ''
+        tt.appendChild(stateJSON.render())
+
+        // collapse tooltip when user mouses off 
+        tt.addEventListener('mouseout', (e) => {
+          if (e.fromElement) {
+            if (e.fromElement.className.includes('json-formatter')) return
+          }
+          tooltip.transition()
+            .duration(250)
+            .style('opacity', 0)
+            .style('width', '1px')
+            .style('height', '1px')
+        })
       })
   }
 
