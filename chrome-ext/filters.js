@@ -1,5 +1,5 @@
 /** Parse JSON recursively and remove unwanted items
- * 
+ *
  * Shared between all filters
  */
 const recurFilter = (node, parentArr, filter) => {
