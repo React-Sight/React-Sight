@@ -12,13 +12,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>React Sight</title>
-
   <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Custom CSS -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
-
   <!-- Temporary fix for navbar responsiveness -->
   <style>
     .navbar-toggler {
@@ -35,10 +32,7 @@
 </head>
 
 <body>
-
   <div id="wrapper">
-
-    <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <li class="sidebar-brand">
@@ -67,9 +61,6 @@
         </li>
       </ul>
     </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <h1>React Sight</h1>
@@ -78,27 +69,19 @@
         <div class='tree'></div>
       </div>
     </div>
-    <!-- /#page-content-wrapper -->
-
   </div>
-  <!-- /#wrapper -->
 
-  <!-- jQuery Version 3.1.1 -->
+  <nav class="breadcrumb">
+    <a class="breadcrumb-item" href="#">Home</a>
+    <a class="breadcrumb-item" href="#">Library</a>
+    <a class="breadcrumb-item" href="#">Data</a>
+    <!-- <span class="breadcrumb-item active">Bootstrap</span> -->
+  </nav>
+
+
   <script src="js/jquery.js"></script>
-
-  <!-- Tether -->
   <script src="js/tether.min.js"></script>
-
-  <!-- Bootstrap Core JavaScript -->
   <script src="js/bootstrap.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <!-- <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-        </script> -->
   <script src="./build/bundle.js"></script>
 </body>
 

@@ -1,25 +1,18 @@
-
 import JSONFormatter from 'json-formatter-js'
 
 const drawStore = (data) => {
   const reduxStore = Object.keys(data)
-  var store = document.getElementById("store")
-  store.innerHTML = ''
+  $('#store-container').html('')
   reduxStore.forEach(state => {
-    console.log('redux state:', state)
-    const newValue = new JSONFormatter(data[state], 1, {
-      hoverPreviewEnabled: true,
+    const newValue = new JSONFormatter(data[state], 0, {
+      hoverPreviewEnabled: false,
       hoverPreviewArrayCount: 10,
       theme: 'dark',
       animateOpen: true,
       animateClose: true
     })
-    const newItem = document.createElement('li')
-    const newState = document.createElement('p')
-    newState.innerHTML = state
-    newItem.append(newState)
-    newItem.append(newValue.render())
-    document.getElementById('store').appendChild(newItem)
+    $('#store-container').append(`<p>${state}: </p>`)
+    $('#store-container').append(newValue.render())
   })
 }
 

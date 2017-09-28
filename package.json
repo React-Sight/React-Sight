@@ -26,6 +26,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
     "json-formatter-js": "^2.2.0",
+    "npm-sass": "^2.2.1",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"
   },
