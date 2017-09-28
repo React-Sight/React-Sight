@@ -20,7 +20,6 @@ const updatePanelRev = (state, props) => {
   console.log('props: ', props)
   
   // state
-<<<<<<< HEAD
   const formatter = new JSONFormatter(state, 1, {
     hoverPreviewEnabled: false,
     hoverPreviewArrayCount: 100,
@@ -49,26 +48,6 @@ const updatePanelRev = (state, props) => {
   const propsText = document.createTextNode('Props:\n')
   propsNode.appendChild(propsText)
   propsNode.appendChild(propsFomatter.render())
-=======
-  if (state != - null) {
-    const formatter = new JSONFormatter(state)
-    let node = document.getElementById('state')
-    node.innerHTML = ''
-    const text = document.createTextNode('State:\n')
-    node.appendChild(text)
-    node.appendChild(formatter.render())
-  }
-
-  // props
-  if (props != null) {
-    const propsFomatter = new JSONFormatter(props)
-    let propsNode = document.getElementById('props')
-    propsNode.innerHTML = ''
-    const propsText = document.createTextNode('Props:\n')
-    propsNode.appendChild(propsText)
-    propsNode.appendChild(propsFomatter.render())
-  }
->>>>>>> eed5b05de6e23a6382d0b705b3aa811d7eeaadbb
 }
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -89,7 +68,6 @@ var svg = d3.select('.tree').append('svg')
   .on('dblclick.zoom', null)
   .append('g')
 
-<<<<<<< HEAD
 // container class to make it responsive
 .classed("svg-container", true)
 .attr("preserveAspectRatio", "xMinYMin meet")
@@ -98,8 +76,6 @@ var svg = d3.select('.tree').append('svg')
 .classed("svg-content-responsive", true)
 .attr("transform", d => "translate(528,71) scale(1)")
 
-=======
->>>>>>> eed5b05de6e23a6382d0b705b3aa811d7eeaadbb
 function update(source) {
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
