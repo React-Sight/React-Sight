@@ -1,5 +1,3 @@
-// input: store data { messages: [], greeting: 'hello', currentUser: {}}
-import materialize-css
 import JSONFormatter from 'json-formatter-js'
 
 const drawStore = (data) => {
