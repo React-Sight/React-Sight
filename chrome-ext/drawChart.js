@@ -14,33 +14,11 @@ var onTT = false
 var rectW = 120
 var rectH = 30
 
-// experimental -> trying to debug zoom feature
-// document.addEventListener('DOMContentLoaded', function () {
-//   console.log('DOCUMENT READY')
-//   var domTree = document.getElementById('tree')
-
-//   document.addEventListener('wheel', () => {
-//     console.log('WHEEL')
-//   }, false)
-
-//   document.addEventListener('mousewheel', e => {
-//     console.log('mWheel')
-//   }, false)
-//   console.log('done')
-
-//   var newEvent = new Event('mouseWheel')
-// })
-
-/** Remove all elements of a given class, used to remove any duplicate tooltips that are generated */
-const removeElementsByClass = className => {
-  const elements = document.getElementsByClassName(className);
-  while (elements.length > 0) {
-    elements[0].parentNode.removeChild(elements[0]);
-  }
-}
-
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
+  console.log('state: ', state)
+  console.log('props: ', props)
+  
   // state
   if (state != - null) {
     const formatter = new JSONFormatter(state)
@@ -139,127 +117,28 @@ function update(source) {
       .on('click', click)
   }
 
-
-
-  removeElementsByClass('tooltip')
-
-  console.log('making tooltip')
-  var tooltip = d3.select('.tree').append('div')
-    .attr('class', 'tooltip')
-    .style('opacity', 0)
-    // add click handler
-    .on('click', () => {
-      updatePanelRev(tooltip.d.data.state, tooltip.d.data.props)
-    })
-
-  // if (squares) {
-  //   nodeEnter.append('rect')
-  //     .attr('rx', 6)
-  //     .attr('ry', 6)
-  //     .attr('class', 'node')
-  //     .attr('width', rectW)
-  //     .attr('height', rectH)
-  //     .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
-  //     .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
-  //     .style('pointer-events', 'visible')
-  //     // add mouse over handler
-  //     .on('mouseover', d => {
-  //       tooltip.d = d
-  //       tooltip.transition()
-  //         .duration(250) // animation time
-  //         .style('opacity', .9)
-  //         .style('width', '250px')
-  //         .style('height', '140px')
-
-  //       tooltip.html(
-  //         'Name: ' + d.data.name + '<br />' +
-  //         'Level: ' + d.depth + '<br />'
-  //       )
-  //         // position of tooltip on page
-  //         .style('left', (d3.event.pageX + 10) + 'px')
-  //         .style('top', (d3.event.pageY - 28) + 'px')
-  //     })
-
-  // }
-  // else {
-  // Add Circle for the nodes
-  nodeEnter.append('circle')
-    .attr('class', 'node')
-    .attr('r', 5)
-    .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-    .style('pointer-events', 'visible')
-    // add mouse over handler
-    .on('mouseover', d => {
-      tooltip.d = d
-      // tool tip animation
-      tooltip.transition()
-        .duration(250) // animation time
-        .style('opacity', .9)
-        .style('width', '250px')
-        .style('height', '140px')
-        .style('left', (d3.event.pageX + 10) + 'px')
-        .style('top', (d3.event.pageY - 28) + 'px')
-
-      // tooltip styling
-      tooltip
-        .style('left', (d3.event.pageX + 10) + 'px')
-        .style('top', (d3.event.pageY - 28) + 'px')
-
-      const tt = document.querySelector('.tooltip')
-      tt.innerHTML = ''
-      tt.addEventListener('mouseover', () => { onTT = true })
-      tt.addEventListener('mouseout', e => {
-        onTT = false
-        if (e.fromElement) {
-          if (e.fromElement.className.includes('json-formatter')) return
-        }
-        tooltip.transition()
-          .duration(250)
-          .style('opacity', 0)
-          .style('width', '1px')
-          .style('height', '1px')
+  if (squares) {
+    nodeEnter.append('rect')
+      .attr('rx', 6)
+      .attr('ry', 6)
+      .attr('class', 'node')
+      .attr('width', rectW)
+      .attr('height', rectH)
+      .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
+      .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
+      .style('pointer-events', 'visible')
+  }
+  else {
+    // Add Circle for the nodes
+    nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', 5)
+      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+      .style('pointer-events', 'visible')
+      .on('mouseover', (d) => {
+        updatePanelRev(d.data.state, d.data.props)
       })
-
-      // append a pretty json element to the tooltip
-      if (d.data.state) {
-        if (Object.keys(d.data.state) === 0) {
-          const none = document.createTextNode('State: Empty Object\n')
-          tt.appendChild(none)
-        } else {
-          const stateJSON = new JSONFormatter(d.data.state)
-          tt.appendChild(stateJSON.render())
-        }
-      } else {
-        const none = document.createTextNode('State: None\n')
-        tt.appendChild(none)
-      }
-
-      if (d.data.props) {
-        if (Object.keys(d.data.props) === 0) {
-          const none = document.createTextNode('Props: Empty Object\n')
-          tt.appendChild(none)
-        } else {
-          const propsJSON = new JSONFormatter(d.data.props)
-          tt.appendChild(propsJSON.render())
-        }
-      } else {
-        const none = document.createTextNode('Props: None\n')
-        tt.appendChild(none)
-      }
-    })
-    .on('mouseout', () => {
-      setTimeout(() => {
-        if (!onTT) {
-          tooltip.transition()
-            .duration(250)
-            .style('opacity', 0)
-            .style('width', '1px')
-            .style('height', '1px')
-          tooltip.innerHTML = ''
-        }
-      }, 500);
-    })
-  // }
+  }
 
   if (squares) {
     // Add labels for the nodes
@@ -293,16 +172,6 @@ function update(source) {
       .attr("width", rectW)
       .attr("height", rectH)
       .attr('cursor', 'pointer');
-  }
-  else {
-    // Update the node attributes and style
-    nodeUpdate.select('circle.node')
-      .attr('r', 10)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-      .attr('cursor', 'pointer');
-  }
-
-  if (squares) {
     // Remove any exiting nodes
     var nodeExit = node.exit().transition()
       .duration(duration)
@@ -314,12 +183,18 @@ function update(source) {
     nodeExit.select("rect")
       .attr("width", rectW)
       .attr("height", rectH)
+
   }
   else {
-    // On exit reduce the node circles size to 0
+    // Update the node attributes and style
+    nodeUpdate.select('circle.node')
+      .attr('r', 10)
+      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+      .attr('cursor', 'pointer');    // On exit reduce the node circles size to 0
     nodeExit.select('circle')
       .attr('r', 1e-6);
   }
+
   // On exit reduce the opacity of text labels
   nodeExit.select('text')
     .style('fill-opacity', 1e-6);
@@ -379,7 +254,6 @@ export function drawChart(treeData) {
   if (squares) {
     // SQUARES declares a tree layout and assigns the size
     treemap = d3.tree()
-      // .size([height, width])
       .nodeSize([rectW, rectH])
       .separation((a, b) => a.parent === b.parent ? 1 : .25)
   }
