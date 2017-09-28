@@ -85,6 +85,13 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 },
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
+// var zoom = d3.zoom().on('zoom', zoomed)
+// function zoomed() {
+//   console.log('HELLO ZOOM')
+//   svg.attr("transform", d3.event.transform)
+// }
+
+
 
 var svg = d3.select('.tree').append('svg')
   .attr('width', width + margin.right + margin.left)
@@ -228,7 +235,6 @@ function update(source) {
       .attr('r', 5)
       .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
       .style('pointer-events', 'visible')
-
       // add mouse over handler
       .on('mouseover', d => {
         tooltip.d = d
