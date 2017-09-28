@@ -1,8 +1,6 @@
 import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
-import drawStore from './store-panel.js'
-
-
+// import drawStore from './store-panel.js'
 
 // stores last snapshot of data
 var curData
@@ -25,7 +23,7 @@ const draw = () => {
   if (hideDOM) datas = filterDOM(datas)
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
-  drawStore(datas.store)
+  // drawStore(datas.store)
 }
 // ****************
 // ***** MAIN *****
