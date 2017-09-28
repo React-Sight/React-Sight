@@ -34,8 +34,7 @@ svg {
   background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
-  /* pointer-events: none; */
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .store {
@@ -72,10 +71,10 @@ body {
   background-color: white;
 }
 
-.zoom {
+/* .zoom {
   fill: none;
   pointer-events: all;
-}
+} */
 
 .json-formatter-row {
   text-align: left;
