@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 // input: store data { messages: [], greeting: 'hello', currentUser: {}}
-=======
->>>>>>> eed5b05de6e23a6382d0b705b3aa811d7eeaadbb
 import JSONFormatter from 'json-formatter-js'
 
 const drawStore = (data) => {
