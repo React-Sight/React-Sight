@@ -24,13 +24,18 @@
     padding-left: 250px;
 }
 
+
 #sidebar-wrapper {
+    /* resize: horizontal; added this */
+    /* word-break: keep-all; */
+
     z-index: 1000;
     position: fixed;
     left: 250px;
-    width: 0;
+    width: 200px;
     height: 100%;
     margin-left: -250px;
+    overflow-wrap: break-word;
     overflow-y: auto;
     background: #20232c;
     -webkit-transition: all 0.5s ease;

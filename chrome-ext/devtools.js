@@ -2,8 +2,6 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 
-
-
 // stores last snapshot of data
 var curData
 
