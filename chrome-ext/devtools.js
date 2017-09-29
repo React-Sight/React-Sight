@@ -1,10 +1,9 @@
 import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
-
+//import drawvBox from './breadcrumb.js'
 // stores last snapshot of data
 var curData
-
 
 // *************
 // * FUNCTIONS *
@@ -24,13 +23,14 @@ const draw = () => {
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
   drawStore(datas.store)
+  // drawVBox(datas.data[0])
 }
 
-$("#menu-toggle").click(function(e) {
-  e.preventDefault();
-  $("#wrapper").toggleClass("toggled");
-});
-
+// $("#menu-toggle").click(function(e) {
+//   e.preventDefault();
+//   $("#wrapper").toggleClass("toggled");
+// });
+$('#wrapper').toggleClass("toggled")
 // ****************
 // ***** MAIN *****
 // ****************
@@ -38,7 +38,7 @@ $("#menu-toggle").click(function(e) {
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   // wire up buttons to actions
-  document.querySelector('#router-btn').addEventListener('change', draw)
+  document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
 

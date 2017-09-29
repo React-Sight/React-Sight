@@ -18,11 +18,11 @@ var rectH = 30
 const updatePanelRev = (state, props) => {
   console.log('state: ', state)
   console.log('props: ', props)
-  
+
   // state
-  const formatter = new JSONFormatter(state, 1, {
+  const formatter = new JSONFormatter(state, 0, {
     hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
+    hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
     theme: 'dark',
     animateOpen: true,
@@ -59,24 +59,21 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 },
 // moves the 'group' element to the top left margin
 
 var svg = d3.select('.tree').append('svg')
-  .attr('width', width + margin.right + margin.left)
-  .attr('height', height + margin.top + margin.bottom)
   .call(d3.zoom()
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
-  .on('dblclick.zoom', null)
-  .append('g')
+  // .on('dblclick.zoom', null)cd
+  .attr("width", '100%')
+  .attr("height", '100%')
+  .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
+  .attr('preserveAspectRatio', 'xMinYMin')
+  .append("g")
+  .attr("transform", "translate(" + Math.min(width/5, height/5) / 2 + "," + Math.min(width/5, height/5) / 2 + ")");
 
-// container class to make it responsive
-.classed("svg-container", true)
-.attr("preserveAspectRatio", "xMinYMin meet")
-.attr("viewBox", "0 0 1200 800")
-// more responsive code
-.classed("svg-content-responsive", true)
-.attr("transform", d => "translate(528,71) scale(1)")
-
+  console.log(`height: ${height}  width: ${width}`)
 function update(source) {
+  console.log('Updating Tree with current source...', source)
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
     const path = 'M' + s.x + ',' + s.y

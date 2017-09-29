@@ -12,13 +12,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>React Sight</title>
-
   <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Custom CSS -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
-
   <!-- Temporary fix for navbar responsiveness -->
   <style>
     .navbar-toggler {
@@ -35,10 +32,7 @@
 </head>
 
 <body>
-
   <div id="wrapper">
-
-    <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <li class="sidebar-brand">
@@ -50,58 +44,44 @@
         </li>
         <li>
           <input id='dom-btn' type='checkbox' unchecked>
-          <label for="router-btn" id="textrouter">Hide DOM</label>
+          <label for="dom-btn" id="textrouter">Hide DOM</label>
         </li>
         <li>
           <input id='redux-btn' type='checkbox' unchecked>
-          <label for="router-btn" id="textrouter">Hide Redux</label>
+          <label for="redux-btn" id="textrouter">Hide Redux</label>
         </li>
-        <div id='store-container'>
-          <h1>Storeeeeeeeeeeeeeeeeeeeeeeee</h1>
-          <ul id="store">
-          </ul>
-        </div>
+          <article id='store-container'>
+            <h2>Store</h2>
+            <div id="store">
+
+            </div>
+          </article>
         <li>
-
-              <h5 id='state'></h5>
-              <h5 id='props'></h5>
-
-
+            <h5 id='state'></h5>
+            <h5 id='props'></h5>
         </li>
       </ul>
     </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <h1>React Sight</h1>
         <h5>A React Visualization Tool</h5>
-        <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
+        <!-- <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a> -->
         <div class='tree'></div>
       </div>
     </div>
-    <!-- /#page-content-wrapper -->
-
   </div>
-  <!-- /#wrapper -->
 
-  <!-- jQuery Version 3.1.1 -->
+  <!-- <nav class="breadcrumb">
+    <a class="breadcrumb-item" href="#">Home</a>
+    <a class="breadcrumb-item" href="#">Library</a>
+    <a class="breadcrumb-item" href="#">Data</a>
+  </nav> -->
+
+
   <script src="js/jquery.js"></script>
-
-  <!-- Tether -->
   <script src="js/tether.min.js"></script>
-
-  <!-- Bootstrap Core JavaScript -->
   <script src="js/bootstrap.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <!-- <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-        </script> -->
   <script src="./build/bundle.js"></script>
 </body>
 
