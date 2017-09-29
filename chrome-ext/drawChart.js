@@ -20,9 +20,9 @@ const updatePanelRev = (state, props) => {
   console.log('props: ', props)
 
   // state
-  const formatter = new JSONFormatter(state, 1, {
+  const formatter = new JSONFormatter(state, 0, {
     hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
+    hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
     theme: 'dark',
     animateOpen: true,
@@ -63,7 +63,7 @@ var svg = d3.select('.tree').append('svg')
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
-  .on('dblclick.zoom', null)
+  // .on('dblclick.zoom', null)cd
   .attr("width", '100%')
   .attr("height", '100%')
   .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
@@ -73,6 +73,7 @@ var svg = d3.select('.tree').append('svg')
 
   console.log(`height: ${height}  width: ${width}`)
 function update(source) {
+  console.log('Updating Tree with current source...', source)
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
     const path = 'M' + s.x + ',' + s.y
