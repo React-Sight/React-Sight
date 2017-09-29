@@ -7,12 +7,10 @@ var root
 var treemap
 var squares = false
 
-var onNode = false
-var onTT = false
-
 // squares
 var rectW = 120
 var rectH = 30
+
 
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
@@ -20,7 +18,7 @@ const updatePanelRev = (state, props) => {
   console.log('props: ', props)
 
   // state
-  const formatter = new JSONFormatter(state, 0, {
+  const stateFormatter = new JSONFormatter(state, 0, {
     hoverPreviewEnabled: false,
     hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
@@ -32,7 +30,8 @@ const updatePanelRev = (state, props) => {
   node.innerHTML = ''
   const text = document.createTextNode('State:\n')
   node.appendChild(text)
-  node.appendChild(formatter.render())
+  node.appendChild(stateFormatter.render())
+  stateFormatter.openAtDepth(1)
 
   // props
   const propsFomatter = new JSONFormatter(props, 1, {
@@ -48,11 +47,13 @@ const updatePanelRev = (state, props) => {
   const propsText = document.createTextNode('Props:\n')
   propsNode.appendChild(propsText)
   propsNode.appendChild(propsFomatter.render())
+  propsFomatter.openAtDepth(1)  
 }
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
   width = 1000 - margin.right - margin.left,
   height = 960 - margin.top - margin.bottom;
+
 
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
@@ -69,9 +70,9 @@ var svg = d3.select('.tree').append('svg')
   .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
   .attr('preserveAspectRatio', 'xMinYMin')
   .append("g")
-  .attr("transform", "translate(" + Math.min(width/5, height/5) / 2 + "," + Math.min(width/5, height/5) / 2 + ")");
+  .attr("transform", "translate(" + Math.min(width / 5, height / 5) / 2 + "," + Math.min(width / 5, height / 5) / 2 + ")");
 
-  console.log(`height: ${height}  width: ${width}`)
+console.log(`height: ${height}  width: ${width}`)
 function update(source) {
   console.log('Updating Tree with current source...', source)
   // Creates a curved (diagonal) path from parent to the child nodes
@@ -92,6 +93,7 @@ function update(source) {
       d.children = d._children;
       d._children = null;
     }
+    d3.selectAll("text").attr("class", "text");
     update(d);
   }
 
@@ -119,10 +121,44 @@ function update(source) {
 
   // Enter any new modes at the parent's previous position.
   if (squares) {
-    var nodeEnter = node.enter().append('g')
-      .attr('class', 'node')
-      .attr("transform", d => "translate(" + source.x0 + "," + source.y0 + ")")
-      .on('click', click)
+    var nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function (d) {
+        return "translate(" + source.x0 + "," + source.y0 + ")";
+      });
+
+    // nodes.forEach(function (d) { d.y = width - (d.depth) * 60 });
+
+    // Enter any new nodes at the parent's previous position.
+
+    nodeEnter.append("rect")
+      .attr("width", 80)
+      .attr("height", function (d) {
+        return 20;
+      })
+      .attr("x", -40)
+      .attr("y", -12)
+      .attr("rx", 5)
+      .attr("ry", 2)
+      .style("fill", function (d) {
+        return d._children ? "lightsteelblue" : "#fff";
+      })
+
+      .on("click", click);
+
+    nodeEnter.append("text")
+      .attr("x", function (d) {
+        return d._children ? -0 : 8;
+      })
+      .attr("y", 3)
+      .attr("dy", "0em")
+      .attr("text-anchor", "middle")
+      .text(function (d) {
+        console.log('d', d)
+        return d.data.name;
+      })
+
+    wrap(d3.selectAll('text'), 150);
   }
 
   else {
@@ -130,20 +166,7 @@ function update(source) {
       .attr('class', 'node')
       .attr('transform', d => 'translate(' + source.x0 + ',' + source.y0 + ')')
       .on('click', click)
-  }
 
-  if (squares) {
-    nodeEnter.append('rect')
-      .attr('rx', 6)
-      .attr('ry', 6)
-      .attr('class', 'node')
-      .attr('width', rectW)
-      .attr('height', rectH)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
-      .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
-      .style('pointer-events', 'visible')
-  }
-  else {
     // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', 'node')
@@ -153,24 +176,14 @@ function update(source) {
       .on('mouseover', (d) => {
         updatePanelRev(d.data.state, d.data.props)
       })
-  }
 
-  if (squares) {
-    // Add labels for the nodes
-    nodeEnter.append('text')
-      .attr("x", 0)
-      .attr("y", -rectH / 2)
-      .attr("dy", ".35em")
-      .attr("text-anchor", "middle")
-      .text(d => d.data.name)
-  }
-  else {
     // Add labels for the nodes
     nodeEnter.append('text')
       .attr('dy', '.35em')
-      .attr('y', d => d.children || d._children ? -18 : 18)
+      .attr('y', d => d.children || d._children ? -24 : 24)
       .attr('text-anchor', 'middle')
       .text(d => d.data.name)
+
   }
 
   // UPDATE
@@ -182,6 +195,16 @@ function update(source) {
     .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
 
   if (squares) {
+
+    nodeEnter.transition()
+    .duration(duration)
+    .attr("transform", function (d) {
+      return "translate(" + d.y + "," + d.x + ")";
+    })
+    .style("opacity", 1)
+    .select("rect")
+    .style("fill", "lightsteelblue");
+
     // Update the node attributes and style
     nodeUpdate.select('rect.node')
       .attr("width", rectW)
@@ -262,6 +285,7 @@ function update(source) {
     d.x0 = d.x;
     d.y0 = d.y;
   });
+
 }
 
 export function drawChart(treeData) {
@@ -270,13 +294,45 @@ export function drawChart(treeData) {
     // SQUARES declares a tree layout and assigns the size
     treemap = d3.tree()
       .nodeSize([rectW, rectH])
-      .separation((a, b) => a.parent === b.parent ? 1 : .25)
+    // .separation((a, b) => a.parent === b.parent ? 1 : .25)
   }
-  else treemap = d3.tree().size([height, width]);
-
+  else {
+    treemap = d3.tree()
+      .size([height, width])
+    // .nodeSize([70, 40])
+  }
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
   root.x0 = height / 2;
   root.y0 = 0;
   update(root);
 }
+
+function wrap(text, width) {
+  text.each(function () {
+    var text = d3.select(this),
+      words = text.text().split(/\s+/).reverse(),
+      word,
+      line = [],
+      lineNumber = 0,
+      lineHeight = 1.1,
+      y = text.attr("y"),
+      dy = parseFloat(text.attr("dy")),
+      tspan = text.text(null).append("tspan").attr("x", 5).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 5).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+    d3.select(this.parentNode.children[0]).attr("height", 20 * (lineNumber + 1));
+
+
+  });
+}
+
+wrap(d3.selectAll('text'), 150);

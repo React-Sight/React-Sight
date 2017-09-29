@@ -1,9 +1,27 @@
-@import url(http://fonts.googleapis.com/css?family=Merriweather+Sans)
+/* @import url(http://fonts.googleapis.com/css?family=Merriweather+Sans) */
 
 .node rect {
-  /* stroke: #59ABA8; */
+  cursor: pointer;
+  fill: red;
+  fill-opacity: 1;
+  stroke: #3182bd;
+  stroke-width: 2px; 
+}
+
+.node text {
+  font: 15px sans-serif;
+  pointer-events: none;
+  font-weight: bold;
+}
+
+/* .node rect {
+  stroke: #59ABA8;
   stroke: black;
   stroke-width: 1px;
+} */
+
+.test {
+  display: inline;
 }
 
 .node circle {
@@ -15,28 +33,10 @@ svg {
   border: 1px solid black;
 }
 
-.node text {
-  color: #5A5151;
-  font: 12px sans-serif;
-}
-
 .link {
   fill: none;
   stroke: #009AB2;
   stroke-width: 2px;
-}
-
-.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 250px;
-  height: 200px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  overflow-y: auto;
 }
 
 .store {
@@ -65,4 +65,8 @@ body {
 #store-container {
   padding-left: 4%;
   color: #764EBA;
+}
+
+.header-span {
+  float: right;
 }
