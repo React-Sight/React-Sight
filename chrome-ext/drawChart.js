@@ -40,6 +40,22 @@ const updatePanelRev = (state, props) => {
 
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
+  const propsText = document.createTextNode('Props:\n')
+  propsNode.appendChild(propsText)
+  propsNode.appendChild(propsFomatter.render())
+
+  $.each($('.json-formatter-string'), (index, val) => {
+    let text = $(val).text()
+    if (text.slice(1,9) === 'function') {
+      $(val).text("fn()")
+      $(val).hover(function () {
+        $(this).text(text)
+      }, function () {
+        $(this).text("fn()")
+      })
+    }
+  })
+
 
   if (state == null || state == undefined) {
     stateNode.appendChild(document.createTextNode('None'))
@@ -55,7 +71,6 @@ const updatePanelRev = (state, props) => {
     propsFomatter.openAtDepth(1)
   }
 }
-
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
@@ -137,6 +152,7 @@ function update(source) {
   // Update the nodes...
   var node = svg.selectAll('g.node')
     .data(nodes, d => d.data.id);
+
 
   // Remove any exiting nodes
   var nodeExit = node.exit().transition()
@@ -237,4 +253,3 @@ export function drawChart(treeData) {
   root.y0 = 0;
   update(root);
 }
-
