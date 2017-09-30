@@ -40,40 +40,41 @@
         <li class="sidebar-brand">
           <a href="#">React Sight</a>
         </li>
-        <li>
+        <li id="button-container">
           <input id='router-btn' type='checkbox' unchecked>
           <label for="router-btn" id="textrouter">Hide Router</label>
         </li>
-        <li>
+        <li id="button-container">
           <input id='dom-btn' type='checkbox' unchecked>
           <label for="dom-btn" id="textrouter">Hide DOM</label>
         </li>
-        <li>
+        <li id="button-container">
           <input id='redux-btn' type='checkbox' unchecked>
           <label for="redux-btn" id="textrouter">Hide Redux</label>
         </li>
-        <article id='store-container'>
-          <h2>Store</h2>
-          <div id="store"></div>
-          <br>
-        </article>
-        <article id='state-container'>
-          <h2>State</h2>
-          <div id='state'></div>
-          <br>
-        </article>
-        <article id='props-container'>
-          <h2>Props</h2>
-          <div id='props'></div>
-          <br>
-        </article>
-        <article id='sliders-container'>
+
+        <li id='sliders-container'>
           <p for="vSlider">Horizontal Spacing</p>
           <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
           <p for="hSlider">Vertical Spacing</p>
           <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
+        </li>
+        <br>
+        <li id='store-container'>
+          <h2>Store</h2>
+          <div id="store"></div>
           <br>
-        </article>
+        </li>
+        <li id='state-container'>
+          <h2>State</h2>
+          <div id='state'></div>
+          <br>
+        </li>
+        <li id='props-container'>
+          <h2>Props</h2>
+          <div id='props'></div>
+          <br>
+        </li>
       </ul>
     </div>
     <div id="page-content-wrapper">
