@@ -74,6 +74,30 @@ body {
   color: white;
 }
 
-#hSlider, #vSlider {
-  display: block;
+.range-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 10px;
+  border-radius: 5px;
+  background: #d7dcdf;
+  outline: none;
 }
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #61dafb;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+/* /* .range-slider:active::-webkit-slider-thumb {
+  background: #1abc9c;
+} */
+
