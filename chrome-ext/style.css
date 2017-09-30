@@ -26,7 +26,7 @@ svg {
   stroke-width: 2px;
 }
 
-.tooltip {
+/*.tooltip {
   position: absolute;
   text-align: center;
   width: 250px;
@@ -37,7 +37,7 @@ svg {
   border: 0px;
   border-radius: 8px;
   overflow-y: auto;
-}
+}*/
 
 .store {
   height: 200px;
@@ -66,3 +66,5 @@ body {
   padding-left: 4%;
   color: #764EBA;
 }
+
+/** Props **/

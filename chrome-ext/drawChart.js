@@ -48,6 +48,18 @@ const updatePanelRev = (state, props) => {
   const propsText = document.createTextNode('Props:\n')
   propsNode.appendChild(propsText)
   propsNode.appendChild(propsFomatter.render())
+
+  $.each($('.json-formatter-string'), (index, val) => {
+    let text = $(val).text()
+    if (text.slice(1,9) === 'function') {
+      $(val).text("fn()")
+      $(val).hover(function () {
+        $(this).text(text)
+      }, function () {
+        $(this).text("fn()")
+      })
+    }
+  })
 }
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -111,6 +123,7 @@ function update(source) {
   var node = svg.selectAll('g.node')
     .data(nodes, d => d.data.id);
 
+
   // Remove any exiting nodes
   var nodeExit = node.exit().transition()
     .duration(duration)
@@ -145,14 +158,14 @@ function update(source) {
   }
   else {
     // Add Circle for the nodes
-    nodeEnter.append('circle')
-      .attr('class', 'node')
-      .attr('r', 5)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
-      .style('pointer-events', 'visible')
-      .on('mouseover', (d) => {
-        updatePanelRev(d.data.state, d.data.props)
-      })
+  nodeEnter.append('circle')
+    .attr('class', 'node')
+    .attr('r', 5)
+    .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
+    .style('pointer-events', 'visible')
+    .on('mouseover', (d) => {
+      updatePanelRev(d.data.state, d.data.props)
+    })
   }
 
   if (squares) {
