@@ -1,9 +1,17 @@
-@import url(http://fonts.googleapis.com/css?family=Merriweather+Sans)
+/* @import url(http://fonts.googleapis.com/css?family=Merriweather+Sans) */
 
 .node rect {
-  /* stroke: #59ABA8; */
-  stroke: black;
-  stroke-width: 1px;
+  cursor: pointer;
+  fill: red;
+  fill-opacity: 1;
+  stroke: #3182bd;
+  stroke-width: 2px; 
+}
+
+.node text {
+  font: 15px sans-serif;
+  pointer-events: none;
+  font-weight: bold;
 }
 
 .node circle {
@@ -15,28 +23,10 @@ svg {
   border: 1px solid black;
 }
 
-.node text {
-  color: #5A5151;
-  font: 12px sans-serif;
-}
-
 .link {
   fill: none;
   stroke: #009AB2;
   stroke-width: 2px;
-}
-
-.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 250px;
-  height: 200px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  overflow-y: auto;
 }
 
 .store {
@@ -57,12 +47,57 @@ body {
   background-color: white;
 }
 
-.json-formatter-row {
-  text-align: left;
-}
-
 /*store */
 #store-container {
   padding-left: 4%;
   color: #764EBA;
 }
+#state-container {
+  padding-left: 4%;
+  color: #61dafb;
+}
+#props-container {
+  padding-left: 4%;
+  color: #61dafb;
+}
+
+#sliders-container {
+  padding-left: 5%;
+}
+
+.header-span {
+  float: right;
+}
+
+#state, #props {
+  font-family: Courier New, Courier, monospace;
+  color: white;
+}
+
+.range-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 10px;
+  border-radius: 5px;
+  background: #d7dcdf;
+  outline: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #61dafb;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+/* /* .range-slider:active::-webkit-slider-thumb {
+  background: #1abc9c;
+} */
+

@@ -50,34 +50,42 @@
           <input id='redux-btn' type='checkbox' unchecked>
           <label for="redux-btn" id="textrouter">Hide Redux</label>
         </li>
-          <article id='store-container'>
-            <h2>Store</h2>
-            <div id="store">
+        <article id='store-container'>
+          <h2>Store</h2>
+          <div id="store"></div>
+          <br>
+        </article>
+        <article id='state-container'>
+          <h2>State</h2>
+          <div id='state'></div>
+          <br>
+        </article>
+        <article id='props-container'>
+          <h2>Props</h2>
+          <div id='props'></div>
+          <br>
+        </article>
+        <article id='sliders-container'>
+          <p for="vSlider">Horizontal Spacing</p>
+          <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
+          <p for="hSlider">Vertical Spacing</p>
+          <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
 
-            </div>
-          </article>
-        <li>
-            <h5 id='state'></h5>
-            <h5 id='props'></h5>
-        </li>
+          <br>
+        </article>
       </ul>
     </div>
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <h1>React Sight</h1>
-        <h5>A React Visualization Tool</h5>
+        <div class="test">
+          <h5>A React Visualization Tool<span class='header-span'>Hover to view state & props</span></h5>
+        </div>
         <!-- <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a> -->
         <div class='tree'></div>
       </div>
     </div>
   </div>
-
-  <!-- <nav class="breadcrumb">
-    <a class="breadcrumb-item" href="#">Home</a>
-    <a class="breadcrumb-item" href="#">Library</a>
-    <a class="breadcrumb-item" href="#">Data</a>
-  </nav> -->
-
 
   <script src="js/jquery.js"></script>
   <script src="js/tether.min.js"></script>
