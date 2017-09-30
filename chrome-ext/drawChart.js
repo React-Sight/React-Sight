@@ -41,8 +41,6 @@ const updatePanelRev = (state, props) => {
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
   const propsText = document.createTextNode('Props:\n')
-  propsNode.appendChild(propsText)
-  propsNode.appendChild(propsFomatter.render())
 
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
@@ -56,21 +54,13 @@ const updatePanelRev = (state, props) => {
     }
   })
 
+  if (state == null || state == undefined) stateNode.appendChild(document.createTextNode('None'))
+  else stateNode.appendChild(stateFormatter.render())
 
-  if (state == null || state == undefined) {
-    stateNode.appendChild(document.createTextNode('None'))
-  } else {
-    stateNode.appendChild(stateFormatter.render())
-    stateFormatter.openAtDepth(1)
-  }
-
-  if (props == null || props == undefined) {
-    propsNode.appendChild(document.createTextNode('None'))
-  } else {
-    propsNode.appendChild(propsFomatter.render())
-    propsFomatter.openAtDepth(1)
-  }
+  if (props == null || props == undefined) propsNode.appendChild(document.createTextNode('None'))
+  else propsNode.appendChild(propsFomatter.render())
 }
+
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
