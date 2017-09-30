@@ -40,7 +40,6 @@ const updatePanelRev = (state, props) => {
 
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
-<<<<<<< HEAD
   const propsText = document.createTextNode('Props:\n')
   propsNode.appendChild(propsText)
   propsNode.appendChild(propsFomatter.render())
@@ -56,9 +55,7 @@ const updatePanelRev = (state, props) => {
       })
     }
   })
-}
-=======
->>>>>>> 35148460e705887e6d9b1c2c789ab09f0857b15b
+
 
   if (state == null || state == undefined) {
     stateNode.appendChild(document.createTextNode('None'))
@@ -74,7 +71,6 @@ const updatePanelRev = (state, props) => {
     propsFomatter.openAtDepth(1)
   }
 }
-
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
@@ -170,23 +166,7 @@ function update(source) {
     .attr('transform', d => 'translate(' + source.x0 + ',' + source.y0 + ')')
     .on('click', click)
 
-<<<<<<< HEAD
-  if (squares) {
-    nodeEnter.append('rect')
-      .attr('rx', 6)
-      .attr('ry', 6)
-      .attr('class', 'node')
-      .attr('width', rectW)
-      .attr('height', rectH)
-      .style('fill', d => d._children ? 'lightsteelblue' : '#59ABA8')
-      .attr("transform", d => 'translate(' + (- (rectW / 2)) + ',' + (-rectH) + ')')
-      .style('pointer-events', 'visible')
-  }
-  else {
-    // Add Circle for the nodes
-=======
   // Add Circle for the nodes
->>>>>>> 35148460e705887e6d9b1c2c789ab09f0857b15b
   nodeEnter.append('circle')
     .attr('class', 'node')
     .attr('r', 5)
@@ -195,10 +175,6 @@ function update(source) {
     .on('mouseover', (d) => {
       updatePanelRev(d.data.state, d.data.props)
     })
-<<<<<<< HEAD
-  }
-=======
->>>>>>> 35148460e705887e6d9b1c2c789ab09f0857b15b
 
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -277,4 +253,3 @@ export function drawChart(treeData) {
   root.y0 = 0;
   update(root);
 }
-

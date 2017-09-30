@@ -5,7 +5,7 @@
   fill: red;
   fill-opacity: 1;
   stroke: #3182bd;
-  stroke-width: 2px; 
+  stroke-width: 2px;
 }
 
 .node text {
@@ -29,22 +29,6 @@ svg {
   stroke-width: 2px;
 }
 
-<<<<<<< HEAD
-/*.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 250px;
-  height: 200px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-  overflow-y: auto;
-}*/
-
-=======
->>>>>>> 35148460e705887e6d9b1c2c789ab09f0857b15b
 .store {
   height: 200px;
   width: 200px;
@@ -68,10 +52,6 @@ body {
   padding-left: 4%;
   color: #764EBA;
 }
-<<<<<<< HEAD
-
-/** Props **/
-=======
 #state-container {
   padding-left: 4%;
   color: #61dafb;
@@ -120,5 +100,3 @@ body {
 /* /* .range-slider:active::-webkit-slider-thumb {
   background: #1abc9c;
 } */
-
->>>>>>> 35148460e705887e6d9b1c2c789ab09f0857b15b
