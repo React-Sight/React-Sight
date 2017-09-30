@@ -14,16 +14,6 @@
   font-weight: bold;
 }
 
-/* .node rect {
-  stroke: #59ABA8;
-  stroke: black;
-  stroke-width: 1px;
-} */
-
-.test {
-  display: inline;
-}
-
 .node circle {
   stroke: black;
   stroke-width: 1px;
@@ -57,16 +47,33 @@ body {
   background-color: white;
 }
 
-.json-formatter-row {
-  text-align: left;
-}
-
 /*store */
 #store-container {
   padding-left: 4%;
   color: #764EBA;
 }
+#state-container {
+  padding-left: 4%;
+  color: #61dafb;
+}
+#props-container {
+  padding-left: 4%;
+  color: #61dafb;
+}
+
+#sliders-container {
+  padding-left: 5%;
+}
 
 .header-span {
   float: right;
+}
+
+#state, #props {
+  font-family: Courier New, Courier, monospace;
+  color: white;
+}
+
+#hSlider, #vSlider {
+  display: block;
 }
