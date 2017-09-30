@@ -5,7 +5,7 @@
   fill: red;
   fill-opacity: 1;
   stroke: #3182bd;
-  stroke-width: 2px; 
+  stroke-width: 2px;
 }
 
 .node text {
@@ -100,4 +100,3 @@ body {
 /* /* .range-slider:active::-webkit-slider-thumb {
   background: #1abc9c;
 } */
-
