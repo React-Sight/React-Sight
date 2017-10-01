@@ -26,24 +26,6 @@
 
 
 #sidebar-wrapper {
-<<<<<<< HEAD
-    /* resize: horizontal; added this */
-    /* word-break: keep-all; */
-
-    z-index: 1000;
-    position: fixed;
-    left: 250px;
-    width: 200px;
-    height: 100%;
-    margin-left: -250px;
-    overflow-wrap: break-word;
-    overflow-y: auto;
-    background: #20232c;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-=======
   z-index: 1000;
   position: fixed;
   left: 250px;
@@ -56,7 +38,6 @@
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
->>>>>>> dbbb436986e276e7eb94b01363a00afb0b952d2c
 }
 
 .svg-container {
