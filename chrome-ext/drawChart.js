@@ -19,7 +19,7 @@ const updatePanelRev = (state, props) => {
   const propsNode = document.getElementById('props')
 
   // state
-  const stateFormatter = new JSONFormatter(state, 0, {
+  const stateFormatter = new JSONFormatter(state, 1, {
     hoverPreviewEnabled: false,
     hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
@@ -56,9 +56,7 @@ const updatePanelRev = (state, props) => {
 
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
-    console.log(text)
     if (text.slice(1,9) === 'function') {
-      console.log('THIS IS A FUNCTION')
       $(val).text("fn()")
       $(val).hover(function () {
         $(this).text(text)
@@ -89,16 +87,19 @@ d3.select("#hSlider").on("input", () => {
 
 var svg = d3.select('.tree').append('svg')
   .call(d3.zoom()
+    .scaleExtent([0.05, 2])
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
-  // .on('dblclick.zoom', null)cd
+  .on('dblclick.zoom', null)
   .attr("width", '100%')
   .attr("height", '100%')
   .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
   .attr('preserveAspectRatio', 'xMinYMin')
   .append("g")
-  .attr("transform", "translate(" + Math.min(width / 5, height / 5) / 2 + "," + Math.min(width / 5, height / 5) / 2 + ")");
+  .attr("transform", "translate(450, 200)")
+
+  // svg.call(zoom.transform, d3.zoomIdentity.translate(width/6, height/6).scale(0.5))
 
 function update(source) {
   console.log('Updating Tree with current source...', source)
@@ -106,9 +107,6 @@ function update(source) {
   treemap = d3.tree()
     .nodeSize([hSlider * 5, hSlider * 5])
 
-
-  console.log('d3', d3)
-  console.log('d3.tree', d3.tree)
   // Creates a curved (diagonal) path from parent to the child nodes
   const diagonal = (s, d) => {
     const path = 'M' + s.x + ',' + s.y
@@ -169,8 +167,15 @@ function update(source) {
     .attr('r', 5)
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
-    .on('mouseover', (d) => {
+    .on('mouseover', d => {
       updatePanelRev(d.data.state, d.data.props)
+      $.each($('.breadcrumb-item'), (index, val) => {
+        if ($(val).text() == d.data.name) {
+          $(val).css('color', '#B30089')
+        } else {
+          $(val).css('color', '#0275d8')
+        }
+      })
     })
 
   // Add labels for the nodes

@@ -1,21 +1,25 @@
 const drawVBox = (data) => {
-  let nodeNames = [];
+  let nodeNames = {}
   getNodeNames(data, nodeNames)
+  let nodes = Object.keys(nodeNames)
   let breadcrumbSteps = []
-  $.each(nodeNames, (index, item) => {
-    breadcrumbSteps.push(`<a class="breadcrumb-item" href="#">${item}</a>`)
+  $.each(nodes, (index, node) => {
+    return nodeNames[node] == 1 ?
+      breadcrumbSteps.push(`<a class="breadcrumb-item" href="#">${node}</a>`)
+      : breadcrumbSteps.push(`<a class="breadcrumb-item" href="#">${node}[${nodeNames[node]}]</a>`)
   })
-  console.log(breadcrumbSteps)
   $('.breadcrumb').html(breadcrumbSteps)
 }
 
-const getNodeNames = (data, array) => {
+const getNodeNames = (data, object) => {
   if (!data.name) return
-  if (data.type === 'ReactCompositeComponentWrapper') array.push(data.name)
+  if (data.type === 'ReactCompositeComponentWrapper') {
+    object[data.name] = (object[data.name] || 0) +1
+  }
   if (!data.children.length) return
   else {
     data.children.forEach(child => {
-      getNodeNames(child, array)
+      getNodeNames(child, object)
     })
   }
 }
