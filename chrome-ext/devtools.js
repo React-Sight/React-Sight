@@ -53,4 +53,8 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
     curData = msg;
     draw()
   })
+
+  document.addEventListener('mousewheel', () => {
+    console.log('wwwwhheeeellll')
+  })
 })
