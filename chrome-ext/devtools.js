@@ -1,7 +1,7 @@
 import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
-//import drawvBox from './breadcrumb.js'
+import drawVBox from './breadcrumb.js'
 // stores last snapshot of data
 var curData
 
@@ -23,7 +23,7 @@ const draw = () => {
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
   drawStore(datas.store)
-  // drawVBox(datas.data[0])
+  drawVBox(datas.data[0])
 }
 
 const loadingScreen = () => {
@@ -40,6 +40,7 @@ const loadingScreen = () => {
 //   e.preventDefault();
 //   $("#wrapper").toggleClass("toggled");
 // });
+
 $('#wrapper').toggleClass("toggled")
 // ****************
 // ***** MAIN *****
