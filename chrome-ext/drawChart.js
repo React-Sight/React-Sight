@@ -9,9 +9,9 @@ var treemap
 var hSlider = 10
 var vSlider = 10
 
-var margin = { top: 50, right: 50, bottom: 50, left: 50 },
-  width = 1000 - margin.right - margin.left,
-  height = 960 - margin.top - margin.bottom;
+var margin = { top: 50, right: 50, bottom: 50, left: 50 }
+var width = 1000 - margin.right - margin.left
+var height = 960 - margin.top - margin.bottom
 
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
@@ -66,6 +66,7 @@ const updatePanelRev = (state, props) => {
     }
   })
 }
+
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
@@ -85,21 +86,44 @@ d3.select("#hSlider").on("input", () => {
   update()
 });
 
-var svg = d3.select('.tree').append('svg')
+console.log(`$$$$$$$$$$\nHEIGHT: ${height}\nwidtrh:${width}\n$$$$$$$$$$$$$`)
+
+var currentTransform = null
+
+var slider = d3.select('#zSlider')
+  .on("input", slided)
+
+function slided(d) {
+  zoom.scaleTo(svg, d3.select(this).property("value"));
+}
+
+var svg = d3.select('.tree')
+  .append("div")
+  .classed("svg-container", true) //container class to make it responsive
+  .append("svg")
   .call(d3.zoom()
     .scaleExtent([0.05, 2])
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
-  .on('dblclick.zoom', null)
-  .attr("width", '100%')
-  .attr("height", '100%')
-  .attr('viewBox', '0 0 ' + Math.min(width, height) + ' ' + Math.min(width, height))
-  .attr('preserveAspectRatio', 'xMinYMin')
-  .append("g")
-  .attr("transform", "translate(450, 200)")
 
-  // svg.call(zoom.transform, d3.zoomIdentity.translate(width/6, height/6).scale(0.5))
+  //responsive SVG needs these 2 attributes and no width and height attr
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 " + height + " " + width)
+  //class to make it responsive
+  .classed("svg-content-responsive", true)
+  .append('g')
+  .attr("transform", "translate(" + Math.min(width, height) / 2 + "," + Math.min(width, height) / 4 + ")");
+
+var zoom = d3.zoom()
+  .scaleExtent([0.5, 5])
+  .on("zoom", zoomed);
+
+function zoomed() {
+  currentTransform = d3.event.transform;
+  svg.attr("transform", currentTransform);
+  slider.property("value", d3.event.scale);
+}
 
 function update(source) {
   console.log('Updating Tree with current source...', source)
@@ -137,10 +161,7 @@ function update(source) {
   var links = treeData.descendants().slice(1)
 
   // Normalize for fixed-depth.
-  nodes.forEach(d => {
-    // console.log('NODE', d)
-    d.y = d.depth * vSlider * 10
-  }); // magic number is distance between each node
+  nodes.forEach(d => { d.y = d.depth * vSlider * 10 }); // magic number is distance between each node
 
   // ****************** Nodes section ***************************
 
@@ -148,13 +169,11 @@ function update(source) {
   var node = svg.selectAll('g.node')
     .data(nodes, d => d.data.id);
 
-
   // Remove any exiting nodes
   var nodeExit = node.exit().transition()
     .duration(duration)
     .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
     .remove();
-
 
   var nodeEnter = node.enter().append('g')
     .attr('class', 'node')
@@ -247,11 +266,11 @@ function update(source) {
 export function drawChart(treeData) {
   // declares a tree layout and assigns the size
   treemap = d3.tree()
-    // .size([height, width])
-    .nodeSize([30, 30])
+    .size([height - 500, width - 500])
+  // .nodeSize([30, 30])
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
-  root.x0 = height / 2;
+  root.x0 = height - 500 / 2;
   root.y0 = 0;
   update(root);
 }
