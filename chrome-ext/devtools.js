@@ -1,7 +1,7 @@
-import * as drawChart from './drawChart'
-import { filterRedux, filterRouter, filterDOM } from './filters'
-import drawStore from './store-panel.js'
-import drawVBox from './breadcrumb.js'
+import * as drawChart from './src/drawChart'
+import { filterRedux, filterRouter, filterDOM } from './src/filters'
+import drawStore from './src/store-panel.js'
+import drawVBox from './src/breadcrumb.js'
 // stores last snapshot of data
 var curData
 
@@ -29,7 +29,7 @@ const draw = () => {
 const loadingScreen = () => {
   $('.tree').append(
     `<div class='loading'>
-      <h1><img id='loadericon' src='loaderimage.gif'> Waiting For Data</h1>
+      <h1><img id='loadericon' src='./asset/loaderimage.gif'> Waiting For Data</h1>
       <h6>If this is taking more than a few seconds, try refreshing your React application or referring back to the set up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.<h6>
     </div>`
 
