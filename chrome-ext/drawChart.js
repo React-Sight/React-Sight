@@ -259,4 +259,13 @@ export function drawChart(treeData) {
   root.x0 = height - 500 / 2;
   root.y0 = 0;
   update(root);
+
+  // const loadingdiv = document.querySelector('.loading')
+  // const tree = document.querySelector('.tree')
+  // // // loadingdiv.innerHTML = ""
+  // tree.classList.remove("loading");
+
+  $('.loading').remove()
+  console.log("deleted")
+
 }

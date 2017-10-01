@@ -110,6 +110,15 @@ svg {
   background: #1abc9c;
 }
 
+.loading {
+  background-color:#20232c;
+  height: 100%;
+}
+
+#loadericon {
+  width:30px;
+}
+
 .svg-container {
   display: inline-block;
   position: relative;
@@ -124,3 +133,4 @@ svg {
   top: 10px;
   left: 0;
 }
+
