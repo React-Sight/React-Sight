@@ -10,8 +10,8 @@ var hSlider = 10
 var vSlider = 10
 
 var margin = { top: 50, right: 50, bottom: 50, left: 50 }
-var width = 900
-var height = 860
+var width = 1000 - margin.right - margin.left
+var height = 960 - margin.top - margin.bottom
 
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
