@@ -9,7 +9,7 @@ body {
 }
 
 svg {
-  border: 3px solid green;
+  border: 1px solid black;
   width: 100%;
   height: 100%;
   display: block;
