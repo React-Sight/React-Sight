@@ -12,6 +12,7 @@ const drawStore = (data) => {
       animateClose: true
     })
     $('#store').append(`<p id="state-${index}">${state}: </p>`)
+    // $('#store').append(newValue.render())
     $(`#state-${index}`).append(newValue.render())
   })
 }

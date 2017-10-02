@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './chrome-ext/devtools.js',
+  entry: './chrome-ext/src/devtools.js',
   output: {
     filename: './chrome-ext/build/bundle.js',
   },
