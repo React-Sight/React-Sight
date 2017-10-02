@@ -13,7 +13,7 @@
 /* Toggle Styles */
 
 #wrapper {
-  padding-left: 10px;
+  padding-left: 0;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -21,6 +21,7 @@
 }
 
 #wrapper.toggled {
+  p
   padding-left: 250px;
 }
 
