@@ -1,7 +1,7 @@
-import * as drawChart from './src/drawChart'
-import { filterRedux, filterRouter, filterDOM } from './src/filters'
-import drawStore from './src/store-panel.js'
-import drawVBox from './src/breadcrumb.js'
+import * as drawChart from './drawChart'
+import { filterRedux, filterRouter, filterDOM } from './filters'
+import drawStore from './store-panel.js'
+import drawVBox from './breadcrumb.js'
 // stores last snapshot of data
 var curData
 
