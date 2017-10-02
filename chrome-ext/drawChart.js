@@ -267,7 +267,7 @@ export function drawChart(treeData) {
   // declares a tree layout and assigns the size
   treemap = d3.tree()
     .size([height - 500, width - 500])
-  // .nodeSize([30, 30])
+  // gi.nodeSize([30, 30])
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
   root.x0 = height - 500 / 2;
