@@ -19,7 +19,7 @@ const updatePanelRev = (state, props) => {
   const propsNode = document.getElementById('props')
 
   // state
-  const stateFormatter = new JSONFormatter(state, 0, {
+  const stateFormatter = new JSONFormatter(state, 1, {
     hoverPreviewEnabled: false,
     hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
@@ -42,9 +42,21 @@ const updatePanelRev = (state, props) => {
   propsNode.innerHTML = ''
   const propsText = document.createTextNode('Props:\n')
 
+  if (state == null || state == undefined) {
+    stateNode.appendChild(document.createTextNode('None'))
+  } else {
+    stateNode.appendChild(stateFormatter.render())
+  }
+
+  if (props == null || props == undefined) {
+    propsNode.appendChild(document.createTextNode('None'))
+  } else {
+    propsNode.appendChild(propsFomatter.render())
+  }
+
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
+    if (text.slice(1,9) === 'function') {
       $(val).text("fn()")
       $(val).hover(function () {
         $(this).text(text)
@@ -53,12 +65,6 @@ const updatePanelRev = (state, props) => {
       })
     }
   })
-
-  if (state == null || state == undefined) stateNode.appendChild(document.createTextNode('None'))
-  else stateNode.appendChild(stateFormatter.render())
-
-  if (props == null || props == undefined) propsNode.appendChild(document.createTextNode('None'))
-  else propsNode.appendChild(propsFomatter.render())
 }
 
 // append the svg object to the body of the page
@@ -96,6 +102,7 @@ var svg = d3.select('.tree')
   .classed("svg-container", true) //container class to make it responsive
   .append("svg")
   .call(d3.zoom()
+    .scaleExtent([0.05, 2])
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
@@ -179,8 +186,15 @@ function update(source) {
     .attr('r', 5)
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
-    .on('mouseover', (d) => {
+    .on('mouseover', d => {
       updatePanelRev(d.data.state, d.data.props)
+      $.each($('.breadcrumb-item'), (index, val) => {
+        if ($(val).text() == d.data.name) {
+          $(val).css('color', '#B30089')
+        } else {
+          $(val).css('color', '#0275d8')
+        }
+      })
     })
 
   // Add labels for the nodes
@@ -253,7 +267,7 @@ export function drawChart(treeData) {
   // declares a tree layout and assigns the size
   treemap = d3.tree()
     .size([height - 500, width - 500])
-  // .nodeSize([30, 30])
+  // gi.nodeSize([30, 30])
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
   root.x0 = height - 500 / 2;
