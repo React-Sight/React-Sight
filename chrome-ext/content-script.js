@@ -16,3 +16,7 @@ chrome.extension.onMessage.addListener((message, sender) => {
     should only emit event when user clicks on React-Sight panel..
     listener is currently emitting anytime a new tab is open */
 })
+
+
+const groot = document.querySelector('[data-reactroot]')
+console.log('window: ', window.FindReact)

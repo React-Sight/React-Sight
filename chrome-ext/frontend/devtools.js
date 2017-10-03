@@ -27,7 +27,16 @@ const draw = () => {
   drawVBox(datas.data[0])
 }
 
+const loadingScreen = () => {
+  $('.tree').append(
+    `<div class='loading'>
+      <h1><img id='loadericon' src='./asset/loaderimage.gif'> Waiting For Data</h1>
+      <h6>If this is taking more than a few seconds, try refreshing your React application or referring back to the set up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.<h6>
+    </div>`
 
+  )
+}
+$('#wrapper').toggleClass("toggled")
 // ****************
 // ***** MAIN *****
 // ****************
@@ -52,9 +61,13 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   })
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
+
+    console.log("length of data", msg.data.length)
     console.log('Drawing tree...', msg)
     curData = msg;
+    loadingScreen()
     draw()
+    console.log('drew')
   })
 
   document.addEventListener('mousewheel', () => {

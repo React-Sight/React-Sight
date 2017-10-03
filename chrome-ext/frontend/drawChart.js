@@ -35,7 +35,7 @@ const updatePanelRev = (state, props) => {
   const propsNode = document.getElementById('props')
 
   // state
-  const stateFormatter = new JSONFormatter(state, 0, {
+  const stateFormatter = new JSONFormatter(state, 1, {
     hoverPreviewEnabled: false,
     hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
@@ -57,9 +57,21 @@ const updatePanelRev = (state, props) => {
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
 
+  if (state == null || state == undefined) {
+    stateNode.appendChild(document.createTextNode('None'))
+  } else {
+    stateNode.appendChild(stateFormatter.render())
+  }
+
+  if (props == null || props == undefined) {
+    propsNode.appendChild(document.createTextNode('None'))
+  } else {
+    propsNode.appendChild(propsFomatter.render())
+  }
+
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
+    if (text.slice(1,9) === 'function') {
       $(val).text("fn()")
       $(val).hover(function () {
         $(this).text(text)
@@ -68,12 +80,6 @@ const updatePanelRev = (state, props) => {
       })
     }
   })
-
-  if (state == null || state == undefined) stateNode.appendChild(document.createTextNode('None'))
-  else stateNode.appendChild(stateFormatter.render())
-
-  if (props == null || props == undefined) propsNode.appendChild(document.createTextNode('None'))
-  else propsNode.appendChild(propsFomatter.render())
 }
 
 // append the svg object to the body of the page
@@ -111,6 +117,7 @@ var svg = d3.select('.tree')
   .classed("svg-container", true) //container class to make it responsive
   .append("svg")
   .call(d3.zoom()
+    .scaleExtent([0.05, 2])
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
@@ -201,6 +208,13 @@ function update(source) {
     .on('mouseover', (d) => {
       selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
+      $.each($('.breadcrumb-item'), (index, val) => {
+        if ($(val).text() == d.data.name) {
+          $(val).css('color', '#B30089')
+        } else {
+          $(val).css('color', '#0275d8')
+        }
+      })
     })
 
   // Add labels for the nodes
@@ -273,10 +287,19 @@ export function drawChart(treeData) {
   // declares a tree layout and assigns the size
   treemap = d3.tree()
     .size([height - 500, width - 500])
-  // .nodeSize([30, 30])
+  // gi.nodeSize([30, 30])
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
   root.x0 = height - 500 / 2;
   root.y0 = 0;
   update(root);
+
+  // const loadingdiv = document.querySelector('.loading')
+  // const tree = document.querySelector('.tree')
+  // // // loadingdiv.innerHTML = ""
+  // tree.classList.remove("loading");
+
+  $('.loading').remove()
+  console.log("deleted")
+
 }
