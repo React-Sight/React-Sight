@@ -28,33 +28,18 @@
 
 #sidebar-wrapper {
   float: left;
-  z-index: 1000;
+  /* z-index: 1000; */
   position: absolute;
   left: 250px;
   width: 0;
   height: 100%;
   margin-left: -250px;
-  overflow-y: auto;
+  overflow: auto;
   background: #20232c;
   /* -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; */
-}
-
-.svg-container {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  padding-bottom: 100%;
-  vertical-align: top;
-  overflow: hidden;
-}
-.svg-content {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 
@@ -63,6 +48,7 @@
 }
 
 #page-content-wrapper {
+  height: 100%;
   width: 100%;
   position: absolute;
   padding: 15px;
