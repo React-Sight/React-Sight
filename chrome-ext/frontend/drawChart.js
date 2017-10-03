@@ -189,7 +189,9 @@ function update(source) {
     .on('mouseover', d => {
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
-        if ($(val).text() == d.data.name) {
+        if ($(val).text() === d.data.name) {
+          $(val).css('color', '#B30089')
+        } else if ($(val).text().slice(0, $(val).text().indexOf('[')) == d.data.name) {
           $(val).css('color', '#B30089')
         } else {
           $(val).css('color', '#0275d8')
