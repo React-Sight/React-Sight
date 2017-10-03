@@ -2,7 +2,7 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 import drawVBox from './breadcrumb.js'
-
+import Split from 'split'
 // stores last snapshot of data
 var curData
 
@@ -43,13 +43,18 @@ const loadingScreen = () => {
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   $('#wrapper').toggleClass("toggled")
-  
+
   // wire up buttons to actions
   document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
 
-  loadingScreen()  
+  loadingScreen()
+
+  Split(['#one', '#two'], {
+    sizes: [20, 75],
+    minSize: 200
+  });
 
   const port = chrome.extension.connect({
     name: "React-Sight"

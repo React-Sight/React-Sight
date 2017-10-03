@@ -13,9 +13,7 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
-var selectedNode = null
-
-  // // go through data, if node.iD exists, update panel, otherwise
+// // go through data, if node.iD exists, update panel, otherwise
 const getData = sourceData => {
   console.log('#getData node: ', sourceData)
   // if (selectedNode) {
@@ -71,7 +69,7 @@ const updatePanelRev = (state, props) => {
 
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
-    if (text.slice(1,9) === 'function') {
+    if (text.slice(1, 9) === 'function') {
       $(val).text("fn()")
       $(val).hover(function () {
         $(this).text(text)
@@ -101,16 +99,6 @@ d3.select("#hSlider").on("input", () => {
   update()
 });
 
-console.log(`$$$$$$$$$$\nHEIGHT: ${height}\nwidtrh:${width}\n$$$$$$$$$$$$$`)
-
-var currentTransform = null
-
-var slider = d3.select('#zSlider')
-  .on("input", slided)
-
-function slided(d) {
-  zoom.scaleTo(svg, d3.select(this).property("value"));
-}
 
 var svg = d3.select('.tree')
   .append("div")
@@ -121,7 +109,6 @@ var svg = d3.select('.tree')
     .on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     }))
-
   //responsive SVG needs these 2 attributes and no width and height attr
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 " + height + " " + width)
@@ -130,21 +117,14 @@ var svg = d3.select('.tree')
   .append('g')
   .attr("transform", "translate(" + Math.min(width, height) / 2 + "," + Math.min(width, height) / 4 + ")");
 
-var zoom = d3.zoom()
-  .scaleExtent([0.5, 5])
-  .on("zoom", zoomed);
 
-function zoomed() {
-  currentTransform = d3.event.transform;
-  svg.attr("transform", currentTransform);
-  slider.property("value", d3.event.scale);
-}
+// svg.call(d3.zoom()
+//   .scaleExtent([0.05, 2])
+//   .on('zoom', () => {
+//     svg.attr('transform', d3.event.transform)
+//   }))
 
 function update(source) {
-  if (selectedNode) {
-    updatePanelRev(source)
-  }
-
   console.log('Updating Tree with current source...', source)
 
   treemap = d3.tree()
