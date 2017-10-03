@@ -13,6 +13,22 @@ var margin = { top: 50, right: 50, bottom: 50, left: 50 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
+var selectedNode = null
+
+  // // go through data, if node.iD exists, update panel, otherwise
+const getData = sourceData => {
+  console.log('#getData node: ', sourceData)
+  // if (selectedNode) {
+  //   if (sourceData.data.id === selectedNode) return sourceData.data.state
+  //   else if (sourceData.children) {
+  //     for (let i = 0; i < sourceData.children.length; i++) {
+  //       return getData(sourceData.children[i])
+  //     }
+  //   }
+  // }
+  // return null
+}
+
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
   const stateNode = document.getElementById('state')
@@ -40,7 +56,6 @@ const updatePanelRev = (state, props) => {
 
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
-  const propsText = document.createTextNode('Props:\n')
 
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
@@ -119,6 +134,10 @@ function zoomed() {
 }
 
 function update(source) {
+  if (selectedNode) {
+    updatePanelRev(source)
+  }
+
   console.log('Updating Tree with current source...', source)
 
   treemap = d3.tree()
@@ -180,6 +199,7 @@ function update(source) {
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
     .on('mouseover', (d) => {
+      selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
     })
 
