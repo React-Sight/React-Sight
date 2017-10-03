@@ -36,7 +36,6 @@ const loadingScreen = () => {
 
   )
 }
-$('#wrapper').toggleClass("toggled")
 // ****************
 // ***** MAIN *****
 // ****************
@@ -49,6 +48,8 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
+
+  loadingScreen()  
 
   const port = chrome.extension.connect({
     name: "React-Sight"
@@ -65,7 +66,6 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
     console.log("length of data", msg.data.length)
     console.log('Drawing tree...', msg)
     curData = msg;
-    loadingScreen()
     draw()
     console.log('drew')
   })
