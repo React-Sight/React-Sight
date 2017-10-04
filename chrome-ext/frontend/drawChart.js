@@ -9,7 +9,7 @@ var treemap
 var hSlider = 10
 var vSlider = 10
 
-var margin = { top: 50, right: 50, bottom: 50, left: 50 }
+var margin = { top: 100, right: 100, bottom: 100, left: 100 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
@@ -97,32 +97,31 @@ function slided(d) {
   zoom.scaleTo(svg, d3.select(this).property("value"));
 }
 
+var zoom = d3.zoom()
+  .scaleExtent([0.05, 2])
+  .on("zoom", zoomed);
+
 var svg = d3.select('.tree')
   .append("div")
   .classed("svg-container", true) //container class to make it responsive
   .append("svg")
-  .call(d3.zoom()
-    .scaleExtent([0.05, 2])
-    .on('zoom', () => {
-      svg.attr('transform', d3.event.transform)
-    }))
-
   //responsive SVG needs these 2 attributes and no width and height attr
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 " + height + " " + width)
   //class to make it responsive
   .classed("svg-content-responsive", true)
+  .call(zoom)
   .append('g')
-  .attr("transform", "translate(" + Math.min(width, height) / 2 + "," + Math.min(width, height) / 4 + ")");
 
-var zoom = d3.zoom()
-  .scaleExtent([0.5, 5])
-  .on("zoom", zoomed);
+  var transform = d3.zoomIdentity
+    .translate(width/2, height/4)
+    .scale(1)
+
+d3.select('svg').transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(width/2, height/4).scale(1))
 
 function zoomed() {
-  currentTransform = d3.event.transform;
-  svg.attr("transform", currentTransform);
-  slider.property("value", d3.event.scale);
+  svg.attr('transform', d3.event.transform)
+  // slider.property('value', d3.event.scale)
 }
 
 function update(source) {
