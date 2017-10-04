@@ -35,13 +35,14 @@ const loadingScreen = () => {
 
   )
 }
-$('#wrapper').toggleClass("toggled")
+
 // ****************
 // ***** MAIN *****
 // ****************
 
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
+  $('#wrapper').toggleClass("toggled")
   // wire up buttons to actions
   document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
