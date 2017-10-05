@@ -39,11 +39,9 @@ const loadingScreen = () => {
 // ****************
 // ***** MAIN *****
 // ****************
-
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   $('#wrapper').toggleClass("toggled")
-
   // wire up buttons to actions
   document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
@@ -65,17 +63,13 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
     name: 'connect',
     tabId: chrome.devtools.inspectedWindow.tabId
   })
+
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
-
     console.log("length of data", msg.data.length)
     console.log('Drawing tree...', msg)
     curData = msg;
     draw()
     console.log('drew')
-  })
-
-  document.addEventListener('mousewheel', () => {
-    console.log('wwwwhheeeellll')
   })
 })

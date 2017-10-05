@@ -9,26 +9,13 @@ var treemap
 var hSlider = 10
 var vSlider = 10
 
-var margin = { top: 50, right: 50, bottom: 50, left: 50 }
+var margin = { top: 100, right: 100, bottom: 100, left: 100 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
-// // go through data, if node.iD exists, update panel, otherwise
-const getData = sourceData => {
-  console.log('#getData node: ', sourceData)
-  // if (selectedNode) {
-  //   if (sourceData.data.id === selectedNode) return sourceData.data.state
-  //   else if (sourceData.children) {
-  //     for (let i = 0; i < sourceData.children.length; i++) {
-  //       return getData(sourceData.children[i])
-  //     }
-  //   }
-  // }
-  // return null
-}
-
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
+  console.log('update panel')
   const stateNode = document.getElementById('state')
   const propsNode = document.getElementById('props')
 
@@ -100,29 +87,32 @@ d3.select("#hSlider").on("input", () => {
 });
 
 
+var zoom = d3.zoom()
+  .scaleExtent([0.05, 2])
+  .on("zoom", zoomed);
+
 var svg = d3.select('.tree')
   .append("div")
   .classed("svg-container", true) //container class to make it responsive
   .append("svg")
-  .call(d3.zoom()
-    .scaleExtent([0.05, 2])
-    .on('zoom', () => {
-      svg.attr('transform', d3.event.transform)
-    }))
   //responsive SVG needs these 2 attributes and no width and height attr
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 " + height + " " + width)
   //class to make it responsive
   .classed("svg-content-responsive", true)
+  .call(zoom)
   .append('g')
-  .attr("transform", "translate(" + Math.min(width, height) / 2 + "," + Math.min(width, height) / 4 + ")");
 
+  var transform = d3.zoomIdentity
+    .translate(width/2, height/4)
+    .scale(1)
 
-// svg.call(d3.zoom()
-//   .scaleExtent([0.05, 2])
-//   .on('zoom', () => {
-//     svg.attr('transform', d3.event.transform)
-//   }))
+d3.select('svg').transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(width/2, height/4).scale(1))
+
+function zoomed() {
+  svg.attr('transform', d3.event.transform)
+  // slider.property('value', d3.event.scale)
+}
 
 function update(source) {
   console.log('Updating Tree with current source...', source)
@@ -186,10 +176,11 @@ function update(source) {
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
     .on('mouseover', (d) => {
-      selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
-        if ($(val).text() == d.data.name) {
+        if ($(val).text() === d.data.name) {
+          $(val).css('color', '#B30089')
+        } else if ($(val).text().slice(0, $(val).text().indexOf('[')) == d.data.name) {
           $(val).css('color', '#B30089')
         } else {
           $(val).css('color', '#0275d8')
@@ -281,5 +272,4 @@ export function drawChart(treeData) {
 
   $('.loading').remove()
   console.log("deleted")
-
 }
