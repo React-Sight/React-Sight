@@ -1,4 +1,4 @@
-let connections = {}
+const connections = {}
 
 chrome.extension.onConnect.addListener(function (port) {
   let extensionListener = (message, sender, res) => {
@@ -32,7 +32,7 @@ chrome.extension.onMessage.addListener(function (req, sender, res) {
     if (tabId in connections) {
       connections[tabId].postMessage(req)
     } else {
-      console.log('WARNING :: Tab not found in connection list')
+      console.log('WARNING:: Tab not found in connection list')
     }
   } else {
     console.log("WARNING:: sender.tab not defined")

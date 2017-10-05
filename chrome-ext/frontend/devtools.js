@@ -59,12 +59,9 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   })
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
-
-    console.log("length of data", msg.data.length)
     console.log('Drawing tree...', msg)
     curData = msg;
     loadingScreen()
     draw()
-    console.log('drew')
   })
 })

@@ -22,5 +22,6 @@
     "http://*/*",
     "https://*/*",
     "file:///*"
-  ]
+  ],
+  "web_accessible_resources": ["/js/my_file.js"]
 }
