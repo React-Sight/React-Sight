@@ -15,6 +15,7 @@ var height = 960 - margin.top - margin.bottom
 
 /** Update the state/ props for a selected node */
 const updatePanelRev = (state, props) => {
+  console.log('update panel')
   const stateNode = document.getElementById('state')
   const propsNode = document.getElementById('props')
 
@@ -40,7 +41,6 @@ const updatePanelRev = (state, props) => {
 
   stateNode.innerHTML = ''
   propsNode.innerHTML = ''
-  const propsText = document.createTextNode('Props:\n')
 
   if (state == null || state == undefined) {
     stateNode.appendChild(document.createTextNode('None'))
@@ -56,7 +56,7 @@ const updatePanelRev = (state, props) => {
 
   $.each($('.json-formatter-string'), (index, val) => {
     let text = $(val).text()
-    if (text.slice(1,9) === 'function') {
+    if (text.slice(1, 9) === 'function') {
       $(val).text("fn()")
       $(val).hover(function () {
         $(this).text(text)
@@ -86,16 +86,6 @@ d3.select("#hSlider").on("input", () => {
   update()
 });
 
-console.log(`$$$$$$$$$$\nHEIGHT: ${height}\nwidtrh:${width}\n$$$$$$$$$$$$$`)
-
-var currentTransform = null
-
-var slider = d3.select('#zSlider')
-  .on("input", slided)
-
-function slided(d) {
-  zoom.scaleTo(svg, d3.select(this).property("value"));
-}
 
 var zoom = d3.zoom()
   .scaleExtent([0.05, 2])
@@ -185,7 +175,7 @@ function update(source) {
     .attr('r', 5)
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
-    .on('mouseover', d => {
+    .on('mouseover', (d) => {
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
         if ($(val).text() === d.data.name) {
@@ -282,5 +272,4 @@ export function drawChart(treeData) {
 
   $('.loading').remove()
   console.log("deleted")
-
 }
