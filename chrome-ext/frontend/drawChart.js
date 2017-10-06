@@ -103,11 +103,11 @@ var svg = d3.select('.tree')
   .call(zoom)
   .append('g')
 
-  var transform = d3.zoomIdentity
-    .translate(width/2, height/4)
-    .scale(1)
+var transform = d3.zoomIdentity
+  .translate(width / 2, height / 4)
+  .scale(1)
 
-d3.select('svg').transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(width/2, height/4).scale(1))
+d3.select('svg').transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 4).scale(1))
 
 function zoomed() {
   svg.attr('transform', d3.event.transform)
