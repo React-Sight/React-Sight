@@ -1,4 +1,7 @@
-//injected React libraries in window
+if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+
+}
+
 const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers
 const instance = reactInstances[Object.keys(reactInstances)[0]]
 instance.Reconciler.receiveComponent = (function (original) {
