@@ -1,5 +1,6 @@
 //might need additional testing..renderers provides a list of all imported React instances
-const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers
+console.log(window)
+const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers;
 //grab the first instance of imported React library
 const instance = reactInstances[Object.keys(reactInstances)[0]];
 var throttle = false;
@@ -16,27 +17,26 @@ var throttle = false;
     instance.Reconciler.receiveComponent = (function (original) {
       console.log(original)
       return function (...args) {
-        //set a throttle to getData
         if (!throttle) {
           getData()
           throttle = true
-          setTimeout(() => throttle = false, 1)
+          setTimeout(() => throttle = false, 0)
         }
         return original(...args)
       }
     })(instance.Reconciler.receiveComponent)
   }
-})()
+})();
 
-function getData(components = [], store = []) {
+const getData = (components = [], store = []) => {
   //define rootElement of virtual DOM
-  const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent
+  const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
   //recursively traverse down through props chain starting from root element
-  traverseAllChildren(rootElement, components)
+  traverseAllChildren(rootElement, components);
   const data = { data: components, store: store }
-  console.log('DATA...(getData.js): ', data)
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*')
-}
+  console.log('retrieved data --> posting to content-scripts...: ', data)
+  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+};
 
 const traverseAllChildren = (component, parentArr) => {
   // console.log('#recurTraverse component: ', component)
@@ -82,11 +82,6 @@ const traverseAllChildren = (component, parentArr) => {
   // }
 
   // Get Store
-
-
-  // Get ID
-  if (component._domID) newComponent.id = component._domID
-  else newComponent.id = component._mountOrder * 100
 
   // Get Name
   if (component._currentElement.type) {
@@ -152,3 +147,7 @@ parseProps = (currentComponent) => {
     }
     return newProps
   }
+
+window.addEventListener('reactsight', e => {
+  getData()
+})
