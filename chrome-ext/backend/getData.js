@@ -19,8 +19,6 @@
 //   if (component.constructor.name === 'ReactDOMTextComponent')
 // }
 
-// function getData() {
-//   console.log('retrieving data...(getData.js)')
-// }
-//
-// export default getData
+export function getData() {
+  console.log('retrieving data...(getData.js)')
+}

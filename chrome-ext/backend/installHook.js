@@ -1,40 +1,44 @@
+//might need additional testing..renderers provides a list of all imported React instances
+const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers
+//grab the first instance of imported React library
+const instance = reactInstances[Object.keys(reactInstances)[0]];
+var throttle = false;
 //locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
 //__REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
 (function installHook() {
   //no instance of React
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
     //should run loading animation here probably
-    return alert('Cannot find React library...')
+    return console.log('Cannot find React library...')
   } else {
-    //might need additional testing..renderers provides a list of all imported React instances
-    const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers
-    //grab the first instance of imported React library
-    const instance = reactInstances[Object.keys(reactInstances)[0]]
     console.log(instance)
     //hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       console.log(original)
-      return function (nextElement, container, callback) {
-        const result = original.apply(this, arguments)
-        //retreiveData method goes here
-        getData()
-        return result
+      return function (...args) {
+        //set a throttle to getData
+        if (!throttle) {
+          getData()
+          throttle = true
+          setTimeout(() => throttle = false, 1)
+        }
+        return original(...args)
       }
     })(instance.Reconciler.receiveComponent)
   }
 })()
 
 function getData(components = [], store = []) {
-  var reactRoot = document.querySelector("[data-reactroot]");
-  var vDOM = reactRoot[Object.getOwnPropertyNames(reactRoot)[0]];
-  var rootElement = vDOM._hostContainerInfo._topLevelWrapper._renderedComponent
-  recursiveTraverse(rootElement, components)
+  //define rootElement of virtual DOM
+  const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent
+  //recursively traverse down through props chain starting from root element
+  traverseAllChildren(rootElement, components)
   const data = { data: components, store: store }
   console.log('DATA...(getData.js): ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*')
 }
 
-const recursiveTraverse = (component, parentArr) => {
+const traverseAllChildren = (component, parentArr) => {
   // console.log('#recurTraverse component: ', component)
   // if no current element, return
   if (!component._currentElement) return
@@ -106,11 +110,11 @@ const recursiveTraverse = (component, parentArr) => {
   if (componentChildren) {
     const keys = Object.keys(componentChildren)
     keys.forEach(key => {
-      recursiveTraverse(componentChildren[key], newComponent.children)
+      traverseAllChildren(componentChildren[key], newComponent.children)
     })
   }
   else if (component._renderedComponent) {
-    recursiveTraverse(component._renderedComponent, newComponent.children)
+    traverseAllChildren(component._renderedComponent, newComponent.children)
   }
 }
 
