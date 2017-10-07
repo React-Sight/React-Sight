@@ -23,5 +23,5 @@
     "https://*/*",
     "file:///*"
   ],
-  "web_accessible_resources" : ["/js/traverse.js"]  
+  "web_accessible_resources": ["/backend/installHook.js"]
 }
