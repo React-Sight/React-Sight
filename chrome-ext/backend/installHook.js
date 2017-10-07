@@ -19,8 +19,8 @@ var throttle = false;
       return function (...args) {
         if (!throttle) {
           getData()
-          throttle = true
-          setTimeout(() => throttle = false, 0)
+          // throttle = true
+          // setTimeout(() => throttle = false, 0)
         }
         return original(...args)
       }
