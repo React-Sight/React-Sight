@@ -103,11 +103,13 @@ var svg = d3.select('.tree')
   .call(zoom)
   .append('g')
 
-  var transform = d3.zoomIdentity
-    .translate(width/2, height/4)
-    .scale(1)
+const xPos = width/2
+const yPos = height/6
+var transform = d3.zoomIdentity
+  .translate(xPos, yPos)
+  .scale(1)
 
-d3.select('svg').transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(width/2, height/4).scale(1))
+d3.select('svg').transition().duration(750).call(zoom.transform, transform)
 
 function zoomed() {
   svg.attr('transform', d3.event.transform)
@@ -217,7 +219,6 @@ function update(source) {
     .style('fill-opacity', 1e-6);
 
   // ****************** links section ***************************
-
   // Update the links...
   var link = svg.selectAll('path.link')
     .data(links, d => d.data.id);

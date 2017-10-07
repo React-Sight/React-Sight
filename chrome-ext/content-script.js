@@ -17,8 +17,7 @@ chrome.extension.onMessage.addListener((message, sender) => {
   listener is currently emitting anytime a new tab is open */
 })
 
-injectScript( chrome.extension.getURL('/js/traverse.js'), 'body');
-
+injectScript( chrome.extension.getURL('/backend/installHook.js'), 'body');
 /** function to inject traversal script into running tab's context */
 function injectScript(file, node) {
   var th = document.getElementsByTagName(node)[0];

@@ -1,104 +1,40 @@
-/// **************
-/// **** MAIN ****
-/// **************
-
-// Detect if NPM module is present
-var moduleDetection;
-
-if (window._REACTSIGHTATTACHED) moduleDetection = true;
-else moduleDetection = false;
-
-// Traverse the vDOM if NPM module is not detected
-if (!window._REACTSIGHTATTACHED) {
-
-  // GET the react components
-  var reactRoot = document.querySelector("[data-reactroot]");
-
-  // get the vDOM
-  var vDOM = reactRoot[Object.getOwnPropertyNames(reactRoot)[0]];
-
-  // go to top of vDOM
-  let topDOM;
-  toTheTop(vDOM);
-
-  console.log('****************');
-  console.log('I N J E C T E D  S C R I P T ');
-  console.log('N P M  M O D U L E  P R E S E N T ? ', window._REACTSIGHTATTACHED);
-  console.log('window', window);
-  console.log('ROOT', reactRoot);
-  console.log('vDOM: ', vDOM);
-  console.log('TOP', topDOM);
-  console.log('****************');
-
-  window.addEventListener('reactsight', e => {
-    vDomTraverse();
-    // setInterval(vDomTraverse, 2000);
-  });
-}
-
-// ###############
-// ## FUNCTIONS ##
-// ###############
-
-/** Traverse React entry point to top most container */
-function toTheTop(component) {
-  if (component._currentElement) {
-    if (component._currentElement._owner) {
-      topDOM = component._currentElement._owner
-      toTheTop(component._currentElement._owner)
-    }
+//locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
+//__REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
+(function installHook() {
+  //no instance of React
+  if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+    //should run loading animation here probably
+    return alert('Cannot find React library...')
+  } else {
+    //might need additional testing..renderers provides a list of all imported React instances
+    const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers
+    //grab the first instance of imported React library
+    const instance = reactInstances[Object.keys(reactInstances)[0]]
+    console.log(instance)
+    //hijack receiveComponent method which runs after a component is rendered
+    instance.Reconciler.receiveComponent = (function (original) {
+      console.log(original)
+      return function (nextElement, container, callback) {
+        const result = original.apply(this, arguments)
+        //retreiveData method goes here
+        getData()
+        return result
+      }
+    })(instance.Reconciler.receiveComponent)
   }
-}
+})()
 
-/** Traverse's React's virtual DOM */
-function vDomTraverse(components = []) {
-  console.log('#vDomTraverse')
-  // const dom = this._reactInternalInstance._renderedComponent._renderedChildren['.0']
-  recursiveTraverse(topDOM, components)
-  const data = { data: components, store: this.store }
-  console.log('$$$$$$$$$$$$$$$$$$')
-  console.log('SENDING: ', data)
-  console.log('$$$$$$$$$$$$$$$$$$')
+function getData(components = [], store = []) {
+  var reactRoot = document.querySelector("[data-reactroot]");
+  var vDOM = reactRoot[Object.getOwnPropertyNames(reactRoot)[0]];
+  var rootElement = vDOM._hostContainerInfo._topLevelWrapper._renderedComponent
+  recursiveTraverse(rootElement, components)
+  const data = { data: components, store: store }
+  console.log('DATA...(getData.js): ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*')
 }
 
-function parseProps(currentComponent) {
-  let newProps = {}
-  for (let key in currentComponent) {
-    if (typeof currentComponent[key] === 'function') {
-      newProps[key] = '' + currentComponent[key]
-    }
-    else if (key === 'children') {
-      newProps[key] = new currentComponent[key].constructor
-      if (Array.isArray(currentComponent[key])) {
-        currentComponent[key].forEach(child => {
-          if (typeof child === 'undefined') return
-          let name;
-          if (child) {
-            name = child
-            if (child.type) {
-              name = child.type
-              if (child.type.name) {
-                name = child.type.name
-              }
-            }
-          }
-          newProps[key].push(name)
-        })
-      } else {
-        newProps[key].name = currentComponent[key].type && currentComponent[key].type.name
-      }
-    } else if (typeof currentComponent[key] === 'object') {
-      newProps[key] = currentComponent[key]
-    } else {
-      newProps[key] = currentComponent[key]
-    }
-  }
-  return newProps
-}
-
-/** Recursively goes through each React / DOM node */
-function recursiveTraverse(component, parentArr) {
+const recursiveTraverse = (component, parentArr) => {
   // console.log('#recurTraverse component: ', component)
   // if no current element, return
   if (!component._currentElement) return
@@ -176,4 +112,39 @@ function recursiveTraverse(component, parentArr) {
   else if (component._renderedComponent) {
     recursiveTraverse(component._renderedComponent, newComponent.children)
   }
-};
+}
+
+parseProps = (currentComponent) => {
+    let newProps = {}
+    for (let key in currentComponent) {
+      if (typeof currentComponent[key] === 'function') {
+        newProps[key] = '' + currentComponent[key]
+      }
+      else if (key === 'children') {
+        newProps[key] = new currentComponent[key].constructor
+        if (Array.isArray(currentComponent[key])) {
+          currentComponent[key].forEach(child => {
+            if (typeof child === 'undefined') return
+            let name;
+            if (child) {
+              name = child
+              if (child.type) {
+                name = child.type
+                if (child.type.name) {
+                  name = child.type.name
+                }
+              }
+            }
+            newProps[key].push(name)
+          })
+        } else {
+          newProps[key].name = currentComponent[key].type && currentComponent[key].type.name
+        }
+      } else if (typeof currentComponent[key] === 'object') {
+        newProps[key] = currentComponent[key]
+      } else {
+        newProps[key] = currentComponent[key]
+      }
+    }
+    return newProps
+  }
