@@ -20,7 +20,7 @@ var throttle = false;
         if (!throttle) {
           getData()
           throttle = true
-          setTimeout(() => throttle = false, 1)
+          setTimeout(() => throttle = false, 0)
         }
         return original(...args)
       }
