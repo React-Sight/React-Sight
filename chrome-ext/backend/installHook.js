@@ -46,7 +46,9 @@ const traverseAllChildren = (component, parentArr) => {
   // console.log(parentArr)
   // if no current element, return
   if (!component._currentElement) return
+
   // console.log('current component: ', component)
+
   const newComponent = {
     children: [],
     id: component._debugID,
@@ -57,13 +59,12 @@ const traverseAllChildren = (component, parentArr) => {
     key: null,
     type: null,
   };
-  //Get type
+  
+  // Get type
   if (!newComponent.type && component.constructor && component.constructor.name) {
     newComponent.type = component.constructor.name
   }
-  // if (newComponent.name === 'ReactDOMTextComponent') {
-  //  Account for Text nodes..
-  // }
+
   // Get Name
   if (component._currentElement.type) {
     // check for displayName or name

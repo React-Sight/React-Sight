@@ -13,31 +13,17 @@ var margin = { top: 100, right: 100, bottom: 100, left: 100 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
-// append the svg object to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-
-// slider
-
-// was the slider used?
-d3.select("#vSlider").on("input", () => {
-  let val = document.querySelector('#vSlider').value
-  vSlider = val
-  update()
-});
-
-d3.select("#hSlider").on("input", () => {
-  let val = document.querySelector('#hSlider').value
-  hSlider = val
-  update()
-});
-
-
 var zoom = d3.zoom()
   .scaleExtent([0.05, 2])
   .on("zoom", zoomed);
 
-console.log('# appending Tree')
+const xPos = width / 2
+const yPos = height / 6
+
+var transform = d3.zoomIdentity
+  .translate(xPos, yPos)
+  .scale(1)
+
 var svg = d3.select('.tree')
   .append("div")
   .classed("svg-container", true) //container class to make it responsive
@@ -50,17 +36,22 @@ var svg = d3.select('.tree')
   .call(zoom)
   .append('g')
 
-const xPos = width / 2
-const yPos = height / 6
-var transform = d3.zoomIdentity
-  .translate(xPos, yPos)
-  .scale(1)
+d3.select("#vSlider").on("input", () => {
+  let val = document.querySelector('#vSlider').value
+  vSlider = val
+  update()
+});
 
-d3.select('svg').transition().duration(750).call(zoom.transform, transform)
+d3.select("#hSlider").on("input", () => {
+  let val = document.querySelector('#hSlider').value
+  hSlider = val
+  update()
+});
+
+d3.select('svg').transition().duration(1).call(zoom.transform, transform)
 
 function zoomed() {
   svg.attr('transform', d3.event.transform)
-  // slider.property('value', d3.event.scale)
 }
 
 function update(source) {
