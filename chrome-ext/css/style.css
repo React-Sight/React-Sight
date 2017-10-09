@@ -227,11 +227,3 @@
 #sidebar-reactsight {
   border: 1px solid black;
 }
-
-#tree-reactsight {
-}
-
-.node circle {
-  stroke: black;
-  stroke-width: 1px;
-}
