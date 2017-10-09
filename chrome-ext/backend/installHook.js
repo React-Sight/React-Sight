@@ -33,7 +33,7 @@ var throttle = false;
 const getData = (components = [], store = []) => {
   //define rootElement of virtual DOM
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
-  // console.log('rootElement: ', rootElement)
+  console.log('rootElement: ', rootElement)
   //recursively traverse down through props chain   starting from root element
   traverseAllChildren(rootElement, components);
   const data = { data: components, store: store }
@@ -41,8 +41,9 @@ const getData = (components = [], store = []) => {
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
 
-const traverseAllChildren = (component, parentArr, sightID = 0) => {
-  console.log('#recurTraverse component: ', component)
+const traverseAllChildren = (component, parentArr) => {
+  console.log('currentComponent: ', component)
+  // console.log(parentArr)
   // if no current element, return
   if (!component._currentElement) return
 
@@ -97,52 +98,46 @@ const traverseAllChildren = (component, parentArr, sightID = 0) => {
   if (componentChildren) {
     const keys = Object.keys(componentChildren)
     keys.forEach(key => {
-      traverseAllChildren(componentChildren[key], newComponent.children, sightID)
+      traverseAllChildren(componentChildren[key], newComponent.children)
     })
   }
   else if (component._renderedComponent) {
-    traverseAllChildren(component._renderedComponent, newComponent.children, sightID)
+    traverseAllChildren(component._renderedComponent, newComponent.children)
   }
 }
 
 const parseProps = (props) => {
-  //only parse props of current component and not its children
-  const parsedProps = {};
-  for (let key in props) {
-    if (typeof props[key] === 'function') {
-      parsedProps[key] = '' + props[key]
-    } else if (key === 'children') {
-      if (!props[key]) parsedProps[key] = null;
-      else if (Array.isArray(props[key])) {
-        parsedProps[key] = new props[key].constructor;
+  if (!props) return;
+  //check if current props has PROPS property..don't traverse further just grab name property
+  if (props.hasOwnProperty('props')) {
+    if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
+    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
+    else return;
+  } else {
+    //instantiate return value
+    let parsedProps = {};
+    for (let key in props) {
+      //stringify methods
+      if (typeof props[key] === 'function') {
+        parsedProps[key] = '' + props[key]
+      } else if (Array.isArray(props[key])) {
+        //parseProps forEach element
+        parsedProps[key] = [];
         props[key].forEach(child => {
-          if (typeof child === 'undefined') return;
-          let name = null;
-          if (child) {
-            name = child
-            if (child.type) {
-              name = child.type
-              if (child.type.name) {
-                name = child.type.name
-              }
-            }
-          }
-          parsedProps[key].push(name)
+          parsedProps[key].push(parseProps(child))
         })
-      } else if (typeof props[key] === 'string') {
-        parsedProps[key] = props[key]
+      } else if (typeof props[key] === 'object') {
+        //handle custom objects and components with one child
+        parsedProps[key] = parseProps(props[key])
       } else {
-        if (props[key].type.displayName) parsedProps[key] = props[key].type.displayName;
-        else if (props[key].type.name) parsedProps[key] = props[key].type.name;
+        //handle text nodes and other random values
+        parsedProps[key] = props[key]
       }
-    } else if (typeof props[key] === 'object' && key !== 'children') {
-      parsedProps[key] = parseProps(props[key])
-    } else {
-      parsedProps[key] = props[key]
     }
+    return parsedProps
   }
-  return parsedProps
 }
+
 //listener for initial load
 window.addEventListener('reactsight', e => {
   getData()
