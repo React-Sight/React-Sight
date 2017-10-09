@@ -4,11 +4,19 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
+ body, html {
+   height: 100%;
+   width: 100%;
+   padding: 0;
+   margin: 0;
+  }
+
+
  body {
   overflow-x: hidden;
-  color: white;
+  color: black;
   font-family: "Arial", Helvetica, sans-serif;
-  background-color: #20232c;
+  /* background-color: #20232c; */
  }
 
 /* Sidebar Styles */
@@ -36,8 +44,8 @@
 
 .sidebar-nav li a:hover {
   text-decoration: none;
-  color: #fff;
-  background: rgba(255,255,255,0.2);
+  color: black;
+  /* background: rgba(255,255,255,0.2); */
 }
 
 .sidebar-nav li a:active,
@@ -53,11 +61,6 @@
 
 .sidebar-nav > .sidebar-brand a {
   color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none;
 }
 
 @media(min-width:768px) {
@@ -90,7 +93,9 @@
 
 /* D3 Properties */
 .tree {
+  border: 1px solid black;  
   background-color: #fff;
+  border-radius: 20px;  
 }
 
 .node circle {
@@ -162,7 +167,7 @@
 
 #state, #props {
   font-family: Courier New, Courier, monospace;
-  color: white;
+  color: black;
 }
 
 .range-slider {
@@ -191,7 +196,7 @@
 }
 
 .loading {
-  background-color:#20232c;
+  /* background-color:#20232c; */
   height: 100%;
 }
 
@@ -224,7 +229,6 @@
 }
 
 #tree-reactsight {
-  border: 1px solid blue;
 }
 
 .node circle {
