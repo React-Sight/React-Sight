@@ -1,6 +1,10 @@
 import * as d3 from 'd3'
 import JSONFormatter from 'json-formatter-js'
 
+// ************
+// *** Main ***
+// ************
+
 var i = 0
 var duration = 500
 var root
@@ -49,6 +53,10 @@ d3.select("#hSlider").on("input", () => {
 });
 
 d3.select('svg').transition().duration(1).call(zoom.transform, transform)
+
+// *************
+// * Functions *
+// *************
 
 function zoomed() {
   svg.attr('transform', d3.event.transform)
