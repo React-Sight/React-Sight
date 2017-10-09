@@ -27,13 +27,15 @@ const draw = () => {
   drawVBox(datas.data[0])
 }
 
+/**
+ *  Prepends a loading screen to the tree DIV
+ */
 const loadingScreen = () => {
-  $('.tree').append(
+  $('.tree').prepend(
     `<div class='loading'>
       <h1><img id='loadericon' src='./asset/loaderimage.gif'> Waiting For Data</h1>
       <h6>If this is taking more than a few seconds, try refreshing your React application or referring back to the set up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.<h6>
     </div>`
-
   )
 }
 // ****************
@@ -47,7 +49,7 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
 
-  loadingScreen()
+  loadingScreen();
 
   Split(['#one', '#two'], {
     sizes: [20, 75],
