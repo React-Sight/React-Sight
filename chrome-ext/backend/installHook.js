@@ -42,10 +42,12 @@ const getData = (components = [], store = []) => {
 };
 
 const traverseAllChildren = (component, parentArr, sightID = 0) => {
-  // console.log('#recurTraverse component: ', component)
+  console.log('#recurTraverse component: ', component)
   // if no current element, return
   if (!component._currentElement) return
+
   // console.log('current component: ', component)
+
   const newComponent = {
     children: [],
     id: component._debugID,
@@ -56,13 +58,12 @@ const traverseAllChildren = (component, parentArr, sightID = 0) => {
     key: null,
     type: null,
   };
-  //Get type
+  
+  // Get type
   if (!newComponent.type && component.constructor && component.constructor.name) {
     newComponent.type = component.constructor.name
   }
-  // if (newComponent.name === 'ReactDOMTextComponent') {
-  //  Account for Text nodes..
-  // }
+
   // Get Name
   if (component._currentElement.type) {
     // check for displayName or name
