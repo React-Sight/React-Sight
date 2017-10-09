@@ -289,3 +289,25 @@
 .breadcrumb {
   font-size: 13
 }
+
+.json-formatter-string {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.2em;
+  max-height: 1.2em;
+  text-align: justify;
+  max-width: 62%;
+  margin-right: -1em;
+  padding-right: 1em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.json-formatter-string:hover {
+  max-height: 100%;
+  overflow: visible;
+  vertical-align: top;
+  font-style: italic;
+}

@@ -32,7 +32,7 @@ const updatePanelRev = (state, props) => {
   // props
   const propsFomatter = new JSONFormatter(props, 1, {
     hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
+    hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
     theme: 'dark',
     animateOpen: true,
@@ -53,18 +53,6 @@ const updatePanelRev = (state, props) => {
   } else {
     propsNode.appendChild(propsFomatter.render())
   }
-
-  $.each($('.json-formatter-string'), (index, val) => {
-    let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
-      $(val).text("fn()")
-      $(val).hover(function () {
-        $(this).text(text)
-      }, function () {
-        $(this).text("fn()")
-      })
-    }
-  })
 }
 
 // append the svg object to the body of the page
