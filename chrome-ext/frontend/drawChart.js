@@ -17,16 +17,83 @@ var margin = { top: 100, right: 100, bottom: 100, left: 100 }
 var width = 1000 - margin.right - margin.left
 var height = 960 - margin.top - margin.bottom
 
+/** Update the state/ props for a selected node */
+const updatePanelRev = (state, props) => {
+  console.log('update panel')
+  const stateNode = document.getElementById('state')
+  const propsNode = document.getElementById('props')
+
+  // state
+  const stateFormatter = new JSONFormatter(state, 1, {
+    hoverPreviewEnabled: false,
+    hoverPreviewArrayCount: 10,
+    hoverPreviewFieldCount: 5,
+    theme: 'dark',
+    animateOpen: true,
+    animateClose: true
+  })
+
+  // props
+  const propsFomatter = new JSONFormatter(props, 1, {
+    hoverPreviewEnabled: false,
+    hoverPreviewArrayCount: 100,
+    hoverPreviewFieldCount: 5,
+    theme: 'dark',
+    animateOpen: true,
+    animateClose: true
+  })
+
+  stateNode.innerHTML = ''
+  propsNode.innerHTML = ''
+
+  if (state == null || state == undefined) {
+    stateNode.appendChild(document.createTextNode('None'))
+  } else {
+    stateNode.appendChild(stateFormatter.render())
+  }
+
+  if (props == null || props == undefined) {
+    propsNode.appendChild(document.createTextNode('None'))
+  } else {
+    propsNode.appendChild(propsFomatter.render())
+  }
+
+  $.each($('.json-formatter-string'), (index, val) => {
+    let text = $(val).text()
+    if (text.slice(1, 9) === 'function') {
+      $(val).text("fn()")
+      $(val).hover(function () {
+        $(this).text(text)
+      }, function () {
+        $(this).text("fn()")
+      })
+    }
+  })
+}
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+
+// slider
+
+// was the slider used?
+d3.select("#vSlider").on("input", () => {
+  let val = document.querySelector('#vSlider').value
+  vSlider = val
+  update()
+});
+
+d3.select("#hSlider").on("input", () => {
+  let val = document.querySelector('#hSlider').value
+  hSlider = val
+  update()
+});
+
+
 var zoom = d3.zoom()
   .scaleExtent([0.05, 2])
   .on("zoom", zoomed);
-
-const xPos = width / 2
-const yPos = height / 6
-
-var transform = d3.zoomIdentity
-  .translate(xPos, yPos)
-  .scale(1)
 
 var svg = d3.select('.tree')
   .append("div")
@@ -40,19 +107,13 @@ var svg = d3.select('.tree')
   .call(zoom)
   .append('g')
 
-d3.select("#vSlider").on("input", () => {
-  let val = document.querySelector('#vSlider').value
-  vSlider = val
-  update()
-});
+const xPos = width / 2
+const yPos = height / 6
+var transform = d3.zoomIdentity
+  .translate(xPos, yPos)
+  .scale(1)
 
-d3.select("#hSlider").on("input", () => {
-  let val = document.querySelector('#hSlider').value
-  hSlider = val
-  update()
-});
-
-d3.select('svg').transition().duration(1).call(zoom.transform, transform)
+d3.select('svg').transition().duration(750).call(zoom.transform, transform)
 
 // *************
 // * Functions *
@@ -60,6 +121,7 @@ d3.select('svg').transition().duration(1).call(zoom.transform, transform)
 
 function zoomed() {
   svg.attr('transform', d3.event.transform)
+  // slider.property('value', d3.event.scale)
 }
 
 function update(source) {
@@ -123,7 +185,13 @@ function update(source) {
     .attr('r', 5)
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
-    .on('mouseover', (d) => {
+
+    .on("mouseover", function (d) {
+      d3.select(this)
+        .style("stroke-width", 5)
+        .style("stroke", "red");
+
+
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
         if ($(val).text() === d.data.name) {
@@ -135,6 +203,15 @@ function update(source) {
         }
       })
     })
+
+    .on("mouseout", function () {
+      d3.select(this)
+        .style("stroke-width", 1)
+        .style("stroke", "black");
+    })
+
+
+
 
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -212,59 +289,11 @@ export function drawChart(treeData) {
   root.y0 = 0;
   update(root);
 
+  // const loadingdiv = document.querySelector('.loading')
+  // const tree = document.querySelector('.tree')
+  // // // loadingdiv.innerHTML = ""
+  // tree.classList.remove("loading");
+
   $('.loading').remove()
-}
-
-/** Update the state/ props for a selected node */
-function updatePanelRev(state, props) {
-  console.log('update panel')
-  const stateNode = document.getElementById('state')
-  const propsNode = document.getElementById('props')
-
-  // state
-  const stateFormatter = new JSONFormatter(state, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 10,
-    hoverPreviewFieldCount: 5,
-    // theme: 'dark',
-    animateOpen: true,
-    animateClose: true
-  })
-
-  // props
-  const propsFomatter = new JSONFormatter(props, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
-    hoverPreviewFieldCount: 5,
-    // theme: 'dark',
-    animateOpen: true,
-    animateClose: true
-  })
-
-  stateNode.innerHTML = ''
-  propsNode.innerHTML = ''
-
-  if (state == null || state == undefined) {
-    stateNode.appendChild(document.createTextNode('None'))
-  } else {
-    stateNode.appendChild(stateFormatter.render())
-  }
-
-  if (props == null || props == undefined) {
-    propsNode.appendChild(document.createTextNode('None'))
-  } else {
-    propsNode.appendChild(propsFomatter.render())
-  }
-
-  $.each($('.json-formatter-string'), (index, val) => {
-    let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
-      $(val).text("fn()")
-      $(val).hover(function () {
-        $(this).text(text)
-      }, function () {
-        $(this).text("fn()")
-      })
-    }
-  })
+  console.log("deleted")
 }
