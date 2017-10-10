@@ -230,7 +230,7 @@ function recur16(node, parentArr) {
     state: null,
     props: null,
     id: null,
-    type: null,
+    isDOM: null,
   }
 
   // get ID
