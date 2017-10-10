@@ -42,7 +42,7 @@ const getData = (components = [], store = []) => {
 };
 
 const traverseAllChildren = (component, parentArr) => {
-  console.log('currentComponent: ', component)
+  // console.log('currentComponent: ', component)
   // console.log(parentArr)
   // if no current element, return
   if (!component._currentElement) return
@@ -51,7 +51,7 @@ const traverseAllChildren = (component, parentArr) => {
 
   const newComponent = {
     children: [],
-    id: component._debugID,
+    id: undefined,
     name: 'default',
     state: null,
     props: null,
@@ -60,6 +60,16 @@ const traverseAllChildren = (component, parentArr) => {
     type: null,
   };
   
+  // Get ID -> DO NOT REMOVE
+  if (component._domID) {
+    newComponent.id = component._domID
+    newComponent.isDOM = true;
+  }
+  else {
+    newComponent.id = component._mountOrder * 100
+    newComponent.isDOM = false;
+  }
+
   // Get type
   if (!newComponent.type && component.constructor && component.constructor.name) {
     newComponent.type = component.constructor.name
