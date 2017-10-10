@@ -134,14 +134,8 @@ function update(source) {
         .style("stroke", "black");
       d3.select(this)
         .style("stroke-width", 5)
-<<<<<<< HEAD
-          .style("stroke", "red");
-      selectedNode = d.data.id
-=======
         .style("stroke", "#754abb");
-
-
->>>>>>> b63a6ab9defcec8f68c365685333d3c7aa94af1f
+      selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
         if ($(val).text() === d.data.name) {
@@ -153,21 +147,6 @@ function update(source) {
         }
       })
     })
-<<<<<<< HEAD
-    .on("mouseout", function () {
-      d3.select(this)
-        .style("stroke-width", 1)
-        .style("stroke", "black");
-    });
-=======
-
-  // .on("mouseout", function () {
-  //   d3.select(this)
-  //     .style("stroke-width", 1)
-  //     .style("stroke", "black");
-  // })
->>>>>>> b63a6ab9defcec8f68c365685333d3c7aa94af1f
-
   // Add labels for the nodes
   nodeEnter.append('text')
     .attr('dy', '.35em')
