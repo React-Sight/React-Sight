@@ -57,7 +57,7 @@ const traverseAllChildren = (component, parentArr) => {
     key: null,
     type: null,
   };
-  
+
   // Get ID -> DO NOT REMOVE
   if (component._domID) {
     newComponent.id = component._domID
@@ -114,46 +114,15 @@ const traverseAllChildren = (component, parentArr) => {
   }
 }
 
-// const parseProps = (props) => {
-//   if (!props) return;
-//   //check if current props has PROPS property..don't traverse further just grab name property
-//   if (props.hasOwnProperty('props')) {
-//     if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
-//     else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
-//     else return;
-//   } else {
-//     //instantiate return value
-//     let parsedProps = {};
-//     for (let key in props) {
-//       //stringify methods
-//       if (typeof props[key] === 'function') {
-//         parsedProps[key] = '' + props[key]
-//       } else if (Array.isArray(props[key])) {
-//         //parseProps forEach element
-//         parsedProps[key] = [];
-//         props[key].forEach(child => {
-//           parsedProps[key].push(parseProps(child))
-//         })
-//       } else if (typeof props[key] === 'object') {
-//         //handle custom objects and components with one child
-//         parsedProps[key] = parseProps(props[key])
-//       } else {
-//         //handle text nodes and other random values
-//         parsedProps[key] = props[key]
-//       }
-//     }
-//     return parsedProps
-//   }
-// }
-
 const parseProps = (props) => {
   if (!props) return;
   if (typeof props !== 'object') return props
   //check if current props has PROPS property..don't traverse further just grab name property
   if (props.hasOwnProperty('props')) {
-    if (!props.hasOwnProperty('type')) return '' + props.type
-    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name || props.type
-    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName || props.type
+    if (!props.hasOwnProperty('type')) return;
+    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name
+    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName
+    else if (props.hasOwnProperty('type')) return '' + props.type
   } else {
     let parsedProps = {};
     for (let key in props) {
