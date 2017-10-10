@@ -3,7 +3,7 @@
  * Shared between all filters
  */
 const recurFilter = (node, parentArr, filter) => {
-  if (node.name == undefined) return
+  if (node.name == undefined) return;
   const newObj = {
     name: node.name,
     children: [],
@@ -12,7 +12,7 @@ const recurFilter = (node, parentArr, filter) => {
     state: node.state,
     methods: node.methods,
     isDOM: node.isDOM
-  }
+  };
 
   if (filter.includes(node.name)) {
     node.children.forEach(child => {
@@ -28,7 +28,7 @@ const recurFilter = (node, parentArr, filter) => {
 }
 
 const domFilter = (node, parentArr) => {
-  if (node.name == undefined) return
+  if (node.name == undefined) return;
   const newObj = {
     name: node.name,
     children: [],
@@ -37,7 +37,7 @@ const domFilter = (node, parentArr) => {
     state: node.state,
     methods: node.methods,
     isDOM: node.isDOM    
-  }
+  };
 
   if (node.isDOM) {
     node.children.forEach(child => {
@@ -54,24 +54,24 @@ const domFilter = (node, parentArr) => {
 
 /** Removes Redux components from tree */
 export function filterRedux(data) {
-  const filtered = { data: [] }
+  const filtered = { data: [] };
   const names = ['Provider', 'Connect'];
-  recurFilter(data.data[0], filtered.data, names)
+  recurFilter(data.data[0], filtered.data, names);
   return filtered;
 }
 
 /** Removes ReactRouter v4 components from JSON */
 export function filterRouter(data) {
-  const filtered = { data: [] }
+  const filtered = { data: [] };
   const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
-  recurFilter(data.data[0], filtered.data, names)
+  recurFilter(data.data[0], filtered.data, names);
   return filtered;
 }
 
 /** Removes Basic DOM components from tree */
 export function filterDOM(data) {
-  const filtered = { data: [] }
+  const filtered = { data: [] };
   const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img', 'form'];
-  domFilter(data.data[0], filtered.data)
+  domFilter(data.data[0], filtered.data);
   return filtered;
 }
