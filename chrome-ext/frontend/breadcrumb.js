@@ -3,18 +3,33 @@ const drawVBox = (data) => {
   getNodeNames(data, nodeNames)
   let nodes = Object.keys(nodeNames)
   let breadcrumbSteps = []
-  $.each(nodes, (index, node) => {
-    return nodeNames[node] == 1 ?
-      breadcrumbSteps.push(`<a class="breadcrumb-item" href="#">${node}</a>`)
-      : breadcrumbSteps.push(`<a class="breadcrumb-item" href="#">${node}[${nodeNames[node]}]</a>`)
-  })
-  $('.breadcrumb').html(breadcrumbSteps)
+
+  nodes.forEach((node, index) => {
+    const anchor = document.createElement('a');
+    anchor.setAttribute('class', 'breadcrumb-item');
+    anchor.setAttribute('href', '#');
+
+    if (nodeNames[node] === 1) {
+      var anchorText = document.createTextNode(`${node}`);
+    }
+    else {
+      var anchorText = document.createTextNode(`${node}[${nodeNames[node]}]`);
+    }
+
+    anchor.appendChild(anchorText);
+    breadcrumbSteps.push(anchor);
+  });
+  const breadcrumb = document.querySelector('.breadcrumb');
+
+  breadcrumbSteps.forEach(node => {
+    breadcrumb.appendChild(node);
+  });
 }
 
 const getNodeNames = (data, object) => {
   if (!data.name) return
   if (!data.isDOM) {
-    object[data.name] = (object[data.name] || 0) +1
+    object[data.name] = (object[data.name] || 0) + 1
   }
   if (!data.children.length) return
   else {
