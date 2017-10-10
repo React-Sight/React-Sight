@@ -5,7 +5,7 @@ const drawStore = (data) => {
   if (Object.keys(data).length) {
     const storeNode = document.getElementById('store')
     storeNode.innerHTML = ''
-    const storeFormatter = new JSONFormatter(data, 1, {
+    const storeFormatter = new JSONFormatter(data, 0, {
       hoverPreviewEnabled: false,
       hoverPreviewArrayCount: 10,
       hoverPreviewFieldCount: 10,
