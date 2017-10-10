@@ -199,7 +199,7 @@ function traverse16(components = []) {
   recur16(fiberDOM.current.stateNode.current, components);
   let data = { data: components };
   data.data = data.data[0].children;
-  console.log('retrieved data --> posting to content-scripts...: ', data)
+  // console.log('retrieved data --> posting to content-scripts...: ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 }
 
@@ -209,7 +209,7 @@ function traverse16(components = []) {
  *
  */
 function recur16(node, parentArr) {
-  console.log('#recur16', node);
+  // console.log('#recur16', node);
   const newComponent = {
     name: '',
     children: [],
@@ -283,6 +283,6 @@ function props16(node) {
 
     else props[prop] = node.memoizedProps[prop];
   });
-  console.log('the props', props);
+  // console.log('the props', props);
   return props;
 }
