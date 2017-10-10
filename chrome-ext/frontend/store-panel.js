@@ -10,7 +10,6 @@ const drawStore = (data) => {
     if (previousStore) {
       previousStore._isOpen ? isOpen = 1 : isOpen = 0;
     }
-    console.log(previousStore, isOpen)
     let storeFormatter = new JSONFormatter(data, isOpen, {
       hoverPreviewEnabled: false,
       hoverPreviewArrayCount: 5,

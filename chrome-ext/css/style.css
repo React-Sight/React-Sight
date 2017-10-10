@@ -177,7 +177,7 @@
 .range-slider {
   width: 100%;
   -webkit-appearance: none;
-  height: 10px;
+  height: 5px;
   border-radius: 5px;
   background: #d7dcdf;
   outline: none;
@@ -186,8 +186,8 @@
 .range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
           appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #61dafb;
   cursor: pointer;
@@ -223,11 +223,11 @@
   position: absolute;
   top: 10px;
   left: 0;
-  height: 100%
+  height: 100%;
 }
 
 .breadcrumb {
-  font-size: 13
+  font-size: 13;
 }
 
 #sidebar-reactsight {
@@ -236,19 +236,18 @@
 }
 
 h5, h2 {
-  font-size: 26px;
+  font-size: 1.5em;
   color: #222222;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   letter-spacing: -1px;
   margin: 0 0 15px 0;
-  text-align: center;
 }
 
 p {
-    color: #222222;
-    letter-spacing: -1px;
-    margin: 0 0 15px 0;
+  color: #222222;
+  letter-spacing: -1px;
+  margin: 0 0 15px 0;
 }
 
 .col-md-8 {
@@ -266,10 +265,10 @@ p {
 }
 
 .svgnavbar {
-    position: absolute;
-    top: 0px;
-    right: 20;
-    z-index: 10;
-    background-color: white;
-    margin: 10px;
+  position: absolute;
+  top: 0px;
+  right: 20;
+  z-index: 10;
+  background-color: white;
+  margin: 10px;
 }

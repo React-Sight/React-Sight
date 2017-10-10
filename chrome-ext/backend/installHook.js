@@ -195,8 +195,9 @@ window.addEventListener('reactsight', e => {
  * */
 function traverse16(components = []) {
   // console.log('#traverse16 vDOM: ', fiberDOM);
+  console.log('rootEL: ', fiberDOM.current.stateNode.current)
   recur16(fiberDOM.current.stateNode.current, components);
-  let data = { data: components };
+  let data = { data: components, store: store };
   data.data = data.data[0].children;
   console.log('retrieved data --> posting to content-scripts...: ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
@@ -239,6 +240,12 @@ function recur16(node, parentArr) {
   // get props
   if (node.memoizedProps) newComponent.props = props16(node)
 
+  //get store
+  if (node.type && node.type.propTypes) {
+    if (node.type.propTypes.hasOwnProperty('store')) {
+      store = node.stateNode.store.getState()
+    }
+  }
   newComponent.children = [];
   parentArr.push(newComponent);
   if (node.child != null) recur16(node.child, newComponent.children);
@@ -255,7 +262,7 @@ function props16(node) {
 
   keys.forEach(prop => {
     if (typeof node.memoizedProps[prop] === 'function') {
-      props[prop] = '' + node.memoizedProps[prop];
+      props[prop] = parseFunction(node.memoizedProps[prop]);
     }
 
     // TODO - get these objects to work, almost always children property
