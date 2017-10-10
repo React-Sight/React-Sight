@@ -4,7 +4,16 @@
  */
 const recurFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return
-  const newObj = { name: node.name, children: [], id: node.id, props: node.props, state: node.state, methods: node.methods }
+  const newObj = {
+    name: node.name,
+    children: [],
+    id: node.id,
+    props: node.props,
+    state: node.state,
+    methods: node.methods,
+    isDOM: node.isDOM
+  }
+
   if (filter.includes(node.name)) {
     node.children.forEach(child => {
       recurFilter(child, parentArr, filter);
@@ -14,6 +23,31 @@ const recurFilter = (node, parentArr, filter) => {
     parentArr.push(newObj);
     node.children.forEach(child => {
       recurFilter(child, newObj.children, filter);
+    });
+  }
+}
+
+const domFilter = (node, parentArr) => {
+  if (node.name == undefined) return
+  const newObj = {
+    name: node.name,
+    children: [],
+    id: node.id,
+    props: node.props,
+    state: node.state,
+    methods: node.methods,
+    isDOM: node.isDOM    
+  }
+
+  if (node.isDOM) {
+    node.children.forEach(child => {
+      domFilter(child, parentArr);
+    });
+  }
+  else {
+    parentArr.push(newObj);
+    node.children.forEach(child => {
+      domFilter(child, newObj.children);
     });
   }
 }
@@ -38,6 +72,6 @@ export function filterRouter(data) {
 export function filterDOM(data) {
   const filtered = { data: [] }
   const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img', 'form'];
-  recurFilter(data.data[0], filtered.data, names)
+  domFilter(data.data[0], filtered.data)
   return filtered;
 }
