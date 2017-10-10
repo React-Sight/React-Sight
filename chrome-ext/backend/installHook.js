@@ -119,7 +119,8 @@ const parseProps = (props) => {
   if (typeof props !== 'object') return props
   //check if current props has PROPS property..don't traverse further just grab name property
   if (props.hasOwnProperty('props')) {
-    if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name
+    if (!props.hasOwnProperty('type')) return;
+    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name
     else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName
     else if (props.hasOwnProperty('type')) return '' + props.type
   } else {
