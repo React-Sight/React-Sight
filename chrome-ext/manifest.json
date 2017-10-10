@@ -12,16 +12,26 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content-script.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content-script.js"
+      ]
     }
   ],
-
+  "icons": {
+    "16": "asset/icon16.png",
+    "48": "asset/icon48.png",
+    "128": "asset/icon128.png"
+  },
   "permissions": [
     "tabs",
     "http://*/*",
     "https://*/*",
     "file:///*"
   ],
-  "web_accessible_resources": ["/backend/installHook.js"]
+  "web_accessible_resources": [
+    "/backend/installHook.js"
+  ]
 }
