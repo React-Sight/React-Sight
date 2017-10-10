@@ -6,8 +6,8 @@ const reactRoot = window.document.body.childNodes;
 const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
 //grab the first instance of imported React library
-console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
-console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
+// console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
+// console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
 
 var rootNode;
 var throttle = false;
@@ -22,7 +22,7 @@ var store;
 (function installHook() {
   //no instance of React
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-    return console.log('Cannot find React library...');
+    return
   }
   if (instance.version) {
     version = instance.version;
@@ -195,7 +195,6 @@ window.addEventListener('reactsight', e => {
  * */
 function traverse16(components = []) {
   // console.log('#traverse16 vDOM: ', fiberDOM);
-  console.log('rootEL: ', fiberDOM.current.stateNode.current)
   recur16(fiberDOM.current.stateNode.current, components);
   let data = { data: components, store: store };
   data.data = data.data[0].children;

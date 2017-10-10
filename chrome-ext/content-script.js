@@ -3,7 +3,6 @@ window.addEventListener('message', e => {
   if (e.source !== window) return
   //send message to background
   chrome.extension.sendMessage(e.data, function () {
-    console.log('**Content-scripts** received data sending to devtools...', e.data)
   })
 });
 
