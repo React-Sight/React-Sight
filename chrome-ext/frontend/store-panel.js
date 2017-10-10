@@ -1,6 +1,7 @@
 import JSONFormatter from 'json-formatter-js';
 
 const drawStore = (data) => {
+  if (!data) return;
   if (Object.keys(data).length) {
     const storeNode = document.getElementById('store');
     storeNode.innerHTML = '';
