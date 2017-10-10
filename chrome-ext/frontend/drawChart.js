@@ -103,8 +103,8 @@ var svg = d3.select('.tree')
   .call(zoom)
   .append('g')
 
-const xPos = width/2
-const yPos = height/6
+const xPos = width / 2
+const yPos = height / 6
 var transform = d3.zoomIdentity
   .translate(xPos, yPos)
   .scale(1)
@@ -177,7 +177,13 @@ function update(source) {
     .attr('r', 5)
     .style('fill', d => d._children ? 'lightsteelblue' : '#fff')
     .style('pointer-events', 'visible')
-    .on('mouseover', (d) => {
+
+    .on("mouseover", function (d) {
+      d3.select(this)
+        .style("stroke-width", 5)
+        .style("stroke", "red");
+
+
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
         if ($(val).text() === d.data.name) {
@@ -189,6 +195,15 @@ function update(source) {
         }
       })
     })
+
+    .on("mouseout", function () {
+      d3.select(this)
+        .style("stroke-width", 1)
+        .style("stroke", "black");
+    })
+
+
+
 
   // Add labels for the nodes
   nodeEnter.append('text')
