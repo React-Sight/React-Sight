@@ -13,7 +13,7 @@ const drawVBox = (data) => {
 
 const getNodeNames = (data, object) => {
   if (!data.name) return
-  if (data.type === 'ReactCompositeComponentWrapper') {
+  if (!data.isDOM) {
     object[data.name] = (object[data.name] || 0) +1
   }
   if (!data.children.length) return

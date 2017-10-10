@@ -9,6 +9,7 @@ var i = 0
 var duration = 500
 var root
 var treemap
+var selectedNode;
 
 var hSlider = 10
 var vSlider = 10
@@ -63,8 +64,6 @@ function zoomed() {
 }
 
 function update(source) {
-  console.log('Updating Tree with current source...', source)
-
   treemap = d3.tree()
     .nodeSize([hSlider * 5, hSlider * 5])
 
@@ -104,7 +103,12 @@ function update(source) {
 
   // Update the nodes...
   var node = svg.selectAll('g.node')
-    .data(nodes, d => d.data.id);
+    .data(nodes, d => {
+      if (d.data.id === selectedNode) {
+        updatePanelRev(d.data.state, d.data.props)
+      }
+      return d.data.id
+    });
 
   // Remove any exiting nodes
   var nodeExit = node.exit().transition()
@@ -128,8 +132,7 @@ function update(source) {
       d3.select(this)
         .style("stroke-width", 5)
           .style("stroke", "red");
-
-
+      selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
       $.each($('.breadcrumb-item'), (index, val) => {
         if ($(val).text() === d.data.name) {
@@ -141,12 +144,11 @@ function update(source) {
         }
       })
     })
-
     .on("mouseout", function () {
       d3.select(this)
         .style("stroke-width", 1)
         .style("stroke", "black");
-    })
+    });
 
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -229,7 +231,6 @@ export function drawChart(treeData) {
 
 /** Update the state/ props for a selected node */
 function updatePanelRev(state, props) {
-  console.log('update panel')
   const stateNode = document.getElementById('state')
   const propsNode = document.getElementById('props')
 
