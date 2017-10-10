@@ -51,11 +51,6 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
 
   loadingScreen();
 
-  Split(['#one', '#two'], {
-    sizes: [20, 75],
-    minSize: 200
-  });
-
   const port = chrome.extension.connect({
     name: "React-Sight"
   })
