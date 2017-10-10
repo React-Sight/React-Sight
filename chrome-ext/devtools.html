@@ -11,79 +11,76 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>React Sight</title>
+
   <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
+
   <!-- Custom CSS -->
   <link href="css/style.css" rel="stylesheet">
-  <!-- Temporary fix for navbar responsiveness -->
-  <!-- <link href-"/style.css" rel="stylesheet"> -->
-  <style>
-    .navbar-toggler {
-      z-index: 1;
-    }
-
-    @media (max-width: 576px) {
-      nav>.container {
-        width: 100%;
-      }
-    }
-  </style>
-
 </head>
 
-<body>    
-  <div id="wrapper">
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-          <a href="#">React Sight</a>
-        </li>
-        <li id="button-container">
-          <input id='router-btn' type='checkbox' unchecked>
-          <label for="router-btn" id="textrouter">Hide Router</label>
-        </li>
-        <li id="button-container">
-          <input id='dom-btn' type='checkbox' unchecked>
-          <label for="dom-btn" id="textrouter">Hide DOM</label>
-        </li>
-        <li id="button-container">
-          <input id='redux-btn' type='checkbox' unchecked>
-          <label for="redux-btn" id="textrouter">Hide Redux</label>
-        </li>
+<body>
+  <div >
+    <h5>React Sight</h5>
+    <p>Hover over nodes to see State and Props</p>
+    <nav class="breadcrumb"></nav>
+  </div>
 
-        <li id='sliders-container'>
-          <p for="vSlider">Horizontal Spacing</p>
-          <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
-          <p for="hSlider">Vertical Spacing</p>
-          <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
-        </li>
-        <br>
-        <li id='store-container'>
-          <h2>Store</h2>
-          <div id="store"></div>
-          <br>
-        </li>
-        <li id='state-container'>
-          <h2>State</h2>
-          <div id='state'></div>
-          <br>
-        </li>
-        <li id='props-container'>
-          <h2>Props</h2>
-          <div id='props'></div>
-          <br>
-        </li>
-      </ul>
-    </div>
-    <div id="page-content-wrapper">
-      <div class="container-fluid">
-        <h1>React Sight</h1>
-        <div class="test">
-          <h5>A React Visualization Tool<span class='header-span'>Hover to view state & props</span></h5>
-          <nav class="breadcrumb"></nav>
-        </div>
-        <!-- <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-sm-pull-6" id="tree-reactsight">
         <div class='tree'></div>
+      </div>
+
+      <div class="col-md-4 col-sm-push-6" id="sidebar-reactsight">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+            <a href="#">React Sight</a>
+          </li>
+
+          <li id="button-container">
+            <input id='router-btn' type='checkbox' unchecked>
+            <label for="router-btn" id="textrouter">Hide Router</label>
+          </li>
+
+          <li id="button-container">
+            <input id='dom-btn' type='checkbox' unchecked>
+            <label for="dom-btn" id="textrouter">Hide DOM</label>
+          </li>
+
+          <li id="button-container">
+            <input id='redux-btn' type='checkbox' unchecked>
+            <label for="redux-btn" id="textrouter">Hide Redux</label>
+          </li>
+
+          <li id='sliders-container'>
+            <p for="hSlider">Vertical Spacing</p>
+            <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
+            <p for="vSlider">Horizontal Spacing</p>
+            <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
+          </li>
+
+          <br>
+
+          <li id='store-container'>
+            <h2>Store</h2>
+            <div id="store"></div>
+            <br>
+          </li>
+
+          <li id='state-container'>
+            <h2>State</h2>
+            <div id='state'></div>
+            <br>
+          </li>
+
+          <li id='props-container'>
+            <h2>Props</h2>
+            <div id='props'></div>
+            <br>
+          </li>
+
+        </ul>
       </div>
     </div>
   </div>
