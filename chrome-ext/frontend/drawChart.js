@@ -153,22 +153,6 @@ function update(source) {
           items[i].style.color = '#0275d8';
         }
       }
-
-      // items.forEach((val, index) => {
-      //   console.log('val', val);
-      //   console.log('val text', val.innerHTML);
-
-      // });
-
-      // $.each($('.breadcrumb-item'), (index, val) => {
-      //   if ($(val).text() === d.data.name) {
-      //     $(val).css('color', '#B30089')
-      //   } else if ($(val).text().slice(0, $(val).text().indexOf('[')) == d.data.name) {
-      //     $(val).css('color', '#B30089')
-      //   } else {
-      //     $(val).css('color', '#0275d8')
-      //   }
-      // })
     })
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -248,7 +232,7 @@ export function drawChart(treeData) {
 
   // remove loading screen
   let loading = document.querySelector('.loading');
-  document.querySelector('.tree').removeChild(loading);
+  if (loading) document.querySelector('.tree').removeChild(loading);
 }
 
 /** Update the state/ props for a selected node */
