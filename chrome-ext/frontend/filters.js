@@ -36,8 +36,8 @@ const domFilter = (node, parentArr) => {
     props: node.props,
     state: node.state,
     methods: node.methods,
-    isDOM: node.isDOM    
-  };
+    isDOM: node.isDOM
+  }
 
   if (node.isDOM) {
     node.children.forEach(child => {

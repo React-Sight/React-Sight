@@ -13,10 +13,10 @@ var throttle = false;
 var fiberDOM;
 var version;
 
-// var store = [];
+var store;
+
 //locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
 //__REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
-
 
 (function installHook() {
   //no instance of React
@@ -53,8 +53,12 @@ var version;
   }
 })();
 
+<<<<<<< HEAD
 const getData = (components = [], store = []) => {
   // console.log('#getData')
+=======
+const getData = (components = []) => {
+>>>>>>> d2e3a08020d31a6116a5b8d91f537e5f629a2455
   //define rootElement of virtual DOM
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
   // console.log('rootElement: ', rootElement)
@@ -73,18 +77,25 @@ const traverseAllChildren = (component, parentArr) => {
 
   const newComponent = {
     children: [],
-    id: undefined,
+    id: null,
     name: 'default',
     state: null,
     props: null,
     ref: null,
     key: null,
-    type: null,
   };
 
   // Get ID -> DO NOT REMOVE
+<<<<<<< HEAD
   if (component._domID) {
     newComponent.id = component._domID;
+=======
+  if (component._debugID) {
+    newComponent.id = component._debugID
+  }
+  else if (component._domID) {
+    newComponent.id = component._domID
+>>>>>>> d2e3a08020d31a6116a5b8d91f537e5f629a2455
     newComponent.isDOM = true;
   }
   else {
@@ -92,6 +103,7 @@ const traverseAllChildren = (component, parentArr) => {
     newComponent.isDOM = false;
   }
 
+<<<<<<< HEAD
   // Get type
   if (!newComponent.type && component.constructor && component.constructor.name) {
     newComponent.type = component.constructor.name;
@@ -105,6 +117,24 @@ const traverseAllChildren = (component, parentArr) => {
     else newComponent.name = component._currentElement.type;
   }
   else newComponent.name = 'default';
+=======
+  // Get Name
+  if (component._currentElement.type) {
+    // check for displayName or name
+    if (component._currentElement.type.displayName) newComponent.name = component._currentElement.type.displayName
+    else if (component._currentElement.type.name) newComponent.name = component._currentElement.type.name
+    else newComponent.name = component._currentElement.type
+  } else newComponent.name = 'default'
+
+  //call getState() on react-redux.connect()
+  if (component._currentElement.type) {
+    if (component._currentElement.type.propTypes) {
+      if (component._currentElement.type.propTypes.hasOwnProperty('store')) {
+        store = component._instance.store.getState()
+      }
+    }
+  }
+>>>>>>> d2e3a08020d31a6116a5b8d91f537e5f629a2455
 
   // Get State
   if (!newComponent.state && component._instance && component._instance.state) {
