@@ -1,7 +1,6 @@
 import JSONFormatter from 'json-formatter-js';
 
 const drawStore = (data) => {
-  console.log(JSONFormatter)
   if (Object.keys(data).length) {
     const storeNode = document.getElementById('store')
     storeNode.innerHTML = ''
@@ -12,8 +11,6 @@ const drawStore = (data) => {
       animateOpen: true,
       animateClose: true,
     })
-    console.log('storeFormatter: ', storeFormatter)
-    console.log('isOpen: ???', storeFormatter.isOpen)
     storeNode.appendChild(storeFormatter.render())
   }
 }
