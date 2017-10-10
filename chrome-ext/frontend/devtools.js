@@ -2,7 +2,7 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 import drawVBox from './breadcrumb.js'
-import Split from 'split'
+
 // stores last snapshot of data
 var curData
 
@@ -50,11 +50,6 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
   document.querySelector('#dom-btn').addEventListener('click', draw)
 
   loadingScreen();
-
-  Split(['#one', '#two'], {
-    sizes: [20, 75],
-    minSize: 200
-  });
 
   const port = chrome.extension.connect({
     name: "React-Sight"
