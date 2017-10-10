@@ -26,7 +26,7 @@ var store;
     return console.log('Cannot find React library...');
   }
 
-  if (instance && instance.version === '16.0.0') {
+  if (parseInt(instance.version) >= 16) {
     version = 16;
     devTools.onCommitFiberRoot = (function (original) {
       return function (...args) {
@@ -35,8 +35,7 @@ var store;
         return original(...args);
       }
     })(devTools.onCommitFiberRoot);
-  }
-  else {
+  } else {
     //hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       return function (...args) {
@@ -56,20 +55,15 @@ var store;
 const getData = (components = []) => {
   //define rootElement of virtual DOM
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
-  // console.log('rootElement: ', rootElement)
   //recursively traverse down through props chain   starting from root element
   traverseAllChildren(rootElement, components);
   const data = { data: components, store: store }
-  // console.log('retrieved data --> posting to content-scripts...: ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
 
 const traverseAllChildren = (component, parentArr) => {
   // if no current element, return
   if (!component._currentElement) return;
-
-  // console.log('current component: ', component)
-
   const newComponent = {
     children: [],
     id: null,
@@ -79,8 +73,7 @@ const traverseAllChildren = (component, parentArr) => {
     ref: null,
     key: null,
   };
-
-  // Get ID -> DO NOT REMOVE
+  //get ID
   if (component._debugID) {
     newComponent.id = component._debugID
   }
@@ -92,7 +85,6 @@ const traverseAllChildren = (component, parentArr) => {
     newComponent.id = component._mountOrder * 100;
     newComponent.isDOM = false;
   }
-
   // Get Name
   if (component._currentElement.type) {
     // check for displayName or name
@@ -181,18 +173,18 @@ const parseProps = (props) => {
 
 // listener for initial load
 window.addEventListener('reactsight', e => {
-  if (version = 16) traverse16();
+  if (version === 16) traverse16();
   else getData();
 });
 
 
 /**
  * Traversal Method for React 16
- * 
+ *
  * If the application is using React Fiber, run this method to crawl the virtual DOM.
  * First, find the React mount point, then walk through each node
  * For each node, grab the state and props if present
- * 
+ *
  * */
 function traverse16(components = []) {
   // console.log('#traverse16 vDOM: ', fiberDOM);
@@ -209,7 +201,6 @@ function traverse16(components = []) {
  *
  */
 function recur16(node, parentArr) {
-  // console.log('#recur16', node);
   const newComponent = {
     name: '',
     children: [],
@@ -283,6 +274,5 @@ function props16(node) {
 
     else props[prop] = node.memoizedProps[prop];
   });
-  // console.log('the props', props);
   return props;
 }

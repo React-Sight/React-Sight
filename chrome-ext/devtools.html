@@ -40,36 +40,37 @@
               up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.
               <h6>
           </div>
+
+          <div class="svgnavbar">
+            <li id="button-container">
+              <input id='router-btn' type='checkbox' unchecked>
+              <label for="router-btn" id="textrouter">Hide Router</label>
+            </li>
+
+            <li id="button-container">
+              <input id='dom-btn' type='checkbox' unchecked>
+              <label for="dom-btn" id="textrouter">Hide DOM</label>
+            </li>
+
+            <li id="button-container">
+              <input id='redux-btn' type='checkbox' unchecked>
+              <label for="redux-btn" id="textrouter">Hide Redux</label>
+            </li>
+
+            <li id='sliders-container'>
+              <p for="vSlider">Horizontal Spacing</p>
+              <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
+              <p for="hSlider">Vertical Spacing</p>
+              <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
+            </li>
+          </div>
+
+
         </div>
       </div>
 
       <div class="col-md-4 col-sm-push-6" id="sidebar-reactsight">
         <ul class="sidebar-nav">
-          <br/>
-
-          <li id="button-container">
-            <input id='router-btn' type='checkbox' unchecked>
-            <label for="router-btn" id="textrouter">Hide Router</label>
-          </li>
-
-          <li id="button-container">
-            <input id='dom-btn' type='checkbox' unchecked>
-            <label for="dom-btn" id="textrouter">Hide DOM</label>
-          </li>
-
-          <li id="button-container">
-            <input id='redux-btn' type='checkbox' unchecked>
-            <label for="redux-btn" id="textrouter">Hide Redux</label>
-          </li>
-
-          <li id='sliders-container'>
-            <p for="vSlider">Horizontal Spacing</p>
-            <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
-            <p for="hSlider">Vertical Spacing</p>
-            <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
-          </li>
-
-          <br>
 
           <li id='store-container'>
             <h2>Store</h2>
@@ -94,7 +95,6 @@
     </div>
   </div>
 
-  <script src="js/tether.min.js"></script>
   <script src="./build/bundle.js"></script>
 </body>
 
