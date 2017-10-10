@@ -264,15 +264,4 @@ function updatePanelRev(state, props) {
     propsNode.appendChild(propsFomatter.render())
   }
 
-  $.each($('.json-formatter-string'), (index, val) => {
-    let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
-      $(val).text("fn()")
-      $(val).hover(function () {
-        $(this).text(text)
-      }, function () {
-        $(this).text("fn()")
-      })
-    }
-  })
 }

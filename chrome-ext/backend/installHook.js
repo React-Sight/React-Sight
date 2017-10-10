@@ -1,4 +1,5 @@
 //might need additional testing..renderers provides a list of all imported React instances
+
 const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers || null;
 const instance = reactInstances[Object.keys(reactInstances)[0]];
 const reactRoot = window.document.body.childNodes;
@@ -22,12 +23,10 @@ var store;
   //no instance of React
 
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-    //should run loading animation here probably
     return console.log('Cannot find React library...');
   }
-
-  if (parseInt(instance.version) >= 16) {
-    version = 16;
+  if (instance.version) {
+    version = instance.version;
     devTools.onCommitFiberRoot = (function (original) {
       return function (...args) {
         fiberDOM = args[1];
@@ -150,7 +149,7 @@ const parseProps = (props) => {
       //stringify methods
       else if (key === 'routes') {
       } else if (typeof props[key] === 'function') {
-        parsedProps[key] = '' + props[key];
+        parsedProps[key] = parseFunction(props[key]);
       } else if (Array.isArray(props[key]) && key === 'children') {
         //parseProps forEach element
         parsedProps[key] = [];
@@ -171,12 +170,21 @@ const parseProps = (props) => {
   }
 }
 
+const parseFunction = (fn) => {
+  const string = "" + fn;
+  const match = string.match(/function/)
+  const firstIndex = string.indexOf(match[0]) + match[0].length+1
+  const lastIndex = string.indexOf('(')
+  const fnName = string.slice(firstIndex, lastIndex)
+  if (!fnName.length) return 'fn()'
+  else return fnName +'()'
+}
+
 // listener for initial load
 window.addEventListener('reactsight', e => {
-  if (version === 16) traverse16();
+  if (parseInt(version) >= 16) traverse16();
   else getData();
 });
-
 
 /**
  * Traversal Method for React 16
