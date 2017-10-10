@@ -137,15 +137,22 @@ function update(source) {
         .style("stroke", "#754abb");
       selectedNode = d.data.id
       updatePanelRev(d.data.state, d.data.props)
-      $.each($('.breadcrumb-item'), (index, val) => {
-        if ($(val).text() === d.data.name) {
-          $(val).css('color', '#B30089')
-        } else if ($(val).text().slice(0, $(val).text().indexOf('[')) == d.data.name) {
-          $(val).css('color', '#B30089')
-        } else {
-          $(val).css('color', '#0275d8')
+
+      const breadcrumb = document.querySelector('.breadcrumb');
+      const items = breadcrumb.getElementsByTagName('*')
+      for (let i = 0; i < items.length; i++) {
+        const html = items[i].innerHTML;
+
+        if (html === d.data.name) {
+          items[i].style.color = '#B30089';
         }
-      })
+        else if (html.slice(0, html.indexOf('[')) == d.data.name) {          
+          items[i].style.color = '#B30089';
+        }
+        else {
+          items[i].style.color = '#0275d8';
+        }
+      }
     })
   // Add labels for the nodes
   nodeEnter.append('text')
@@ -215,7 +222,7 @@ function update(source) {
 export function drawChart(treeData) {
   // declares a tree layout and assigns the size
   treemap = d3.tree()
-    .size([height - 500, width - 500])
+    .size([height - 500, width - 500]);
   // gi.nodeSize([30, 30])
   // Assigns parent, children, height, depth
   root = d3.hierarchy(treeData, d => d.children);
@@ -223,13 +230,15 @@ export function drawChart(treeData) {
   root.y0 = 0;
   update(root);
 
-  $('.loading').remove()
+  // remove loading screen
+  let loading = document.querySelector('.loading');
+  if (loading) document.querySelector('.tree').removeChild(loading);
 }
 
 /** Update the state/ props for a selected node */
 function updatePanelRev(state, props) {
-  const stateNode = document.getElementById('state')
-  const propsNode = document.getElementById('props')
+  const stateNode = document.getElementById('state');
+  const propsNode = document.getElementById('props');
 
   // state
   const stateFormatter = new JSONFormatter(state, 1, {
@@ -263,16 +272,4 @@ function updatePanelRev(state, props) {
   } else {
     propsNode.appendChild(propsFomatter.render())
   }
-
-  $.each($('.json-formatter-string'), (index, val) => {
-    let text = $(val).text()
-    if (text.slice(1, 9) === 'function') {
-      $(val).text("fn()")
-      $(val).hover(function () {
-        $(this).text(text)
-      }, function () {
-        $(this).text("fn()")
-      })
-    }
-  })
 }

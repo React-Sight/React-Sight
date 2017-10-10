@@ -27,29 +27,15 @@ const draw = () => {
   drawVBox(datas.data[0])
 }
 
-/**
- *  Prepends a loading screen to the tree DIV
- */
-const loadingScreen = () => {
-  $('.tree').prepend(
-    `<div class='loading'>
-      <h1><img id='loadericon' src='./asset/floatinggif2.gif'> Waiting For Data</h1>
-      <h6>If this is taking more than a few seconds, try refreshing your React application or referring back to the set up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.<h6>
-    </div>`
-  )
-}
 // ****************
 // ***** MAIN *****
 // ****************
 // attach panel to chrome dev tools
 chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
-  $('#wrapper').toggleClass("toggled")
   // wire up buttons to actions
   document.querySelector('#router-btn').addEventListener('click', draw)
   document.querySelector('#redux-btn').addEventListener('click', draw)
   document.querySelector('#dom-btn').addEventListener('click', draw)
-
-  loadingScreen();
 
   const port = chrome.extension.connect({
     name: "React-Sight"
