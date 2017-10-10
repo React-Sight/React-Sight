@@ -11,7 +11,7 @@ const drawStore = (data) => {
       previousStore._isOpen ? isOpen = 1 : isOpen = 0;
     }
     let storeFormatter = new JSONFormatter(data, isOpen, {
-      hoverPreviewEnabled: false,
+      hoverPreviewEnabed: false,
       hoverPreviewArrayCount: 5,
       hoverPreviewFieldCount: 5,
       animateOpen: true,

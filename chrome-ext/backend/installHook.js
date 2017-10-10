@@ -199,7 +199,7 @@ function traverse16(components = []) {
   recur16(fiberDOM.current.stateNode.current, components);
   let data = { data: components, store: store };
   data.data = data.data[0].children;
-  console.log('retrieved data --> posting to content-scripts...: ', data)
+  // console.log('retrieved data --> posting to content-scripts...: ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 }
 
