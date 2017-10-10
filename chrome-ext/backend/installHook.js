@@ -150,28 +150,28 @@ const parseProps = (props) => {
   } else {
     let parsedProps = {};
     for (let key in props) {
-      if (!props[key]) parsedProps[key] === null
+      if (!props[key]) parsedProps[key] === null;
       //stringify methods
       else if (key === 'routes') {
       } else if (typeof props[key] === 'function') {
-        parsedProps[key] = '' + props[key]
+        parsedProps[key] = '' + props[key];
       } else if (Array.isArray(props[key]) && key === 'children') {
         //parseProps forEach element
         parsedProps[key] = [];
         props[key].forEach(child => {
-          parsedProps[key].push(parseProps(child))
+          parsedProps[key].push(parseProps(child));
         })
       } else if (typeof props[key] === 'object') {
         //handle custom objects and components with one child
         if (props[key] && Object.keys(props[key]).length) {
-          parsedProps[key] = parseProps(props[key])
+          parsedProps[key] = parseProps(props[key]);
         }
       } else {
         //handle text nodes and other random values
-        parsedProps[key] = props[key]
+        parsedProps[key] = props[key];
       }
     }
-    return parsedProps
+    return parsedProps;
   }
 }
 
@@ -255,8 +255,17 @@ function props16(node) {
     if (typeof node.memoizedProps[prop] === 'function') {
       props[prop] = '' + node.memoizedProps[prop];
     }
+
+    // TODO - get these objects to work, almost always children property
     else if (typeof node.memoizedProps[prop] === 'object') {
       props[prop] = 'object*';
+      // console.log('obj: ', node.memoizedProps[prop]);
+      // if (node.memoizedProps[prop] && Object.keys(node.memoizedProps[prop]).length) {
+      //   const keys = Object.keys(node.memoizedProps[props]);
+      //   console.log('keys', keys)
+      //   props[prop] = keys
+      //   props[prop] = parseProps(node.memoizedProps[props]);
+      // }
     }
     else if (prop === 'children') {
       props[prop] = new node.memoizedProps[prop].constructor;
@@ -270,5 +279,6 @@ function props16(node) {
 
     else props[prop] = node.memoizedProps[prop];
   });
+  console.log('the props', props);
   return props;
 }
