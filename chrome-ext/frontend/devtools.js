@@ -2,7 +2,7 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 import drawVBox from './breadcrumb.js'
-import Split from 'split'
+
 // stores last snapshot of data
 var curData
 
