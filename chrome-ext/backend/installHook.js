@@ -21,7 +21,6 @@ var store;
 
 (function installHook() {
   //no instance of React
-
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
     return console.log('Cannot find React library...');
   }
