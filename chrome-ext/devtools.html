@@ -22,9 +22,9 @@
 
 <body>
 
-  <div >
+  <div>
     <h5>
-        <img src= './asset/floatinggif2.gif' id='logoHeader'> React Sight</h5>
+      <img src='./asset/floatinggif2.gif' id='logoHeader'> React Sight</h5>
     <p>Hover over nodes to see State and Props</p>
     <nav class="breadcrumb"></nav>
   </div>
@@ -32,14 +32,39 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 col-sm-pull-6" id="tree-reactsight">
-        <div class='tree'></div>
+        <div class='tree'>
+
+          <div class="svgnavbar">
+            <li id="button-container">
+              <input id='router-btn' type='checkbox' unchecked>
+              <label for="router-btn" id="textrouter">Hide Router</label>
+            </li>
+
+            <li id="button-container">
+              <input id='dom-btn' type='checkbox' unchecked>
+              <label for="dom-btn" id="textrouter">Hide DOM</label>
+            </li>
+
+            <li id="button-container">
+              <input id='redux-btn' type='checkbox' unchecked>
+              <label for="redux-btn" id="textrouter">Hide Redux</label>
+            </li>
+
+            <li id='sliders-container'>
+              <p for="vSlider">Horizontal Spacing</p>
+              <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
+              <p for="hSlider">Vertical Spacing</p>
+              <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
+            </li>
+          </div>
+
+        </div>
       </div>
 
       <div class="col-md-4 col-sm-push-6" id="sidebar-reactsight">
         <ul class="sidebar-nav">
-          <br/>
 
-          <li id="button-container">
+          <!-- <li id="button-container">
             <input id='router-btn' type='checkbox' unchecked>
             <label for="router-btn" id="textrouter">Hide Router</label>
           </li>
@@ -59,9 +84,7 @@
             <input class="range-slider" type="range" min="0" max="20" value="10" id="hSlider">
             <p for="hSlider">Vertical Spacing</p>
             <input class="range-slider" type="range" min="0" max="20" value="10" id="vSlider">
-          </li>
-
-          <br>
+          </li> -->
 
           <li id='store-container'>
             <h2>Store</h2>

@@ -43,7 +43,7 @@
   display: block;
   text-decoration: none;
   color: #999999;
-}
+} 
 
 .sidebar-nav li a:hover {
   text-decoration: none;
@@ -99,6 +99,7 @@
   border: 1px solid black;
   background-color: #fff;
   border-radius: 20px;
+  list-style-type: none;
 }
 
 .node circle {
@@ -264,17 +265,12 @@ h5, h2 {
   letter-spacing: -1px;
   margin: 0 0 15px 0;
   text-align: center;
-  text-transform: uppercase;
 }
 
 p {
-  font-size: 20px;
-  color: #222222;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  letter-spacing: -1px;
-  margin: 0 0 15px 0;
-  text-transform: uppercase;
+    color: #222222;
+    letter-spacing: -1px;
+    margin: 0 0 15px 0;
 }
 
 .col-md-8 {
@@ -284,8 +280,18 @@ p {
 #text-router {
   font-weight: bold;
   font-weight: 300;
+  text-decoration: none;
 }
 
 #logoHeader {
   width: 40px;
+}
+
+.svgnavbar {
+    position: absolute;
+    top: 0px;
+    right: 20;
+    z-index: 10;
+    background-color: white;
+    margin: 10px;
 }
