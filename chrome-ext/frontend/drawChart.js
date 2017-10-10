@@ -125,9 +125,12 @@ function update(source) {
     .style('pointer-events', 'visible')
 
     .on("mouseover", function (d) {
+      d3.selectAll('circle')
+        .style("stroke-width", 1)
+        .style("stroke", "black");
       d3.select(this)
         .style("stroke-width", 5)
-          .style("stroke", "red");
+        .style("stroke", "#754abb");
 
 
       updatePanelRev(d.data.state, d.data.props)
@@ -142,11 +145,11 @@ function update(source) {
       })
     })
 
-    .on("mouseout", function () {
-      d3.select(this)
-        .style("stroke-width", 1)
-        .style("stroke", "black");
-    })
+  // .on("mouseout", function () {
+  //   d3.select(this)
+  //     .style("stroke-width", 1)
+  //     .style("stroke", "black");
+  // })
 
   // Add labels for the nodes
   nodeEnter.append('text')

@@ -9,6 +9,7 @@ const drawStore = (data) => {
       const newValue = new JSONFormatter(data[state], 0, {
         hoverPreviewEnabled: false,
         hoverPreviewArrayCount: 10,
+        theme: '',
         animateOpen: true,
         animateClose: true
       })
