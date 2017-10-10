@@ -22,9 +22,9 @@
 
 <body>
 
-  <div >
+  <div>
     <h5>
-        <img src= './asset/floatinggif2.gif' id='logoHeader'> React Sight</h5>
+      <img src='./asset/floatinggif2.gif' id='logoHeader'> React Sight</h5>
     <p>Hover over nodes to see State and Props</p>
     <nav class="breadcrumb"></nav>
   </div>
@@ -32,7 +32,15 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 col-sm-pull-6" id="tree-reactsight">
-        <div class='tree'></div>
+        <div class='tree'>
+          <div class='loading'>
+            <h1>
+              <img id='loadericon' src='./asset/floatinggif2.gif'> Waiting For Data</h1>
+            <h6>If this is taking more than a few seconds, try refreshing your React application or referring back to the set
+              up instructions and ensure each step has been followed. Full documentation and bug reporting can found here.
+              <h6>
+          </div>
+        </div>
       </div>
 
       <div class="col-md-4 col-sm-push-6" id="sidebar-reactsight">
@@ -86,9 +94,7 @@
     </div>
   </div>
 
-  <script src="js/jquery.js"></script>
   <script src="js/tether.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
   <script src="./build/bundle.js"></script>
 </body>
 
