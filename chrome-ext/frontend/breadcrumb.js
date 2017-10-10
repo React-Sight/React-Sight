@@ -20,7 +20,7 @@ const drawVBox = (data) => {
     breadcrumbSteps.push(anchor);
   });
   const breadcrumb = document.querySelector('.breadcrumb');
-
+  breadcrumb.innerHTML = '';
   breadcrumbSteps.forEach(node => {
     breadcrumb.appendChild(node);
   });
