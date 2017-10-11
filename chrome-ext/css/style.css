@@ -194,7 +194,6 @@
   background-color: #fff;
   z-index: 99;
   text-align: center;
-  padding-top: 35%;
 }
 
 #loader-header {
@@ -203,6 +202,10 @@
 
 #loader-icon {
   width: 200px;
+}
+
+#loader-container {
+  transform: translateY(60%);
 }
 
 .svg-container {
@@ -269,3 +272,4 @@ p {
   background-color: white;
   margin: 10px;
 }
+
