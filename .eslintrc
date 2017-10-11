@@ -8,6 +8,11 @@
     "func-names": [
       "error",
       "never"
-    ]
+    ],
+    "brace-style": [
+      "error",
+      "stroustrup"
+    ],
+    "no-underscore-dangle": 0
   }
 }
