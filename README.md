@@ -2,7 +2,9 @@
 <img src="/assets/sidewaylogo4.png" width="300"/>
 React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux.
 
-<img src="/assets/testingDEMO.gif">
+<p align="center">
+  <img src="/assets/testingDEMO.gif">
+</p>
 
 ## Set Up
 1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. It makes debugging much easier!
