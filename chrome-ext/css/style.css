@@ -127,7 +127,8 @@
 #button-container {
   line-height: 10px;
   font-size: 10px;
-  padding-left: 80px;}
+  margin-left: 17px;  
+}
 
 #button-container label {
   text-align: left;
