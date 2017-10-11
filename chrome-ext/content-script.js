@@ -13,7 +13,7 @@ window.addEventListener('message', (e) => {
   // send message to background
   chrome.extension.sendMessage(e.data, () => {
     if (typeof e.data === 'object') {
-      console.log('**Content-scripts** received data sending to devtools...', e.data);
+      // console.log('**Content-scripts** received data sending to devtools...', e.data);
     }
   });
 });
