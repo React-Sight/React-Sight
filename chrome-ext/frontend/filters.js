@@ -96,7 +96,6 @@ export function filterRouter(data) {
 /** Removes Basic DOM components from tree */
 export function filterDOM(data) {
   const filtered = { data: [] };
-  const names = ['p', 'a', 'div', 'li', 'ul', 'input', 'button', 'h1', 'h2', 'h3', 'h4', 'br', 'img', 'form'];
   domFilter(data.data[0], filtered.data);
   return filtered;
 }
