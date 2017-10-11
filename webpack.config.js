@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const WebpackMonitor = require('webpack-monitor');
 
 module.exports = {
   entry: './chrome-ext/frontend/devtools.js',
@@ -23,4 +24,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new WebpackMonitor({
+      capture: true,
+      launch: true,
+    }),
+  ],
 };

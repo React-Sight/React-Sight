@@ -1,11 +1,11 @@
-//might need additional testing..renderers provides a list of all imported React instances
+// might need additional testing..renderers provides a list of all imported React instances
 
 const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers || null;
 const instance = reactInstances[Object.keys(reactInstances)[0]];
 const reactRoot = window.document.body.childNodes;
 const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
-//grab the first instance of imported React library
+// grab the first instance of imported React library
 // console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
 // console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
 
@@ -16,13 +16,13 @@ var version;
 
 var store;
 
-//locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
-//__REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
+// locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
+// __REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
 
 (function installHook() {
-  //no instance of React
+  // no instance of React
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
-    return
+    return;
   }
   if (instance.version) {
     version = instance.version;
@@ -31,10 +31,10 @@ var store;
         fiberDOM = args[1];
         traverse16();
         return original(...args);
-      }
+      };
     })(devTools.onCommitFiberRoot);
   } else {
-    //hijack receiveComponent method which runs after a component is rendered
+    // hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       return function (...args) {
         if (!throttle) {
@@ -42,24 +42,25 @@ var store;
           setTimeout(() => {
             getData();
             throttle = false;
-          }, 10)
+          }, 10);
         }
         return original(...args);
-      }
+      };
     })(instance.Reconciler.receiveComponent);
   }
 })();
 
 const getData = (components = []) => {
-  //define rootElement of virtual DOM
+  // define rootElement of virtual DOM
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
-  //recursively traverse down through props chain   starting from root element
+  // recursively traverse down through props chain   starting from root element
   traverseAllChildren(rootElement, components);
-  const data = { data: components, store: store }
+  const data = { data: components, store };
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
 
 const traverseAllChildren = (component, parentArr) => {
+  console.log('#traverseAllChildren');
   // if no current element, return
   if (!component._currentElement) return;
   const newComponent = {
@@ -71,12 +72,12 @@ const traverseAllChildren = (component, parentArr) => {
     ref: null,
     key: null,
   };
-  //get ID
+  // get ID
   if (component._debugID) {
-    newComponent.id = component._debugID
+    newComponent.id = component._debugID;
   }
   if (component._domID) {
-    newComponent.id = component._domID
+    newComponent.id = component._domID;
     newComponent.isDOM = true;
   }
   else {
@@ -86,16 +87,17 @@ const traverseAllChildren = (component, parentArr) => {
   // Get Name
   if (component._currentElement.type) {
     // check for displayName or name
-    if (component._currentElement.type.displayName) newComponent.name = component._currentElement.type.displayName
-    else if (component._currentElement.type.name) newComponent.name = component._currentElement.type.name
-    else newComponent.name = component._currentElement.type
-  } else newComponent.name = 'default'
+    if (component._currentElement.type.displayName) newComponent.name = component._currentElement.type.displayName;
+    else if (component._currentElement.type.name) newComponent.name = component._currentElement.type.name;
+    else newComponent.name = component._currentElement.type;
+  }
+  else newComponent.name = 'default';
 
-  //call getState() on react-redux.connect()
+  // call getState() on react-redux.connect()
   if (component._currentElement.type) {
     if (component._currentElement.type.propTypes) {
       if (component._currentElement.type.propTypes.hasOwnProperty('store')) {
-        store = component._instance.store.getState()
+        store = component._instance.store.getState();
       }
     }
   }
@@ -110,7 +112,7 @@ const traverseAllChildren = (component, parentArr) => {
   if (!newComponent.props && component._currentElement && component._currentElement.props) {
     newComponent.props = parseProps(component._currentElement.props);
   }
-  //Get key
+  // Get key
   if (!newComponent.key && component._currentElement && component._currentElement.key) {
     newComponent.key = component._currentElement.key;
   }
@@ -118,69 +120,72 @@ const traverseAllChildren = (component, parentArr) => {
     newComponent.ref = component._currentElement.ref;
   }
 
-  //go into children of current component
-  const componentChildren = component._renderedChildren
+  // go into children of current component
+  const componentChildren = component._renderedChildren;
   parentArr.push(newComponent);
   if (componentChildren) {
-    const keys = Object.keys(componentChildren)
-    keys.forEach(key => {
+    const keys = Object.keys(componentChildren);
+    keys.forEach((key) => {
       traverseAllChildren(componentChildren[key], newComponent.children);
-    })
+    });
   }
   else if (component._renderedComponent) {
     traverseAllChildren(component._renderedComponent, newComponent.children);
   }
-}
+};
 
 const parseProps = (props) => {
   if (!props) return;
-  if (typeof props !== 'object') return props
-  //check if current props has PROPS property..don't traverse further just grab name property
+  if (typeof props !== 'object') return props;
+  // check if current props has PROPS property..don't traverse further just grab name property
   if (props.hasOwnProperty('props')) {
     if (!props.hasOwnProperty('type')) return;
-    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name
-    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName
-    else if (props.hasOwnProperty('type')) return '' + props.type
+    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
+    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
+    else if (props.hasOwnProperty('type')) return '' + props.type;
   } else {
-    let parsedProps = {};
+    const parsedProps = {};
     for (let key in props) {
       if (!props[key]) parsedProps[key] === null;
-      //stringify methods
+      // stringify methods
       else if (key === 'routes') {
-      } else if (typeof props[key] === 'function') {
+      }
+      else if (typeof props[key] === 'function') {
         parsedProps[key] = parseFunction(props[key]);
-      } else if (Array.isArray(props[key]) && key === 'children') {
-        //parseProps forEach element
+      }
+      else if (Array.isArray(props[key]) && key === 'children') {
+        // parseProps forEach element
         parsedProps[key] = [];
-        props[key].forEach(child => {
+        props[key].forEach((child) => {
           parsedProps[key].push(parseProps(child));
-        })
+        });
       } else if (typeof props[key] === 'object') {
-        //handle custom objects and components with one child
+        // handle custom objects and components with one child
         if (props[key] && Object.keys(props[key]).length) {
           parsedProps[key] = parseProps(props[key]);
         }
-      } else {
-        //handle text nodes and other random values
+      }
+      else {
+        // handle text nodes and other random values
         parsedProps[key] = props[key];
       }
     }
     return parsedProps;
   }
-}
+};
 
 const parseFunction = (fn) => {
   const string = "" + fn;
-  const match = string.match(/function/)
-  const firstIndex = string.indexOf(match[0]) + match[0].length+1
-  const lastIndex = string.indexOf('(')
-  const fnName = string.slice(firstIndex, lastIndex)
-  if (!fnName.length) return 'fn()'
-  else return fnName +'()'
-}
+  const match = string.match(/function/);
+  const firstIndex = string.indexOf(match[0]) + match[0].length + 1;
+  const lastIndex = string.indexOf('(');
+  const fnName = string.slice(firstIndex, lastIndex);
+  if (!fnName.length) return 'fn()';
+  return fnName + '()';
+};
 
 // listener for initial load
-window.addEventListener('reactsight', e => {
+window.addEventListener('reactsight', () => {
   if (parseInt(version) >= 16) traverse16();
   else getData();
 });
@@ -196,7 +201,10 @@ window.addEventListener('reactsight', e => {
 function traverse16(components = []) {
   // console.log('#traverse16 vDOM: ', fiberDOM);
   recur16(fiberDOM.current.stateNode.current, components);
-  let data = { data: components, store: store };
+  const data = {
+    data: components,
+    store,
+  };
   data.data = data.data[0].children;
   // console.log('retrieved data --> posting to content-scripts...: ', data)
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
@@ -237,12 +245,12 @@ function recur16(node, parentArr) {
   if (node.memoizedState) newComponent.state = node.memoizedState;
 
   // get props
-  if (node.memoizedProps) newComponent.props = props16(node)
+  if (node.memoizedProps) newComponent.props = props16(node);
 
-  //get store
+  // get store
   if (node.type && node.type.propTypes) {
     if (node.type.propTypes.hasOwnProperty('store')) {
-      store = node.stateNode.store.getState()
+      store = node.stateNode.store.getState();
     }
   }
   newComponent.children = [];
@@ -259,11 +267,10 @@ function props16(node) {
   const props = {};
   const keys = Object.keys(node.memoizedProps);
 
-  keys.forEach(prop => {
+  keys.forEach((prop) => {
     if (typeof node.memoizedProps[prop] === 'function') {
       props[prop] = parseFunction(node.memoizedProps[prop]);
     }
-
     // TODO - get these objects to work, almost always children property
     else if (typeof node.memoizedProps[prop] === 'object') {
       props[prop] = 'object*';
@@ -278,13 +285,12 @@ function props16(node) {
     else if (prop === 'children') {
       props[prop] = new node.memoizedProps[prop].constructor;
       if (Array.isArray(node.memoizedProps[prop])) {
-        node.memoizedProps[prop].forEach(child => {
+        node.memoizedProps[prop].forEach((child) => {
           props[prop].push(child && child.type && child.type.name);
-        })
+        });
       }
       else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
     }
-
     else props[prop] = node.memoizedProps[prop];
   });
   return props;

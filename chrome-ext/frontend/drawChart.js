@@ -83,7 +83,7 @@ function update(source) {
   };
 
   // Toggle children on click.
-  const click = d => {
+  const click = (d) => {
     if (d.children) {
       d._children = d.children;
       d.children = null;
@@ -99,17 +99,17 @@ function update(source) {
   let treeData = treemap(root);
 
   // Compute the new tree layout.
-  let nodes = treeData.descendants();
-  let links = treeData.descendants().slice(1);
+  const nodes = treeData.descendants();
+  const links = treeData.descendants().slice(1);
 
   // Normalize for fixed-depth.
-  nodes.forEach(d => { d.y = d.depth * vSlider * 10; }); // magic number is distance between each node
+  nodes.forEach((d) => { d.y = d.depth * vSlider * 10; });
 
   // ****************** Nodes section ***************************
 
   // Update the nodes...
   let node = svg.selectAll('g.node')
-    .data(nodes, d => {
+    .data(nodes, (d) => {
       if (d.data.id === selectedNode) {
         updatePanelRev(d.data.state, d.data.props);
       }
@@ -240,7 +240,7 @@ export function drawChart(treeData) {
   update(root);
 
   // remove loading screen
-  let loading = document.querySelector('.loading');
+  const loading = document.querySelector('.loading');
   if (loading) document.querySelector('.tree').removeChild(loading);
 }
 
@@ -255,7 +255,7 @@ function updatePanelRev(state, props) {
     hoverPreviewArrayCount: 10,
     hoverPreviewFieldCount: 5,
     animateOpen: true,
-    animateClose: true
+    animateClose: true,
   });
 
   // props
@@ -264,7 +264,7 @@ function updatePanelRev(state, props) {
     hoverPreviewArrayCount: 100,
     hoverPreviewFieldCount: 5,
     animateOpen: true,
-    animateClose: true
+    animateClose: true,
   });
 
   stateNode.innerHTML = '';
