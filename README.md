@@ -7,9 +7,11 @@ React Sight is a live view of the component hierarchy tree of your React applica
 
 2. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
 
-3. Run your React application, or open (almost!) any website running React!
+3. If you are running local file URLs, make sure to enable "Allow access to file URLs" in the extension settings for both React Dev Tools and React Sight
 
-4. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
+4. Run your React application, or open (almost!) any website running React!
+
+5. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
 
 ## Contributing
 
