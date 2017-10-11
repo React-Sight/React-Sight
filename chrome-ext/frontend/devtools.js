@@ -2,7 +2,7 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 import drawVBox from './breadcrumb.js'
-
+import processLoader from './loader.js'
 // stores last snapshot of data
 var curData
 
@@ -47,9 +47,9 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
     tabId: chrome.devtools.inspectedWindow.tabId
   })
 
+  processLoader();
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
-    console.log('Drawing tree...', msg)
     curData = msg;
     draw()
   })
