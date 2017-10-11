@@ -23,7 +23,13 @@ const draw = () => {
   if (hideDOM) datas = filterDOM(datas)
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
-  drawStore(datas.store)
+  if (!datas.store) {
+    const sidebar = document.getElementById('siderbar-reactsight')
+    const storeContainer = document.getElementById('store-container')
+    sidebar.removeChild(storeContainer)
+  } else {
+    drawStore(datas.store)
+  }
   drawVBox(datas.data[0])
 }
 
