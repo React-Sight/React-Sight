@@ -75,7 +75,7 @@ const traverseAllChildren = (component, parentArr) => {
   if (component._debugID) {
     newComponent.id = component._debugID
   }
-  else if (component._domID) {
+  if (component._domID) {
     newComponent.id = component._domID
     newComponent.isDOM = true;
   }
