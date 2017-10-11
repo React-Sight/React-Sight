@@ -24,11 +24,11 @@ const draw = () => {
   if (hideDOM) datas = filterDOM(datas);
   if (hideRouter) datas = filterRouter(datas);
   drawChart.drawChart(datas.data[0]);
-  if (!datas.store) {
+  if (!curData.store) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
   } else {
-    drawStore(datas.store);
+    drawStore(curData.store);
   }
   drawVBox(datas.data[0]);
 };
