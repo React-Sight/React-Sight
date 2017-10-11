@@ -2,7 +2,7 @@ import * as drawChart from './drawChart'
 import { filterRedux, filterRouter, filterDOM } from './filters'
 import drawStore from './store-panel.js'
 import drawVBox from './breadcrumb.js'
-
+import processLoader from './loader.js'
 // stores last snapshot of data
 var curData
 
@@ -24,7 +24,13 @@ const draw = () => {
   if (hideDOM) datas = filterDOM(datas)
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
-  drawStore(datas.store)
+  if (!datas.store) {
+    const sidebar = document.getElementById('siderbar-reactsight')
+    const storeContainer = document.getElementById('store-container')
+    sidebar.removeChild(storeContainer)
+  } else {
+    drawStore(datas.store)
+  }
   drawVBox(datas.data[0])
 }
 
@@ -48,11 +54,11 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
     tabId: chrome.devtools.inspectedWindow.tabId
   })
 
+  processLoader();
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
     if (!msg.data) return;
-    if (typeof msg != 'object') return;
-    console.log('Drawing tree...', msg)    
+    if (typeof msg != 'object') return; 
     curData = msg;
     draw()
   })
