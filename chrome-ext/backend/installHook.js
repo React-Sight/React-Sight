@@ -60,7 +60,6 @@ const getData = (components = []) => {
 };
 
 const traverseAllChildren = (component, parentArr) => {
-  console.log('#traverseAllChildren');
   // if no current element, return
   if (!component._currentElement) return;
   const newComponent = {
