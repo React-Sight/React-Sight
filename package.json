@@ -7,7 +7,7 @@
     "webpackdev": "webpack-dev-server --hot --colors --progress --watch --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm-run-all -p build webpackdev",
-    "build": "webpack -w"
+    "build": "webpack -p"
   },
   "repository": "git+https://github.com/React-Sight/React-SightChromeExt.git",
   "author": "",
@@ -32,7 +32,8 @@
     "eslint-plugin-react": "^7.4.0",
     "npm-run-all": "^4.1.1",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2"
+    "webpack-dev-server": "^2.8.2",
+    "webpack-monitor": "^1.0.8"
   },
   "dependencies": {
     "d3": "^4.10.2",
