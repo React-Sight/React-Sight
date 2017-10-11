@@ -25,9 +25,8 @@ const draw = () => {
   if (hideRouter) datas = filterRouter(datas)
   drawChart.drawChart(datas.data[0])
   if (!datas.store) {
-    const sidebar = document.getElementById('siderbar-reactsight')
-    const storeContainer = document.getElementById('store-container')
-    sidebar.removeChild(storeContainer)
+    const storeContainer = document.getElementById('store-container');
+    storeContainer.innerHTML = '';
   } else {
     drawStore(datas.store)
   }
