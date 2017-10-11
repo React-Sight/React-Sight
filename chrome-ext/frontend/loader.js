@@ -12,18 +12,18 @@ const loaderHeaders = [
   'Extracting sensitive user information...',
   'Deleting all node modules...',
   'Gathering components...',
-  'Initializing content-scripts...'
-]
+  'Initializing content-scripts...',
+];
 
 function processLoader() {
-  console.log('...processing loader')
-  const header = document.getElementById('loader-header')
-  header.innerHTML = loaderHeaders[Math.floor(Math.random() * loaderHeaders.length)]
+  // console.log('...processing loader');
+  const header = document.getElementById('loader-header');
+  header.innerHTML = loaderHeaders[Math.floor(Math.random() * loaderHeaders.length)];
 
   setTimeout(() => {
-    const subHeader = document.getElementById('loader-sub-header')
-    subHeader.innerHTML = 'Cannot find imported React library'
-  }, 10000)
+    const subHeader = document.getElementById('loader-sub-header');
+    subHeader.innerHTML = 'Cannot find imported React library';
+  }, 10000);
 }
 
-export default processLoader
+export default processLoader;
