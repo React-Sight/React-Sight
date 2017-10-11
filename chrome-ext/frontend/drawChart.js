@@ -113,7 +113,10 @@ function update(source) {
   // Remove any exiting nodes
   var nodeExit = node.exit().transition()
     .duration(duration)
-    .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
+    .attr('transform', function(d) {
+      return 'translate(' + source.x + ',' + source.y + ')';
+    })
+    // .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
     .remove();
 
   var nodeEnter = node.enter().append('g')
