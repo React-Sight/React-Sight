@@ -52,11 +52,36 @@ const domFilter = (node, parentArr) => {
   }
 }
 
+const reduxFilter = (node, parentArr, filter) => {
+  if (node.name == undefined) return;
+  const newObj = {
+    name: node.name,
+    children: [],
+    id: node.id,
+    props: node.props,
+    state: node.state,
+    methods: node.methods,
+    isDOM: node.isDOM
+  };
+
+  if (filter.includes(node.name) || node.name.includes('Connect')) {
+    node.children.forEach(child => {
+      reduxFilter(child, parentArr, filter);
+    });
+  }
+  else {
+    parentArr.push(newObj);
+    node.children.forEach(child => {
+      reduxFilter(child, newObj.children, filter);
+    });
+  }
+}
+
 /** Removes Redux components from tree */
 export function filterRedux(data) {
   const filtered = { data: [] };
   const names = ['Provider', 'Connect'];
-  recurFilter(data.data[0], filtered.data, names);
+  reduxFilter(data.data[0], filtered.data, names);
   return filtered;
 }
 
