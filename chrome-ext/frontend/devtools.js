@@ -18,6 +18,7 @@ const draw = () => {
   const hideRedux = document.querySelector('#redux-btn').checked
   const hideRouter = document.querySelector('#router-btn').checked
 
+
   let datas = curData
   if (hideRedux) datas = filterRedux(datas)
   if (hideDOM) datas = filterDOM(datas)
@@ -49,7 +50,9 @@ chrome.devtools.panels.create("React-Sight", null, "devtools.html", () => {
 
   //Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener(msg => {
-    console.log('Drawing tree...', msg)
+    if (!msg.data) return;
+    if (typeof msg != 'object') return;
+    console.log('Drawing tree...', msg)    
     curData = msg;
     draw()
   })
