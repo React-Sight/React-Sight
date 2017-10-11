@@ -11,21 +11,20 @@ const recurFilter = (node, parentArr, filter) => {
     props: node.props,
     state: node.state,
     methods: node.methods,
-    isDOM: node.isDOM
+    isDOM: node.isDOM,
   };
 
   if (filter.includes(node.name)) {
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       recurFilter(child, parentArr, filter);
     });
-  }
-  else {
+  } else {
     parentArr.push(newObj);
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       recurFilter(child, newObj.children, filter);
     });
   }
-}
+};
 
 const domFilter = (node, parentArr) => {
   if (node.name == undefined) return;
@@ -36,21 +35,20 @@ const domFilter = (node, parentArr) => {
     props: node.props,
     state: node.state,
     methods: node.methods,
-    isDOM: node.isDOM
-  }
+    isDOM: node.isDOM,
+  };
 
   if (node.isDOM) {
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       domFilter(child, parentArr);
     });
-  }
-  else {
+  } else {
     parentArr.push(newObj);
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       domFilter(child, newObj.children);
     });
   }
-}
+};
 
 const reduxFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return;
@@ -61,21 +59,20 @@ const reduxFilter = (node, parentArr, filter) => {
     props: node.props,
     state: node.state,
     methods: node.methods,
-    isDOM: node.isDOM
+    isDOM: node.isDOM,
   };
 
   if (filter.includes(node.name) || node.name.includes('Connect')) {
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       reduxFilter(child, parentArr, filter);
     });
-  }
-  else {
+  } else {
     parentArr.push(newObj);
-    node.children.forEach(child => {
+    node.children.forEach((child) => {
       reduxFilter(child, newObj.children, filter);
     });
   }
-}
+};
 
 /** Removes Redux components from tree */
 export function filterRedux(data) {
