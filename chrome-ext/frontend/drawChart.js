@@ -149,7 +149,7 @@ function update(source) {
         if (html === d.data.name) {
           items[i].style.color = '#B30089';
         }
-        else if (html.slice(0, html.indexOf('[')) == d.data.name) {          
+        else if (html.slice(0, html.indexOf('[')) == d.data.name) {
           items[i].style.color = '#B30089';
         }
         else {

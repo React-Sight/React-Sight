@@ -1,19 +1,26 @@
 import JSONFormatter from 'json-formatter-js';
 
+let isOpen = 0;
+let previousStore;
+
 const drawStore = (data) => {
-  if (!data) return;
   if (Object.keys(data).length) {
     const storeNode = document.getElementById('store')
     storeNode.innerHTML = ''
-    const storeFormatter = new JSONFormatter(data, 0, {
-      hoverPreviewEnabled: false,
-      hoverPreviewArrayCount: 10,
-      hoverPreviewFieldCount: 10,
+    if (previousStore) {
+      previousStore._isOpen ? isOpen = 1 : isOpen = 0;
+    }
+    let storeFormatter = new JSONFormatter(data, isOpen, {
+      hoverPreviewEnabed: false,
+      hoverPreviewArrayCount: 5,
+      hoverPreviewFieldCount: 5,
       animateOpen: true,
       animateClose: true,
-    });
-    storeNode.appendChild(storeFormatter.render());
+    })
+    previousStore = storeFormatter;
+    storeFormatter.openAtDepth(isOpen)
+    storeNode.appendChild(storeFormatter.render())
   }
-};
+}
 
 export default drawStore;
