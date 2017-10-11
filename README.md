@@ -3,57 +3,10 @@
 React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux.
 
 ## Set Up
+1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. It makes debugging much easier!
 
-1. Run npm install for Right Sight in your root project folder
+2. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
 
-```
-npm install --save-dev react-sight
-```
-or
-```
-yarn install --dev react-sight
-```
-
-2. ```Import``` Sight where you render your App.
-
-
-```javascript
-import React, { Component } from 'react';
-// Add import statement
-import Sight from 'react-sight'
-```
-
-3. Wrap the ```<Sight>``` component around your application
-
-```
-//Wrap <Sight> Component around your application
-ReactDOM.render(
-  <Sight>
-    </App>
-  </Sight>
-  document.getElementById('root'),
-);
-```
-
-or
-
-```
-//Wrap <Sight> Component around your application
-ReactDOM.render(
-  <Sight>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={App} />
-          <Route exact path="/chat" component={Chat} />
-        </Switch>
-      </BrowserRouter>
-    </Provider>
-  </Sight>
-  ,
-  document.getElementById('root'),
-);
-```
 
 3. Install the React Sight Chrome Developer Tool from the [Chrome Store](***). 
 
