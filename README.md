@@ -17,6 +17,19 @@ React Sight is a live view of the component hierarchy tree of your React applica
 
 5. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
 
+## Usage
+Hover over nodes to see their state and props in the side panel. 
+
+Hide DOM elements, Redux components, and Router components with the built in filters, so that you can focus only on the components you've written
+
+Zoom in by double clicking, and zoom out by shift + double clicking (mousewheel zoom coming soon!)
+
+## Why?
+
+We built React Sight because there are no tools on the market that give you a visual representation of the structure of your App. When we were developing our own projects, we wished we had a way to see how everything was structured.
+
+We wanted React Sight to be simple to use, which is why all you have to do is install a Chrome extension. No modifying your existing code!
+
 ## Contributing
 
 Found a bug? Have a suggestion?
