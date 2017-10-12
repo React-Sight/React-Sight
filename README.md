@@ -6,7 +6,7 @@ React Sight is a live view of the component hierarchy tree of your React applica
   <img src="/assets/testingDEMO.gif">
 </p>
 
-## Set Up
+## Set Up - Install From Chrome Store
 1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. 
 
 2. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
@@ -16,6 +16,17 @@ React Sight is a live view of the component hierarchy tree of your React applica
 4. Run your React application, or open (almost!) any website running React!
 
 5. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
+
+## Building Your Own Version
+If you'd like to build your own version of React Sight:
+
+1. Clone the repo and `npm install` dependancies
+
+2. Use `npm start` to generate the build 
+
+3. In Chrome, open the extensions tab and click 'Load Unpacked Extension'. Load the folder '~/ReactSight/chrome-ext'
+
+If you have any additional questions send us a message at reactsight@gmail.com :)
 
 ## Usage
 Hover over nodes to see their state and props in the side panel. 
