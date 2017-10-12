@@ -24,10 +24,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new WebpackMonitor({
-      capture: true,
-      launch: true,
-    }),
-  ],
 };
