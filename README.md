@@ -69,6 +69,17 @@ reactsight@gmail.com
 
 Visit us at www.reactsight.com
 
+## Roadmap
+
+Bugs, bugs, 
+
+1. Better support across all React versions, especially fiber
+2. More consistent detection of root nodes when React Sight is opened
+3. Support for multiple React mounting nodes 
+4. More robust error handling and guard blocks for extracting state, props, and store
+5. Logging / Debugging mode for development, feedback, and error reporting
+6. Performance and stability updates across the largest applications
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
