@@ -9,12 +9,10 @@ const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 // console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
 // console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
 
-var rootNode;
-var throttle = false;
-var fiberDOM;
-var version;
-
-var store;
+let __ReactSightThrottle = false;
+var __ReactSightFiberDOM;
+let __ReactSight_ReactVersion;
+let __ReactSightStore;
 
 // locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
 // __REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
@@ -22,13 +20,14 @@ var store;
 (function installHook() {
   // no instance of React
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+    console.log('Error: React DevTools not present. React Sight uses React DevTools to patch React\'s reconciler');
     return;
   }
   if (instance.version) {
-    version = instance.version;
+    __ReactSight_ReactVersion = instance.version;
     devTools.onCommitFiberRoot = (function (original) {
       return function (...args) {
-        fiberDOM = args[1];
+        __ReactSightFiberDOM = args[1];
         traverse16();
         return original(...args);
       };
@@ -37,11 +36,11 @@ var store;
     // hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       return function (...args) {
-        if (!throttle) {
-          throttle = true;
+        if (!__ReactSightThrottle) {
+          __ReactSightThrottle = true;
           setTimeout(() => {
             getData();
-            throttle = false;
+            __ReactSightThrottle = false;
           }, 10);
         }
         return original(...args);
@@ -96,7 +95,7 @@ const traverseAllChildren = (component, parentArr) => {
   if (component._currentElement.type) {
     if (component._currentElement.type.propTypes) {
       if (component._currentElement.type.propTypes.hasOwnProperty('store')) {
-        store = component._instance.store.getState();
+        __ReactSightStore = component._instance.store.getState();
       }
     }
   }
@@ -185,7 +184,7 @@ const parseFunction = (fn) => {
 
 // listener for initial load
 window.addEventListener('reactsight', () => {
-  if (parseInt(version) >= 16) traverse16();
+  if (parseInt(__ReactSight_ReactVersion) >= 16) traverse16();
   else getData();
 });
 
@@ -198,11 +197,11 @@ window.addEventListener('reactsight', () => {
  *
  * */
 function traverse16(components = []) {
-  // console.log('#traverse16 vDOM: ', fiberDOM);
-  recur16(fiberDOM.current.stateNode.current, components);
+  // console.log('#traverse16 vDOM: ', __ReactSightFiberDOM);
+  recur16(__ReactSightFiberDOM.current.stateNode.current, components);
   const data = {
     data: components,
-    store,
+    __ReactSightStore,
   };
   data.data = data.data[0].children;
   // console.log('retrieved data --> posting to content-scripts...: ', data)
@@ -249,7 +248,7 @@ function recur16(node, parentArr) {
   // get store
   if (node.type && node.type.propTypes) {
     if (node.type.propTypes.hasOwnProperty('store')) {
-      store = node.stateNode.store.getState();
+      __ReactSightStore = node.stateNode.store.getState();
     }
   }
   newComponent.children = [];
