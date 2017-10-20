@@ -79,7 +79,7 @@ Here's our top development priorities
 4. More robust error handling and guard blocks for extracting state, props, and store
 5. Logging / Debugging mode for development, feedback, and error reporting
 6. Performance and stability updates
-7. Mousewheel zoom in D3 chart
+7. Mousewheel zoom in D3 chart (if you can solve this I will order you 🍕)
 8. UX improvements
 9. Improved documentation
 
