@@ -6,6 +6,10 @@ React Sight is a live view of the component hierarchy tree of your React applica
   <img src="/assets/testingDEMO.gif">
 </p>
 
+
+### We are currently working on squashing bugs related to fiber
+
+
 ## Set Up | Install From Chrome Store
 1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. 
 
@@ -64,6 +68,20 @@ Tell us what you think!
 reactsight@gmail.com
 
 Visit us at www.reactsight.com
+
+## Roadmap 
+
+Here's our top development priorities
+
+1. Better support across all React versions, especially fiber
+2. More consistent detection of root nodes when React Sight is opened
+3. Support for multiple React mounting nodes 
+4. More robust error handling and guard blocks for extracting state, props, and store
+5. Logging / Debugging mode for development, feedback, and error reporting
+6. Performance and stability updates
+7. Mousewheel zoom in D3 chart
+8. UX improvements
+9. Improved documentation
 
 ## License
 
