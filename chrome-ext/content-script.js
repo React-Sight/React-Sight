@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 /** function to inject traversal script into running tab's context */
 function injectScript(file, node) {
   const th = document.getElementsByTagName(node)[0];

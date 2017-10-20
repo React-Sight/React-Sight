@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 /** Parse JSON recursively and remove unwanted items
  *
  * Shared between all filters

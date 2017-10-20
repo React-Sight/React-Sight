@@ -1,4 +1,7 @@
-// might need additional testing..renderers provides a list of all imported React instances
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
+// Notes... might need additional testing..renderers provides a list of all imported React instances
 
 const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers || null;
 const instance = reactInstances[Object.keys(reactInstances)[0]];

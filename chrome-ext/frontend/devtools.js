@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 import * as drawChart from './drawChart';
 import { filterRedux, filterRouter, filterDOM } from './filters';
 import drawStore from './store-panel';
