@@ -10,7 +10,7 @@ const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 // console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
 
 let __ReactSightThrottle = false;
-var __ReactSightFiberDOM;
+let __ReactSightFiberDOM;
 let __ReactSight_ReactVersion;
 let __ReactSightStore;
 
