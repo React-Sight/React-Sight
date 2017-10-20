@@ -54,7 +54,7 @@ const getData = (components = []) => {
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
   // recursively traverse down through props chain   starting from root element
   traverseAllChildren(rootElement, components);
-  const data = { data: components, store };
+  const data = { data: components, __ReactSightStore };
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
 
