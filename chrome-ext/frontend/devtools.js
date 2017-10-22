@@ -42,6 +42,8 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
   document.querySelector('#router-btn').addEventListener('click', draw);
   document.querySelector('#redux-btn').addEventListener('click', draw);
   document.querySelector('#dom-btn').addEventListener('click', draw);
+  document.querySelector('#zoom-in-btn').addEventListener('click', drawChart.zoomIn);
+  document.querySelector('#zoom-out-btn').addEventListener('click', drawChart.zoomOut);
 
   const port = chrome.extension.connect({
     name: 'React-Sight',
