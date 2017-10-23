@@ -127,7 +127,8 @@
 #button-container {
   line-height: 10px;
   font-size: 10px;
-  margin-left: 17px;  
+  margin-left: 17px;
+  user-select: none;
 }
 
 #button-container label {
@@ -274,3 +275,9 @@ p {
   margin: 10px;
 }
 
+.icon-button {
+  margin: 4px 6px;
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}

@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import JSONFormatter from 'json-formatter-js';
+import { parseSvg } from "d3-interpolate/src/transform/parse";
 
 // ************
 // *** Main ***
@@ -24,8 +25,11 @@ const margin = {
 const width = 1000 - margin.right - margin.left;
 const height = 960 - margin.top - margin.bottom;
 
+const minZoom = 0.05;
+const maxZoom = 2;
+
 const zoom = d3.zoom()
-  .scaleExtent([0.05, 2])
+  .scaleExtent([minZoom, maxZoom])
   .on('zoom', zoomed);
 
 const xPos = width / 2;
@@ -281,4 +285,28 @@ function updatePanelRev(state, props) {
   } else {
     propsNode.appendChild(propsFomatter.render());
   }
+}
+
+export function zoomIn() {
+  const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
+  const { translateX, translateY, scaleX } = parseSvg(currentTransform);
+  let newZoom = scaleX * 2;
+  newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
+
+  const transform = d3.zoomIdentity
+    .translate(translateX, translateY)
+    .scale(newZoom);
+  d3.select('.svg-content-responsive').transition().duration(1).call(zoom.transform, transform);
+}
+
+export function zoomOut() {
+  const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
+  const { translateX, translateY, scaleX } = parseSvg(currentTransform);
+  let newZoom = scaleX / 2;
+  newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
+
+  const transform = d3.zoomIdentity
+    .translate(translateX, translateY)
+    .scale(newZoom);
+  d3.select('.svg-content-responsive').transition().duration(1).call(zoom.transform, transform);
 }
