@@ -21,7 +21,6 @@ const draw = () => {
   const hideRedux = document.querySelector('#redux-btn').checked;
   const hideRouter = document.querySelector('#router-btn').checked;
 
-
   let datas = curData;
   if (hideRedux) datas = filterRedux(datas);
   if (hideDOM) datas = filterDOM(datas);
@@ -47,6 +46,9 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
   document.querySelector('#dom-btn').addEventListener('click', draw);
   document.querySelector('#zoom-in-btn').addEventListener('click', drawChart.zoomIn);
   document.querySelector('#zoom-out-btn').addEventListener('click', drawChart.zoomOut);
+
+  drawChart.zoomIn();
+  drawChart.zoomOut();
 
   const port = chrome.extension.connect({
     name: 'React-Sight',
