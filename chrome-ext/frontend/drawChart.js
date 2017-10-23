@@ -293,7 +293,7 @@ function updatePanelRev(state, props) {
 export function zoomIn() {
   const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
   const { translateX, translateY, scaleX } = parseSvg(currentTransform);
-  let newZoom = scaleX * 2;
+  let newZoom = scaleX * 1.5;
   newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
 
   const transform = d3.zoomIdentity
@@ -305,7 +305,7 @@ export function zoomIn() {
 export function zoomOut() {
   const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
   const { translateX, translateY, scaleX } = parseSvg(currentTransform);
-  let newZoom = scaleX / 2;
+  let newZoom = scaleX / 1.5;
   newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
 
   const transform = d3.zoomIdentity
