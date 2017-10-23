@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 const getNodeNames = (data, object) => {
   if (!data.name) return;
   if (!data.isDOM) {

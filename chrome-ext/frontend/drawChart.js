@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 import * as d3 from 'd3';
 import JSONFormatter from 'json-formatter-js';
 import { parseSvg } from "d3-interpolate/src/transform/parse";
