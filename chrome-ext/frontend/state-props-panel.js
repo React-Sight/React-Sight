@@ -1,3 +1,6 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 /** Update the state/ props for a selected node */
 function updatePanel(state, props) {
   const stateNode = document.getElementById('state');
