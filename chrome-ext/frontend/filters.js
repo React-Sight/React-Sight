@@ -1,11 +1,15 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
+//
+//  Filters work by building parsing existing JSON data, and returning a 
+//  new JSON object
+//
 
 /** Parse JSON recursively and remove unwanted items
  *
- * Shared between all filters
+ * Generic filter method, only really using this for Route components
  */
-const recurFilter = (node, parentArr, filter) => {
+const routerFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return;
   const newObj = {
     name: node.name,
@@ -19,16 +23,17 @@ const recurFilter = (node, parentArr, filter) => {
 
   if (filter.includes(node.name)) {
     node.children.forEach((child) => {
-      recurFilter(child, parentArr, filter);
+      routerFilter(child, parentArr, filter);
     });
   } else {
     parentArr.push(newObj);
     node.children.forEach((child) => {
-      recurFilter(child, newObj.children, filter);
+      routerFilter(child, newObj.children, filter);
     });
   }
 };
 
+/** Removes DOM nodes by checking 'isDOM' flag */
 const domFilter = (node, parentArr) => {
   if (node.name == undefined) return;
   const newObj = {
@@ -53,6 +58,7 @@ const domFilter = (node, parentArr) => {
   }
 };
 
+/** This is specifcally for redux, and looks for components names 'connect' */
 const reduxFilter = (node, parentArr, filter) => {
   if (node.name == undefined) return;
   const newObj = {
@@ -89,7 +95,7 @@ export function filterRedux(data) {
 export function filterRouter(data) {
   const filtered = { data: [] };
   const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
-  recurFilter(data.data[0], filtered.data, names);
+  routerFilter(data.data[0], filtered.data, names);
   return filtered;
 }
 
