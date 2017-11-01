@@ -4,6 +4,7 @@
 import * as d3 from 'd3';
 import JSONFormatter from 'json-formatter-js';
 import { parseSvg } from "d3-interpolate/src/transform/parse";
+import updateStateProps from './state-props-panel';
 
 // ************
 // *** Main ***
@@ -125,7 +126,7 @@ function update(source) {
   let node = svg.selectAll('g.node')
     .data(nodes, (d) => {
       if (d.data.id === selectedNode) {
-        updatePanelRev(d.data.state, d.data.props);
+        updateStateProps(d.data.state, d.data.props);
       }
       return d.data.id;
     });
@@ -159,7 +160,7 @@ function update(source) {
         .style('stroke-width', 5)
         .style('stroke', '#754abb');
       selectedNode = d.data.id;
-      updatePanelRev(d.data.state, d.data.props);
+      updateStateProps(d.data.state, d.data.props);
 
       const breadcrumb = document.querySelector('.breadcrumb');
       const items = breadcrumb.getElementsByTagName('*');
@@ -256,45 +257,6 @@ export function drawChart(treeData) {
   // remove loading screen
   const loading = document.querySelector('.loading');
   if (loading) document.querySelector('.tree').removeChild(loading);
-}
-
-/** Update the state/ props for a selected node */
-function updatePanelRev(state, props) {
-  const stateNode = document.getElementById('state');
-  const propsNode = document.getElementById('props');
-
-  // state
-  const stateFormatter = new JSONFormatter(state, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 10,
-    hoverPreviewFieldCount: 5,
-    animateOpen: true,
-    animateClose: true,
-  });
-
-  // props
-  const propsFomatter = new JSONFormatter(props, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
-    hoverPreviewFieldCount: 5,
-    animateOpen: true,
-    animateClose: true,
-  });
-
-  stateNode.innerHTML = '';
-  propsNode.innerHTML = '';
-
-  if (state == null || state == undefined) {
-    stateNode.appendChild(document.createTextNode('None'));
-  } else {
-    stateNode.appendChild(stateFormatter.render());
-  }
-
-  if (props == null || props == undefined) {
-    propsNode.appendChild(document.createTextNode('None'));
-  } else {
-    propsNode.appendChild(propsFomatter.render());
-  }
 }
 
 /** Zooms in D3 graph */
