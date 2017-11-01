@@ -4,8 +4,9 @@
 import * as drawChart from './drawChart';
 import { filterRedux, filterRouter, filterDOM } from './filters';
 import drawStore from './store-panel';
-import drawVBox from './breadcrumb.js';
-import processLoader from './loader.js';
+import drawBreadcrumbs from './breadcrumb.js';
+import drawLoadingScreen from './loader.js';
+
 // stores last snapshot of data
 let curData;
 
@@ -14,25 +15,33 @@ let curData;
 // *************
 /**
  * Abstracting the drawing function to one command.
- * This func conditionally renders based on the router and redux checkboxes
+ * -This func conditionally renders based on the filter buttons
+ * -
  */
 const draw = () => {
+  // get values from filter checkboxes (true / false)
   const hideDOM = document.querySelector('#dom-btn').checked;
   const hideRedux = document.querySelector('#redux-btn').checked;
   const hideRouter = document.querySelector('#router-btn').checked;
 
-  let datas = curData;
-  if (hideRedux) datas = filterRedux(datas);
-  if (hideDOM) datas = filterDOM(datas);
-  if (hideRouter) datas = filterRouter(datas);
-  drawChart.drawChart(datas.data[0]);
+  // process data through filters
+  let processedData = curData;
+  if (hideRedux) processedData = filterRedux(processedData);
+  if (hideDOM) processedData = filterDOM(processedData);
+  if (hideRouter) processedData = filterRouter(processedData);
+
+  // run draw function to render / update tree
+  drawChart.drawChart(processedData.data[0]);
+
+  // if no redux store, remove 'Store' from side panel, otherwise render store JSON
   if (!curData.store) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
-  } else {
+  }
+  else {
     drawStore(curData.store);
   }
-  drawVBox(datas.data[0]);
+  drawBreadcrumbs(processedData.data[0]);
 };
 
 // ****************`
@@ -47,6 +56,8 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
   document.querySelector('#zoom-in-btn').addEventListener('click', drawChart.zoomIn);
   document.querySelector('#zoom-out-btn').addEventListener('click', drawChart.zoomOut);
 
+  // call a zoom in / zoom out to fix first pan/drag event,
+  // without this, first dragging chart will cause it to jump on screen
   drawChart.zoomIn();
   drawChart.zoomOut();
 
@@ -60,12 +71,14 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
     tabId: chrome.devtools.inspectedWindow.tabId,
   });
 
-  processLoader();
+  // appends loading screen
+  drawLoadingScreen();
+
   // Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener((msg) => {
-    if (!msg.data) return;
+    if (!msg.data) return; // abort if data not present, or if not of type object
     if (typeof msg != 'object') return;
-    curData = msg;
+    curData = msg; // assign global data object
     draw();
   });
 });
