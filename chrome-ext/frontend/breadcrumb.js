@@ -1,6 +1,15 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
+//
+//  What's a Breadcrumb? It's the 'nav' bar at the top of the window,
+//  which highlights which component the user has selected
 
+/** 
+ * Build up object containing component names and number of times they appear
+ * 
+ * @param {object} data - object represeting vDOM
+ * @param {object} object - function will build up an object of names and the number of times they appear
+ */
 const getNodeNames = (data, object) => {
   if (!data.name) return;
   if (!data.isDOM) {
