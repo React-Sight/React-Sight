@@ -1,6 +1,8 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
+import JSONFormatter from 'json-formatter-js';
+
 /** Update the state/ props for a selected node */
 function updatePanel(state, props) {
   const stateNode = document.getElementById('state');
@@ -27,15 +29,17 @@ function updatePanel(state, props) {
   stateNode.innerHTML = '';
   propsNode.innerHTML = '';
 
-  if (state == null || state == undefined) {
+  if (state == null || state === undefined) {
     stateNode.appendChild(document.createTextNode('None'));
-  } else {
+  }
+  else {
     stateNode.appendChild(stateFormatter.render());
   }
 
-  if (props == null || props == undefined) {
+  if (props == null || props === undefined) {
     propsNode.appendChild(document.createTextNode('None'));
-  } else {
+  }
+  else {
     propsNode.appendChild(propsFomatter.render());
   }
 }
