@@ -22,7 +22,7 @@ let __ReactSightStore;
 
 /**
  * Begin monkey patch
- * 
+ *
  *  IF __REACT_DEVTOOLS_GLOBAL_HOOK__ NOT present, assume website is not using React
  *  IF React 16 detected, patch 'onCommitFiberRoot' from react dev tools
  *  ELSE Patch React 15 (or lowers) reconciler method

@@ -1,11 +1,11 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-import * as drawChart from './drawChart';
-import { filterRedux, filterRouter, filterDOM } from './filters';
 import drawStore from './store-panel';
-import drawBreadcrumbs from './breadcrumb.js';
-import drawLoadingScreen from './loader.js';
+import drawLoadingScreen from './loader';
+import * as drawChart from './drawChart';
+import drawBreadcrumbs from './breadcrumb';
+import { filterRedux, filterRouter, filterDOM } from './filters';
 
 // stores last snapshot of data
 let curData;
@@ -37,8 +37,7 @@ const draw = () => {
   if (!curData.store) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
-  }
-  else {
+  } else {
     drawStore(curData.store);
   }
   drawBreadcrumbs(processedData.data[0]);

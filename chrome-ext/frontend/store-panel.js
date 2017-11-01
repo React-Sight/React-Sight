@@ -7,8 +7,7 @@ let isOpen = 0;
 let previousStore;
 
 /**
- * 
- * 
+ *
  * @param {object} data - Object representing Redux store
  */
 const drawStore = (data) => {
@@ -16,10 +15,18 @@ const drawStore = (data) => {
     // select & remove previous store
     const storeNode = document.getElementById('store');
     storeNode.innerHTML = '';
-    
+
     if (previousStore) {
       previousStore._isOpen ? isOpen = 1 : isOpen = 0;
     }
+
+    // try {
+    //   isOpen = previousStore._isOpen;
+    // }
+    // catch (err) {
+    //   console.log('No Previous store', err);
+    //   isOpen = 0;
+    // }
 
     // instantiate new JSONFormatter with Redux data
     const storeFormatter = new JSONFormatter(data, isOpen, {

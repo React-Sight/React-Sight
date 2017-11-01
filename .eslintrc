@@ -9,10 +9,6 @@
       "error",
       "never"
     ],
-    "brace-style": [
-      "error",
-      "stroustrup"
-    ],
     "no-underscore-dangle": 0
   }
 }

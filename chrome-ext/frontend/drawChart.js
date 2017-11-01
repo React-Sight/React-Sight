@@ -2,7 +2,6 @@
 //  Copyright © 2017 React Sight. All rights reserved.
 
 import * as d3 from 'd3';
-import JSONFormatter from 'json-formatter-js';
 import { parseSvg } from "d3-interpolate/src/transform/parse";
 import updateStateProps from './state-props-panel';
 
@@ -68,7 +67,9 @@ d3.select('#hSlider').on('input', () => {
   update();
 });
 
-// center graph on page -> may not be needed 
+// center graph on page -> may not be needed
+// drawChart.zoomIn();
+// drawChart.zoomOut();
 d3.select('svg').transition().duration(1).call(zoom.transform, transform);
 
 // *************

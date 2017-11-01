@@ -31,15 +31,13 @@ function updatePanel(state, props) {
 
   if (state == null || state === undefined) {
     stateNode.appendChild(document.createTextNode('None'));
-  }
-  else {
+  } else {
     stateNode.appendChild(stateFormatter.render());
   }
 
   if (props == null || props === undefined) {
     propsNode.appendChild(document.createTextNode('None'));
-  }
-  else {
+  } else {
     propsNode.appendChild(propsFomatter.render());
   }
 }
