@@ -4,33 +4,34 @@
 import * as d3 from 'd3';
 import JSONFormatter from 'json-formatter-js';
 import { parseSvg } from "d3-interpolate/src/transform/parse";
+import updateStateProps from './state-props-panel';
 
 // ************
 // *** Main ***
 // ************
-
-let i = 0;
-const duration = 500;
-let root;
+// let i = 0; // probably not used
+const duration = 500; // D3 animation time
+let root; // root node
 let treemap;
-let selectedNode;
+let selectedNode; // represents node that is hovered over
 
-let hSlider = 10;
-let vSlider = 10;
+let hSlider = 10; // default horizontal node spacing
+let vSlider = 10; // defualt vertical node spacing
 
-const margin = {
+const margin = { // default margins
   top: 100,
   right: 100,
   bottom: 100,
   left: 100,
 };
 
-const width = 1000 - margin.right - margin.left;
-const height = 960 - margin.top - margin.bottom;
+const width = 1000 - margin.right - margin.left; // default width
+const height = 960 - margin.top - margin.bottom; // default height
 
-const minZoom = 0.05;
-const maxZoom = 2;
+const minZoom = 0.05; // min zoom distance
+const maxZoom = 2; // max zoom distance
 
+/** D3 zoom object */
 const zoom = d3.zoom()
   .scaleExtent([minZoom, maxZoom])
   .on('zoom', zoomed);
@@ -42,6 +43,7 @@ const transform = d3.zoomIdentity
   .translate(xPos, yPos)
   .scale(1);
 
+/** D3 root element */
 const svg = d3.select('.tree')
   .append('div')
   .classed('svg-container', true) // container class to make it responsive
@@ -66,16 +68,22 @@ d3.select('#hSlider').on('input', () => {
   update();
 });
 
+// center graph on page -> may not be needed 
 d3.select('svg').transition().duration(1).call(zoom.transform, transform);
 
 // *************
 // * Functions *
 // *************
 
+/** Built in D3 zoom function */
 function zoomed() {
   svg.attr('transform', d3.event.transform);
 }
 
+/** Update the tree with new data
+ * 
+ * @param {object} source - parsed representation of React's vDOM
+ */
 function update(source) {
   treemap = d3.tree()
     .nodeSize([hSlider * 5, hSlider * 5]);
@@ -118,7 +126,7 @@ function update(source) {
   let node = svg.selectAll('g.node')
     .data(nodes, (d) => {
       if (d.data.id === selectedNode) {
-        updatePanelRev(d.data.state, d.data.props);
+        updateStateProps(d.data.state, d.data.props);
       }
       return d.data.id;
     });
@@ -152,7 +160,7 @@ function update(source) {
         .style('stroke-width', 5)
         .style('stroke', '#754abb');
       selectedNode = d.data.id;
-      updatePanelRev(d.data.state, d.data.props);
+      updateStateProps(d.data.state, d.data.props);
 
       const breadcrumb = document.querySelector('.breadcrumb');
       const items = breadcrumb.getElementsByTagName('*');
@@ -251,45 +259,7 @@ export function drawChart(treeData) {
   if (loading) document.querySelector('.tree').removeChild(loading);
 }
 
-/** Update the state/ props for a selected node */
-function updatePanelRev(state, props) {
-  const stateNode = document.getElementById('state');
-  const propsNode = document.getElementById('props');
-
-  // state
-  const stateFormatter = new JSONFormatter(state, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 10,
-    hoverPreviewFieldCount: 5,
-    animateOpen: true,
-    animateClose: true,
-  });
-
-  // props
-  const propsFomatter = new JSONFormatter(props, 1, {
-    hoverPreviewEnabled: false,
-    hoverPreviewArrayCount: 100,
-    hoverPreviewFieldCount: 5,
-    animateOpen: true,
-    animateClose: true,
-  });
-
-  stateNode.innerHTML = '';
-  propsNode.innerHTML = '';
-
-  if (state == null || state == undefined) {
-    stateNode.appendChild(document.createTextNode('None'));
-  } else {
-    stateNode.appendChild(stateFormatter.render());
-  }
-
-  if (props == null || props == undefined) {
-    propsNode.appendChild(document.createTextNode('None'));
-  } else {
-    propsNode.appendChild(propsFomatter.render());
-  }
-}
-
+/** Zooms in D3 graph */
 export function zoomIn() {
   const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
   const { translateX, translateY, scaleX } = parseSvg(currentTransform);
@@ -302,6 +272,7 @@ export function zoomIn() {
   d3.select('.svg-content-responsive').transition().duration(1).call(zoom.transform, transform);
 }
 
+/** Zooms out D3 graph */
 export function zoomOut() {
   const currentTransform = d3.select('.svg-content-responsive > g').attr('transform');
   const { translateX, translateY, scaleX } = parseSvg(currentTransform);

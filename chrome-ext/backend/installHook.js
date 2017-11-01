@@ -20,12 +20,20 @@ let __ReactSightStore;
 // locate instance of __REACT_DEVTOOLS_GLOBAL_HOOK__
 // __REACT_DEVTOOLS_GLOBAL_HOOK__ exists if React is imported in inspected Window
 
+/**
+ * Begin monkey patch
+ * 
+ *  IF __REACT_DEVTOOLS_GLOBAL_HOOK__ NOT present, assume website is not using React
+ *  IF React 16 detected, patch 'onCommitFiberRoot' from react dev tools
+ *  ELSE Patch React 15 (or lowers) reconciler method
+ */
 (function installHook() {
-  // no instance of React
+  // no instance of React detected
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
     console.log('Error: React DevTools not present. React Sight uses React DevTools to patch React\'s reconciler');
     return;
   }
+  // React fiber (16+)
   if (instance.version) {
     __ReactSight_ReactVersion = instance.version;
     devTools.onCommitFiberRoot = (function (original) {
@@ -35,7 +43,9 @@ let __ReactSightStore;
         return original(...args);
       };
     })(devTools.onCommitFiberRoot);
-  } else {
+  }
+  // React 15 or lower
+  else {
     // hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       return function (...args) {
@@ -52,6 +62,12 @@ let __ReactSightStore;
   }
 })();
 
+/**
+ * Traverse React's virtual DOM and POST the object to the window.
+ * The message will be recieved by React Sight chrome extension (the content script)
+ * 
+ * @param {array} components - array containing parsed virtual DOM
+ */
 const getData = (components = []) => {
   // define rootElement of virtual DOM
   const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
@@ -61,6 +77,12 @@ const getData = (components = []) => {
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
 
+/**
+ * Recursively walk through virtual DOM and build up JSON representation
+ * 
+ * @param {react component} component - a react component
+ * @param {array} parentArr - array representing component's parent 
+ */
 const traverseAllChildren = (component, parentArr) => {
   // if no current element, return
   if (!component._currentElement) return;
@@ -135,6 +157,11 @@ const traverseAllChildren = (component, parentArr) => {
   }
 };
 
+/**
+ * Parse Component's props. Handle nested objects and functions
+ * 
+ * @param {object} props - Object representing a component's props
+ */
 const parseProps = (props) => {
   if (!props) return;
   if (typeof props !== 'object') return props;
@@ -144,7 +171,9 @@ const parseProps = (props) => {
     else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
     else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
     else if (props.hasOwnProperty('type')) return '' + props.type;
-  } else {
+  }
+  
+  else {
     const parsedProps = {};
     for (let key in props) {
       if (!props[key]) parsedProps[key] === null;
@@ -175,6 +204,12 @@ const parseProps = (props) => {
   }
 };
 
+/**
+ * Strips name of function from component props
+ * 
+ * @param {func} fn - function
+ * @returns {string} function's name
+ */
 const parseFunction = (fn) => {
   const string = "" + fn;
   const match = string.match(/function/);
@@ -185,20 +220,17 @@ const parseFunction = (fn) => {
   return fnName + '()';
 };
 
-// listener for initial load
-window.addEventListener('reactsight', () => {
-  if (parseInt(__ReactSight_ReactVersion) >= 16) traverse16();
-  else getData();
-});
-
 /**
  * Traversal Method for React 16
  *
  * If the application is using React Fiber, run this method to crawl the virtual DOM.
  * First, find the React mount point, then walk through each node
  * For each node, grab the state and props if present
+ * Finally, POST data to window to be recieved by content-scripts
+ * 
+ * @param {array} components - array containing parsed virtual DOM
  *
- * */
+ */
 function traverse16(components = []) {
   // console.log('#traverse16 vDOM: ', __ReactSightFiberDOM);
   recur16(__ReactSightFiberDOM.current.stateNode.current, components);
@@ -296,3 +328,9 @@ function props16(node) {
   });
   return props;
 }
+
+// listener for initial load
+window.addEventListener('reactsight', () => {
+  if (parseInt(__ReactSight_ReactVersion) >= 16) traverse16();
+  else getData();
+});
