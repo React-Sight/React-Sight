@@ -3,7 +3,13 @@
 
 import JSONFormatter from 'json-formatter-js';
 
-/** Update the state/ props for a selected node */
+/**
+ * Update the state/ props for a selected node
+ * Clears existing state / props panel, then appends new panel
+ *
+ * @param {} state - JSON representation of component's state
+ * @param {} props - JSON representation of component's props
+ */
 function updatePanel(state, props) {
   const stateNode = document.getElementById('state');
   const propsNode = document.getElementById('props');
