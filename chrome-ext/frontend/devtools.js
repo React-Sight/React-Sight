@@ -57,8 +57,8 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
 
   // call a zoom in / zoom out to fix first pan/drag event,
   // without this, first dragging chart will cause it to jump on screen
-  drawChart.zoomIn();
-  drawChart.zoomOut();
+  // drawChart.zoomIn();
+  // drawChart.zoomOut();
 
   const port = chrome.extension.connect({
     name: 'React-Sight',
@@ -76,7 +76,7 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
   // Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener((msg) => {
     if (!msg.data) return; // abort if data not present, or if not of type object
-    if (typeof msg != 'object') return;
+    if (typeof msg !== 'object') return;
     curData = msg; // assign global data object
     draw();
   });
