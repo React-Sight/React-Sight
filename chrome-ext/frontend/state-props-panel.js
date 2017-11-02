@@ -1,7 +1,15 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-/** Update the state/ props for a selected node */
+import JSONFormatter from 'json-formatter-js';
+
+/**
+ * Update the state/ props for a selected node
+ * Clears existing state / props panel, then appends new panel
+ *
+ * @param {} state - JSON representation of component's state
+ * @param {} props - JSON representation of component's props
+ */
 function updatePanel(state, props) {
   const stateNode = document.getElementById('state');
   const propsNode = document.getElementById('props');
@@ -27,13 +35,13 @@ function updatePanel(state, props) {
   stateNode.innerHTML = '';
   propsNode.innerHTML = '';
 
-  if (state == null || state == undefined) {
+  if (state == null || state === undefined) {
     stateNode.appendChild(document.createTextNode('None'));
   } else {
     stateNode.appendChild(stateFormatter.render());
   }
 
-  if (props == null || props == undefined) {
+  if (props == null || props === undefined) {
     propsNode.appendChild(document.createTextNode('None'));
   } else {
     propsNode.appendChild(propsFomatter.render());

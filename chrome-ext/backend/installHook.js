@@ -22,7 +22,7 @@ let __ReactSightStore;
 
 /**
  * Begin monkey patch
- * 
+ *
  *  IF __REACT_DEVTOOLS_GLOBAL_HOOK__ NOT present, assume website is not using React
  *  IF React 16 detected, patch 'onCommitFiberRoot' from react dev tools
  *  ELSE Patch React 15 (or lowers) reconciler method
@@ -172,7 +172,7 @@ const parseProps = (props) => {
     else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
     else if (props.hasOwnProperty('type')) return '' + props.type;
   }
-  
+
   else {
     const parsedProps = {};
     for (let key in props) {
@@ -307,6 +307,8 @@ function props16(node) {
     // TODO - get these objects to work, almost always children property
     else if (typeof node.memoizedProps[prop] === 'object') {
       props[prop] = 'object*';
+
+      // TODO - parse object
       // console.log('obj: ', node.memoizedProps[prop]);
       // if (node.memoizedProps[prop] && Object.keys(node.memoizedProps[prop]).length) {
       //   const keys = Object.keys(node.memoizedProps[props]);
@@ -315,15 +317,17 @@ function props16(node) {
       //   props[prop] = parseProps(node.memoizedProps[props]);
       // }
     }
-    else if (prop === 'children') {
-      props[prop] = new node.memoizedProps[prop].constructor;
-      if (Array.isArray(node.memoizedProps[prop])) {
-        node.memoizedProps[prop].forEach((child) => {
-          props[prop].push(child && child.type && child.type.name);
-        });
-      }
-      else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
-    }
+
+    // TODO - debug this
+    // else if (prop === 'children') {
+    //   props[prop] = new node.memoizedProps[prop].constructor();
+    //   if (Array.isArray(node.memoizedProps[prop])) {
+    //     node.memoizedProps[prop].forEach((child) => {
+    //       props[prop].push(child && child.type && child.type.name);
+    //     });
+    //   }
+    //   else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
+    // }
     else props[prop] = node.memoizedProps[prop];
   });
   return props;

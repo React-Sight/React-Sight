@@ -2,16 +2,13 @@
   "extends": "airbnb",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "webextensions": true
   },
   "rules": {
     "func-names": [
       "error",
       "never"
-    ],
-    "brace-style": [
-      "error",
-      "stroustrup"
     ],
     "no-underscore-dangle": 0
   }

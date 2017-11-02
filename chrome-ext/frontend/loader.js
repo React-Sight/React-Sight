@@ -21,9 +21,9 @@ const loaderHeaders = [
 
 /**
  * Appends the loading screen with a random quote.
- * 
- * The loader is removed when / if the tree is drawn, after data has been recieved from the inspected page
- * 
+ *
+ * The loader is removed when / if the tree is drawn,
+ * after data has been recieved from the inspected page.
  * After 10 seconds, it will show an error, indicating it could not find React's root node
  */
 function processLoader() {

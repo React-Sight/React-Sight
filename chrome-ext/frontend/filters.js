@@ -1,7 +1,7 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 //
-//  Filters work by building parsing existing JSON data, and returning a 
+//  Filters work by building parsing existing JSON data, and returning a
 //  new JSON object
 //
 
@@ -10,7 +10,7 @@
  * Generic filter method, only really using this for Route components
  */
 const routerFilter = (node, parentArr, filter) => {
-  if (node.name == undefined) return;
+  if (node.name === undefined) return;
   const newObj = {
     name: node.name,
     children: [],

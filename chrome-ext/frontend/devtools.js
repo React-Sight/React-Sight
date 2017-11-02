@@ -1,11 +1,11 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-import * as drawChart from './drawChart';
-import { filterRedux, filterRouter, filterDOM } from './filters';
 import drawStore from './store-panel';
-import drawBreadcrumbs from './breadcrumb.js';
-import drawLoadingScreen from './loader.js';
+import drawLoadingScreen from './loader';
+import * as drawChart from './drawChart';
+import drawBreadcrumbs from './breadcrumb';
+import { filterRedux, filterRouter, filterDOM } from './filters';
 
 // stores last snapshot of data
 let curData;
@@ -37,8 +37,7 @@ const draw = () => {
   if (!curData.store) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
-  }
-  else {
+  } else {
     drawStore(curData.store);
   }
   drawBreadcrumbs(processedData.data[0]);
@@ -58,8 +57,8 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
 
   // call a zoom in / zoom out to fix first pan/drag event,
   // without this, first dragging chart will cause it to jump on screen
-  drawChart.zoomIn();
-  drawChart.zoomOut();
+  // drawChart.zoomIn();
+  // drawChart.zoomOut();
 
   const port = chrome.extension.connect({
     name: 'React-Sight',
@@ -77,7 +76,7 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
   // Listens for posts sent in specific ports and redraws tree
   port.onMessage.addListener((msg) => {
     if (!msg.data) return; // abort if data not present, or if not of type object
-    if (typeof msg != 'object') return;
+    if (typeof msg !== 'object') return;
     curData = msg; // assign global data object
     draw();
   });
