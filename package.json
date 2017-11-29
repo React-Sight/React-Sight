@@ -4,8 +4,9 @@
   "description": "",
   "main": "background.js",
   "scripts": {
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "webpack": "webpack -w",
-    "test": "npm run build; mocha -t 10000 test/index.js --exit",
+    "test": "mocha",
     "start": "npm-run-all -p webpack",
     "build": "webpack -p"
   },
