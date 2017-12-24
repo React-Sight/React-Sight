@@ -4,10 +4,9 @@
   "description": "",
   "main": "background.js",
   "scripts": {
-    "cover": "istanbul cover _mocha",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "webpack": "webpack -w",
-    "test": "mocha",
+    "test": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage",
+    "coveralls": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "start": "npm-run-all -p webpack",
     "build": "webpack -p"
   },
@@ -33,9 +32,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^4.0.1",
-    "mocha-lcov-reporter": "^1.3.0",
+    "jest": "^22.0.4",
     "npm-run-all": "^4.1.1",
     "webpack": "^3.6.0"
   },
