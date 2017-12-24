@@ -35,7 +35,7 @@ const routerFilter = (node, parentArr, filter) => {
 
 /** Removes DOM nodes by checking 'isDOM' flag */
 const domFilter = (node, parentArr) => {
-  if (node.name == undefined) return;
+  if (node.name === undefined) return;
   const newObj = {
     name: node.name,
     children: [],
@@ -60,7 +60,7 @@ const domFilter = (node, parentArr) => {
 
 /** This is specifcally for redux, and looks for components names 'connect' */
 const reduxFilter = (node, parentArr, filter) => {
-  if (node.name == undefined) return;
+  if (node.name === undefined) return;
   const newObj = {
     name: node.name,
     children: [],
