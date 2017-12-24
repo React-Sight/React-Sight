@@ -24,7 +24,7 @@ describe('filterRouter', () => {
   });
 
   it('should abort if node.name is undefined', () => {
-    const actual = filterRedux({ data: [{}] });
+    const actual = filterRouter({ data: [{}] });
     expect(actual).toEqual({ data: [] });
   });
 });
@@ -36,8 +36,7 @@ describe('filterDOM', () => {
   });
 
   it('should abort if node.name is undefined', () => {
-    const actual = filterRedux({ data: [{}] });
+    const actual = filterDOM({ data: [{}] });
     expect(actual).toEqual({ data: [] });
   });
 });
-
