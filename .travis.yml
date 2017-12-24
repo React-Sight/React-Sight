@@ -3,4 +3,4 @@ node_js:
 - "stable"
 
 after_success:
-- npm run coveralls
+- npm run test
