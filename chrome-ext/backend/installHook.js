@@ -37,7 +37,7 @@ let __ReactSightStore;
   // React fiber (16+)
   if (instance && instance.version) {
     __ReactSight_ReactVersion = instance.version;
-    console.log('version: ', __ReactSight_ReactVersion);
+    // console.log('version: ', __ReactSight_ReactVersion);
     devTools.onCommitFiberRoot = (function (original) {
       return function (...args) {
         __ReactSightFiberDOM = args[1];
@@ -64,7 +64,7 @@ let __ReactSightStore;
     })(instance.Reconciler.receiveComponent);
   }
   else {
-    console.log('no react found');
+    console.log('[React Sight] React not found');
   }
 })();
 /* eslint-enable */
