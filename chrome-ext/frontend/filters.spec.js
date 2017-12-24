@@ -2,55 +2,42 @@
 //  Copyright © 2017 React Sight. All rights reserved.
 
 /* eslint-env jest */
+import { filterRedux, filterRouter, filterDOM } from './filters';
+import { mockDOM, mockFilterRedux, mockFilterRouter, mockFilterDOM } from '../../test/fixtures';
 
-import { filterRedux } from './filters';
+describe('filterRedux', () => {
+  it('should filter Redux components', () => {
+    const actual = filterRedux(mockDOM);
+    expect(actual).toEqual(mockFilterRedux);
+  });
 
-describe('filter.js', () => {
-  it('should filter Redux Components', () => {
-    const mockData = {
-      data: [{
-        id: 4,
-        isDOM: true,
-        props: {},
-        state: null,
-        name: 'Div',
-        children: [{
-          id: 5,
-          isDOM: false,
-          name: 'Provider',
-          props: { store: 'object*', children: 'object*' },
-          state: null,
-          children: [{
-            id: 6,
-            isDOM: false,
-            props: {},
-            state: {},
-            name: 'BrowserRouter',
-            children: [],
-          }],
-        }],
-      }],
-    };
-
-    const expected = {
-      data: [{
-        id: 4,
-        isDOM: true,
-        props: {},
-        state: null,
-        name: 'Div',
-        children: [{
-          id: 6,
-          isDOM: false,
-          props: {},
-          state: {},
-          name: 'BrowserRouter',
-          children: [],
-        }],
-      }],
-    };
-
-    const actual = filterRedux(mockData);
-    expect(actual).toEqual(expected);
+  it('should abort if node.name is undefined', () => {
+    const actual = filterRedux({ data: [{}] });
+    expect(actual).toEqual({ data: [] });
   });
 });
+
+describe('filterRouter', () => {
+  it('should filter Router components', () => {
+    const actual = filterRouter(mockDOM);
+    expect(actual).toEqual(mockFilterRouter);
+  });
+
+  it('should abort if node.name is undefined', () => {
+    const actual = filterRedux({ data: [{}] });
+    expect(actual).toEqual({ data: [] });
+  });
+});
+
+describe('filterDOM', () => {
+  it('should filter DOM components', () => {
+    const actual = filterDOM(mockDOM);
+    expect(actual).toEqual(mockFilterDOM);
+  });
+
+  it('should abort if node.name is undefined', () => {
+    const actual = filterRedux({ data: [{}] });
+    expect(actual).toEqual({ data: [] });
+  });
+});
+
