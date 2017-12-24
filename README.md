@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/davidcsally/React-Sight/badge.svg?branch=master)](https://coveralls.io/github/davidcsally/React-Sight?branch=master)
+[![Build Status](https://travis-ci.org/davidcsally/React-Sight.svg?branch=master)](https://travis-ci.org/davidcsally/React-Sight)
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
 React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux.

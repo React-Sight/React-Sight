@@ -84,24 +84,24 @@ const reduxFilter = (node, parentArr, filter) => {
 };
 
 /** Removes Redux components from tree */
-export function filterRedux(data) {
+export const filterRedux = (data) => {
   const filtered = { data: [] };
   const names = ['Provider', 'Connect'];
   reduxFilter(data.data[0], filtered.data, names);
   return filtered;
-}
+};
 
 /** Removes ReactRouter v4 components from JSON */
-export function filterRouter(data) {
+export const filterRouter = (data) => {
   const filtered = { data: [] };
   const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
   routerFilter(data.data[0], filtered.data, names);
   return filtered;
-}
+};
 
 /** Removes Basic DOM components from tree */
-export function filterDOM(data) {
+export const filterDOM = (data) => {
   const filtered = { data: [] };
   domFilter(data.data[0], filtered.data);
   return filtered;
-}
+};

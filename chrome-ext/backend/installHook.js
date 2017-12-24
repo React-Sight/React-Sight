@@ -1,16 +1,16 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
+/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off */
+
 // Notes... might need additional testing..renderers provides a list of all imported React instances
 
 const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers || null;
 const instance = reactInstances[Object.keys(reactInstances)[0]];
-const reactRoot = window.document.body.childNodes;
+// const reactRoot = window.document.body.childNodes;
 const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
 // grab the first instance of imported React library
-// console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__);
-// console.log('#__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers[0]: ', instance);
 
 let __ReactSightThrottle = false;
 let __ReactSightFiberDOM;
@@ -27,6 +27,7 @@ let __ReactSightStore;
  *  IF React 16 detected, patch 'onCommitFiberRoot' from react dev tools
  *  ELSE Patch React 15 (or lowers) reconciler method
  */
+/*eslint-disable */
 (function installHook() {
   // no instance of React detected
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
@@ -36,9 +37,11 @@ let __ReactSightStore;
   // React fiber (16+)
   if (instance.version) {
     __ReactSight_ReactVersion = instance.version;
+    console.log('version: ', __ReactSight_ReactVersion);
     devTools.onCommitFiberRoot = (function (original) {
       return function (...args) {
         __ReactSightFiberDOM = args[1];
+        // console.log('DOM: ', __ReactSightFiberDOM);
         traverse16();
         return original(...args);
       };
@@ -61,27 +64,63 @@ let __ReactSightStore;
     })(instance.Reconciler.receiveComponent);
   }
 })();
+/* eslint-enable */
 
+/* eslint consistent-return: off */
 /**
- * Traverse React's virtual DOM and POST the object to the window.
- * The message will be recieved by React Sight chrome extension (the content script)
- * 
- * @param {array} components - array containing parsed virtual DOM
+ * Parse Component's props. Handle nested objects and functions
+ *
+ * @param {object} props - Object representing a component's props
  */
-const getData = (components = []) => {
-  // define rootElement of virtual DOM
-  const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
-  // recursively traverse down through props chain   starting from root element
-  traverseAllChildren(rootElement, components);
-  const data = { data: components, __ReactSightStore };
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+const parseProps = (props) => {
+  if (!props) return;
+  if (typeof props !== 'object') return props;
+  // check if current props has PROPS property..don't traverse further just grab name property
+  // var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
+  // if (props.hasOwnProperty('props')) {
+  if (Object.prototype.hasOwnProperty.call(props, 'props')) {
+    if (!props.hasOwnProperty('type')) return undefined;
+    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
+    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
+    else if (props.hasOwnProperty('type')) return `${props.type}`;
+  }
+
+  else {
+    const parsedProps = {};
+    for (let key in props) {
+      if (!props[key]) parsedProps[key] === null;
+      // stringify methods
+      else if (key === 'routes') {
+      }
+      else if (typeof props[key] === 'function') {
+        parsedProps[key] = parseFunction(props[key]);
+      }
+      else if (Array.isArray(props[key]) && key === 'children') {
+        // parseProps forEach element
+        parsedProps[key] = [];
+        props[key].forEach((child) => {
+          parsedProps[key].push(parseProps(child));
+        });
+      } else if (typeof props[key] === 'object') {
+        // handle custom objects and components with one child
+        if (props[key] && Object.keys(props[key]).length) {
+          parsedProps[key] = parseProps(props[key]);
+        }
+      }
+      else {
+        // handle text nodes and other random values
+        parsedProps[key] = props[key];
+      }
+    }
+    return parsedProps;
+  }
 };
 
 /**
  * Recursively walk through virtual DOM and build up JSON representation
- * 
+ *
  * @param {react component} component - a react component
- * @param {array} parentArr - array representing component's parent 
+ * @param {array} parentArr - array representing component's parent
  */
 const traverseAllChildren = (component, parentArr) => {
   // if no current element, return
@@ -158,89 +197,80 @@ const traverseAllChildren = (component, parentArr) => {
 };
 
 /**
- * Parse Component's props. Handle nested objects and functions
- * 
- * @param {object} props - Object representing a component's props
+ * Traverse React's virtual DOM and POST the object to the window.
+ * The message will be recieved by React Sight chrome extension (the content script)
+ *
+ * @param {array} components - array containing parsed virtual DOM
  */
-const parseProps = (props) => {
-  if (!props) return;
-  if (typeof props !== 'object') return props;
-  // check if current props has PROPS property..don't traverse further just grab name property
-  if (props.hasOwnProperty('props')) {
-    if (!props.hasOwnProperty('type')) return;
-    else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
-    else if (props.type.hasOwnProperty('displayName') && props.type.displayName.length) return props.type.displayName;
-    else if (props.hasOwnProperty('type')) return '' + props.type;
-  }
+const getData = (components = []) => {
+  // define rootElement of virtual DOM
+  const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
+  // recursively traverse down through props chain   starting from root element
+  traverseAllChildren(rootElement, components);
+  const data = { data: components, __ReactSightStore };
 
-  else {
-    const parsedProps = {};
-    for (let key in props) {
-      if (!props[key]) parsedProps[key] === null;
-      // stringify methods
-      else if (key === 'routes') {
-      }
-      else if (typeof props[key] === 'function') {
-        parsedProps[key] = parseFunction(props[key]);
-      }
-      else if (Array.isArray(props[key]) && key === 'children') {
-        // parseProps forEach element
-        parsedProps[key] = [];
-        props[key].forEach((child) => {
-          parsedProps[key].push(parseProps(child));
-        });
-      } else if (typeof props[key] === 'object') {
-        // handle custom objects and components with one child
-        if (props[key] && Object.keys(props[key]).length) {
-          parsedProps[key] = parseProps(props[key]);
-        }
-      }
-      else {
-        // handle text nodes and other random values
-        parsedProps[key] = props[key];
-      }
-    }
-    return parsedProps;
-  }
+  console.log('SENDING -> ', data);
+  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 };
+
 
 /**
  * Strips name of function from component props
- * 
+ *
  * @param {func} fn - function
  * @returns {string} function's name
  */
 const parseFunction = (fn) => {
-  const string = "" + fn;
+  const string = `${fn}`;
   const match = string.match(/function/);
   const firstIndex = string.indexOf(match[0]) + match[0].length + 1;
   const lastIndex = string.indexOf('(');
   const fnName = string.slice(firstIndex, lastIndex);
   if (!fnName.length) return 'fn()';
-  return fnName + '()';
+  return `${fnName} ()`;
 };
 
-/**
- * Traversal Method for React 16
+/** TODO - get objects to work
  *
- * If the application is using React Fiber, run this method to crawl the virtual DOM.
- * First, find the React mount point, then walk through each node
- * For each node, grab the state and props if present
- * Finally, POST data to window to be recieved by content-scripts
- * 
- * @param {array} components - array containing parsed virtual DOM
- *
+ * Parse the props for React 16 components
  */
-function traverse16(components = []) {
-  // console.log('#traverse16 vDOM: ', __ReactSightFiberDOM);
-  recur16(__ReactSightFiberDOM.current.stateNode.current, components);
-  const data = {
-    data: components,
-    __ReactSightStore,
-  };
-  data.data = data.data[0].children;
-  // console.log('retrieved data --> posting to content-scripts...: ', data)
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+function props16(node) {
+  // console.log('props16');
+  const props = {};
+  const keys = Object.keys(node.memoizedProps);
+
+  keys.forEach((prop) => {
+    if (typeof node.memoizedProps[prop] === 'function') {
+      props[prop] = parseFunction(node.memoizedProps[prop]);
+    }
+    // TODO - get these objects to work, almost always children property
+    else if (typeof node.memoizedProps[prop] === 'object') {
+      // console.log("PROP Object: ", node.memoizedProps[prop]);
+      props[prop] = 'object*';
+
+      // TODO - parse object
+      // console.log('obj: ', node.memoizedProps[prop]);
+      // if (node.memoizedProps[prop] && Object.keys(node.memoizedProps[prop]).length) {
+      //   const keys = Object.keys(node.memoizedProps[props]);
+      //   console.log('keys', keys)
+      //   props[prop] = keys
+      //   props[prop] = parseProps(node.memoizedProps[props]);
+      // }
+    }
+
+    // TODO - debug this
+    // else if (prop === 'children') {
+    //   props[prop] = new node.memoizedProps[prop].constructor();
+    //   if (Array.isArray(node.memoizedProps[prop])) {
+    //     node.memoizedProps[prop].forEach((child) => {
+    //       props[prop].push(child && child.type && child.type.name);
+    //     });
+    //   }
+    //   else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
+    // }
+    else props[prop] = node.memoizedProps[prop];
+  });
+  return props;
 }
 
 /** TODO: Get Props
@@ -292,49 +322,33 @@ function recur16(node, parentArr) {
   if (node.sibling != null) recur16(node.sibling, parentArr);
 }
 
-/** TODO - get objects to work
+/**
+ * Traversal Method for React 16
  *
- * Parse the props for React 16 components
+ * If the application is using React Fiber, run this method to crawl the virtual DOM.
+ * First, find the React mount point, then walk through each node
+ * For each node, grab the state and props if present
+ * Finally, POST data to window to be recieved by content-scripts
+ *
+ * @param {array} components - array containing parsed virtual DOM
+ *
  */
-function props16(node) {
-  const props = {};
-  const keys = Object.keys(node.memoizedProps);
-
-  keys.forEach((prop) => {
-    if (typeof node.memoizedProps[prop] === 'function') {
-      props[prop] = parseFunction(node.memoizedProps[prop]);
-    }
-    // TODO - get these objects to work, almost always children property
-    else if (typeof node.memoizedProps[prop] === 'object') {
-      props[prop] = 'object*';
-
-      // TODO - parse object
-      // console.log('obj: ', node.memoizedProps[prop]);
-      // if (node.memoizedProps[prop] && Object.keys(node.memoizedProps[prop]).length) {
-      //   const keys = Object.keys(node.memoizedProps[props]);
-      //   console.log('keys', keys)
-      //   props[prop] = keys
-      //   props[prop] = parseProps(node.memoizedProps[props]);
-      // }
-    }
-
-    // TODO - debug this
-    // else if (prop === 'children') {
-    //   props[prop] = new node.memoizedProps[prop].constructor();
-    //   if (Array.isArray(node.memoizedProps[prop])) {
-    //     node.memoizedProps[prop].forEach((child) => {
-    //       props[prop].push(child && child.type && child.type.name);
-    //     });
-    //   }
-    //   else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
-    // }
-    else props[prop] = node.memoizedProps[prop];
-  });
-  return props;
+function traverse16(components = []) {
+  if (typeof __ReactSightFiberDOM === 'undefined') return;
+  // console.log('#traverse16 vDOM: ', __ReactSightFiberDOM);
+  recur16(__ReactSightFiberDOM.current.stateNode.current, components);
+  const data = {
+    data: components,
+    __ReactSightStore,
+  };
+  data.data = data.data[0].children[0].children;
+  // console.log('retrieved data --> posting to content-scripts...: ', data)
+  console.log('SENDING -> ', data);
+  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 }
 
 // listener for initial load
 window.addEventListener('reactsight', () => {
-  if (parseInt(__ReactSight_ReactVersion) >= 16) traverse16();
+  if (parseInt(__ReactSight_ReactVersion, 10) >= 16) traverse16();
   else getData();
 });

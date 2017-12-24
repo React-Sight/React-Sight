@@ -5,7 +5,8 @@
   "main": "background.js",
   "scripts": {
     "webpack": "webpack -w",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage",
+    "coveralls": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "start": "npm-run-all -p webpack",
     "build": "webpack -p"
   },
@@ -23,6 +24,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "coveralls": "^3.0.0",
     "css-loader": "^0.28.7",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^16.0.0",
@@ -30,6 +32,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
+    "jest": "^22.0.4",
     "npm-run-all": "^4.1.1",
     "webpack": "^3.6.0"
   },
