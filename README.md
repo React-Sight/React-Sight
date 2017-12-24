@@ -1,5 +1,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/davidcsally/React-Sight/badge.svg?branch=master)](https://coveralls.io/github/davidcsally/React-Sight?branch=master)
 [![Build Status](https://travis-ci.org/davidcsally/React-Sight.svg?branch=master)](https://travis-ci.org/davidcsally/React-Sight)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
 React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux.
