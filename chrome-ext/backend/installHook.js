@@ -35,7 +35,7 @@ let __ReactSightStore;
     return;
   }
   // React fiber (16+)
-  if (instance.version) {
+  if (instance && instance.version) {
     __ReactSight_ReactVersion = instance.version;
     console.log('version: ', __ReactSight_ReactVersion);
     devTools.onCommitFiberRoot = (function (original) {
@@ -48,7 +48,7 @@ let __ReactSightStore;
     })(devTools.onCommitFiberRoot);
   }
   // React 15 or lower
-  else {
+  else if (instance && instance.Reconciler) {
     // hijack receiveComponent method which runs after a component is rendered
     instance.Reconciler.receiveComponent = (function (original) {
       return function (...args) {
@@ -62,6 +62,9 @@ let __ReactSightStore;
         return original(...args);
       };
     })(instance.Reconciler.receiveComponent);
+  }
+  else {
+    console.log('no react found');
   }
 })();
 /* eslint-enable */
@@ -335,20 +338,22 @@ function recur16(node, parentArr) {
  */
 function traverse16(components = []) {
   if (typeof __ReactSightFiberDOM === 'undefined') return;
-  // console.log('#traverse16 vDOM: ', __ReactSightFiberDOM);
+  // console.log('[ReactSight]traverse16 vDOM: ', __ReactSightFiberDOM);
   recur16(__ReactSightFiberDOM.current.stateNode.current, components);
   const data = {
     data: components,
     __ReactSightStore,
   };
   data.data = data.data[0].children[0].children;
-  // console.log('retrieved data --> posting to content-scripts...: ', data)
-  console.log('SENDING -> ', data);
+  // console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', data)
+  // console.log('[ReactSight] SENDING -> ', data);
   window.postMessage(JSON.parse(JSON.stringify(data)), '*');
 }
 
 // listener for initial load
-window.addEventListener('reactsight', () => {
-  if (parseInt(__ReactSight_ReactVersion, 10) >= 16) traverse16();
-  else getData();
-});
+if (instance) {
+  window.addEventListener('reactsight', () => {
+    if (parseInt(__ReactSight_ReactVersion, 10) >= 16) traverse16();
+    else getData();
+  });
+}
