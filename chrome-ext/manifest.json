@@ -11,16 +11,6 @@
     ],
     "persistent": true
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content-script.js"
-      ]
-    }
-  ],
   "icons": {
     "16": "asset/icon16.png",
     "48": "asset/icon48.png",
