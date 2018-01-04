@@ -1,9 +1,26 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-/* eslint max-len: off, no-console: off, prefer-arrow-callback: off */
-
+/* eslint no-var: off, camelcase: off, max-len: off, prefer-arrow-callback: off,
+no-useless-return: off, max-len: off, no-console: off, prefer-const: off,
+no-unused-vars: off, eqeqeq: off */
 const connections = {};
+
+// Background page -- background.js
+// inject content script when dev tools are opened
+chrome.extension.onConnect.addListener((devToolsConnection) => {
+  // assign the listener function to a variable so we can remove it later
+  var devToolsListener = (message, sender, sendResponse) => {
+    // Inject a content script into the identified tab
+    chrome.tabs.executeScript(message.tabId, { file: 'content-script.js' });
+  };
+  // add the listener
+  devToolsConnection.onMessage.addListener(devToolsListener);
+
+  devToolsConnection.onDisconnect.addListener(() => {
+    devToolsConnection.onMessage.removeListener(devToolsListener);
+  });
+});
 
 chrome.extension.onConnect.addListener(function (port) {
   let extensionListener = (message, sender, res) => {
@@ -22,7 +39,7 @@ chrome.extension.onConnect.addListener(function (port) {
     port.onMessage.removeListener(extensionListener);
 
     let tabs = Object.keys(connections);
-    for (let i = 0; i < tabs.length; i++) {
+    for (let i = 0; i < tabs.length; i += 1) {
       if (connections[tabs[i]] == port) {
         delete connections[tabs[i]];
         break;
