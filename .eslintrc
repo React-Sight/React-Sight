@@ -6,6 +6,7 @@
     "webextensions": true
   },
   "rules": {
+    "linebreak-style": 0,
     "func-names": [
       "error",
       "never"
