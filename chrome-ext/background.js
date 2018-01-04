@@ -1,8 +1,9 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-/* eslint no-var: off, camelcase: off, max-len: off, prefer-arrow-callback: off, no-useless-return: off */
-
+/* eslint no-var: off, camelcase: off, max-len: off, prefer-arrow-callback: off,
+no-useless-return: off, max-len: off, no-console: off, prefer-const: off,
+no-unused-vars: off, eqeqeq: off */
 const connections = {};
 
 // Background page -- background.js
@@ -46,6 +47,7 @@ chrome.extension.onConnect.addListener(function (port) {
     }
   });
 });
+
 // Receives message from content-scripts and checks for valid connections before posting to devtools
 chrome.extension.onMessage.addListener(function (req, sender, res) {
   if (sender.tab) {
