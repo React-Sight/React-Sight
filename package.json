@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "webpack": "webpack -w",
-    "test": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage",
+    "test": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage chrome-ext --collectCoverageFrom=**/chrome-ext/**/*.js",
     "coveralls": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "start": "npm-run-all -p webpack",
     "build": "webpack -p"
