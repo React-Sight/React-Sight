@@ -1,8 +1,17 @@
 {
-  "name": "visualizechromeext",
-  "version": "1.0.0",
-  "description": "",
-  "main": "background.js",
+  "name": "React-Sight",
+  "version": "1.0.5",
+  "description": "Visualization tool for React Applications",
+  "keywords": [
+    "react",
+    "fiber",
+    "redux",
+    "router",
+    "chrome",
+    "extension",
+    "developer tool",
+    "dev tool"
+  ],
   "scripts": {
     "webpack": "webpack -w",
     "test": "NODE_PATH=. node_modules/.bin/jest --verbose --coverage",
@@ -10,13 +19,13 @@
     "start": "npm-run-all -p webpack",
     "build": "webpack -p"
   },
-  "repository": "git+https://github.com/React-Sight/React-SightChromeExt.git",
-  "author": "",
-  "license": "ISC",
+  "repository": "git+https://github.com/React-Sight/React-Sight.git",
+  "author": "David Sally, Grant Kang, & William He",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hewilliam/VisualizeChromeExt/issues"
+    "url": "https://github.com/React-Sight/React-Sight/issues"
   },
-  "homepage": "https://github.com/hewilliam/VisualizeChromeExt#readme",
+  "homepage": "https://github.com/React-Sight/React-Sight#readme",
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
