@@ -4,3 +4,6 @@ node_js:
 
 after_success:
 - npm run coveralls
+
+notifications:
+    slack: codesmith-16:rHlo202Q6mBtPkBwpKcoeBk8
