@@ -64,9 +64,11 @@ The raw data is then processed and fed to D3, where it is displayed to the user.
 ## Troubleshooting
 
 1. 'React not found' or no data:
+
 Sometimes React-Sight doesn't get a snapshot of the data at load, triggering a setState ussually fixes this
 
 2. Maximum call stack exceeded and other console errors:
+
 This is a bug where the parsing functions get stuck in an infinite loop. We are working on a fix.
 
 ## Testing
