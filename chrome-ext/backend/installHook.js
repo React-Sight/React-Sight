@@ -1,7 +1,7 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2017 React Sight. All rights reserved.
 
-/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off */
+/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
 
 // Notes... might need additional testing..renderers provides a list of all imported React instances
 var __ReactSightHasRun; // memoize installing the hook
@@ -72,14 +72,14 @@ if (!__ReactSightHasRun) {
   })();
   /* eslint-enable */
 
-  /* eslint consistent-return: off */
   /**
    * Parse Component's props. Handle nested objects and functions
    *
    * @param {object} props - Object representing a component's props
    */
-  const parseProps = (props) => {
+  const parseProps = (props, i = 0) => {
     if (!props) return;
+    if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return; // window was causing infinite loops
     if (typeof props !== 'object') return props;
     // check if current props has PROPS property..don't traverse further just grab name property
     // var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
@@ -93,11 +93,11 @@ if (!__ReactSightHasRun) {
 
     else {
       const parsedProps = {};
+      // TODO remove for in loop
       for (let key in props) {
         if (!props[key]) parsedProps[key] === null;
         // stringify methods
-        else if (key === 'routes') {
-        }
+        else if (key === 'routes') return;
         else if (typeof props[key] === 'function') {
           parsedProps[key] = parseFunction(props[key]);
         }
@@ -110,7 +110,10 @@ if (!__ReactSightHasRun) {
         } else if (typeof props[key] === 'object') {
           // handle custom objects and components with one child
           if (props[key] && Object.keys(props[key]).length) {
-            parsedProps[key] = parseProps(props[key]);
+            if (i < 3) { // limit this func
+              const iterator = i + 1;
+              parsedProps[key] = parseProps(props[key], iterator);
+            } else parsedProps[key] = 'obj*'; // end recursion so we dont get infinite loops
           }
         }
         else {
@@ -215,7 +218,7 @@ if (!__ReactSightHasRun) {
     traverseAllChildren(rootElement, components);
     const data = { data: components, __ReactSightStore };
 
-    console.log('SENDING -> ', data);
+    // console.log('SENDING -> ', data);
     window.postMessage(JSON.parse(JSON.stringify(data)), '*');
   };
 
@@ -228,8 +231,13 @@ if (!__ReactSightHasRun) {
    */
   const parseFunction = (fn) => {
     const string = `${fn}`;
+
     const match = string.match(/function/);
-    const firstIndex = string.indexOf(match[0]) + match[0].length + 1;
+    if (match == null) return 'fn()';
+
+    const firstIndex = match[0] ? string.indexOf(match[0]) + match[0].length + 1 : null;
+    if (firstIndex == null) return 'fn()';
+
     const lastIndex = string.indexOf('(');
     const fnName = string.slice(firstIndex, lastIndex);
     if (!fnName.length) return 'fn()';
@@ -360,5 +368,5 @@ if (!__ReactSightHasRun) {
       else getData();
     });
   }
-  hasRun = true;
+  __ReactSightHasRun = true;
 }
