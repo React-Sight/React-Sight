@@ -16,6 +16,7 @@ React Sight is a live view of the component hierarchy tree of your React applica
 
 
 ## Set Up | Install From Chrome Store
+
 1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. 
 
 2. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
@@ -27,6 +28,7 @@ React Sight is a live view of the component hierarchy tree of your React applica
 5. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
 
 ## Building Your Own Version
+
 If you'd like to build your own version of React Sight:
 
 1. Clone the repo and `npm install` dependancies
@@ -38,6 +40,7 @@ If you'd like to build your own version of React Sight:
 If you have any additional questions send us a message at reactsight@gmail.com :)
 
 ## Usage
+
 Hover over nodes to see their state and props in the side panel. 
 
 Hide DOM elements, Redux components, and Router components with the built in filters, so that you can focus only on the components you've written
@@ -50,11 +53,33 @@ We built React Sight because there are no tools on the market that give you a vi
 
 We wanted React Sight to be simple to use, which is why all you have to do is install a Chrome extension. No modifying your existing code!
 
+## How Does It Work?
+
+When the dev tools are opened, React-Sight searches for React renderer's, and patches the render to collect data on each state change.
+
+Data is posted to the Window, where it is read by Chrome's background.js window, and is then relayed to React-Sight's devTools page.
+
+The raw data is then processed and fed to D3, where it is displayed to the user.
+
+## Troubleshooting
+
+'React not found' or no data:
+
+Sometimes React-Sight doesn't get a snapshot of the data at load, triggering a setState ussually fixes this
+
+Maximum call stack exceeded and other console errors:
+
+This is a bug where the parsing functions get stuck in an infinite loop. We are working on a fix.
+
+## Testing
+
+Run `npm test` to run the test suite
+
 ## Contributing
 
-Found a bug? Have a suggestion?
+Found a bug? Have a suggestion? Want to make React-Sight better?
 
-Please submit issues/pull requests if you have feedback or would like to contribute. If you're interested in joining the React Sight team as a contributor, feel free to message one of us directly.
+Please submit issues/pull requests if you have feedback or would like to contribute. If you're interested in joining the React Sight team as a contributor, feel free to message one of us directly, or just start submitting pull requests!
 
 ## Authors
 
@@ -80,13 +105,14 @@ Here's our top development priorities
 
 1. Better support across all React versions, especially fiber
 2. More consistent detection of root nodes when React Sight is opened
-3. Support for multiple React mounting nodes 
+3. Support for multiple React Applications / mounting nodes 
 4. More robust error handling and guard blocks for extracting state, props, and store
 5. Logging / Debugging mode for development, feedback, and error reporting
 6. Performance and stability updates
 7. Mousewheel zoom in D3 chart (if you can solve this I will order you 🍕)
 8. UX improvements
 9. Improved documentation
+10. Hook into React DevTool's reporting so that we don't have to reimplement it :)
 
 ## License
 
