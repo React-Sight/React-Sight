@@ -190,3 +190,105 @@ export const mockFilterRedux = {
     }],
   }],
 };
+
+/** For store-panel testing */
+export const mockReduxStore = {
+  prop1: 'hello',
+  prop2: ['hello', 'world'],
+  prop3: 4,
+};
+
+export const mockStorePanel =
+  '<ul class="sidebar-nav">' +
+    '<li id="store-container">' +
+      '<h2>Store</h2>' +
+    '<div id="store"></div>' +
+      '<br>' +
+    '</li>' +
+  '</ul>';
+
+export const mockJSONFormatter =
+  '<div class="json-formatter-row">' +
+    '<a class="json-formatter-toggler-link">' +
+      '<span class="json-formatter-toggler">' +
+        '</span>' +
+          '<span class="json-formatter-value">' +
+            '<span>' +
+              '<span class="json-formatter-constructor-name">' +
+                'Object' +
+              '</span>' +
+            '</span>' +
+          '</span>' +
+        '</a>' +
+      '<div class="json-formatter-children json-formatter-object">' +
+    '</div>' +
+  '</div>';
+
+
+export const mockJSONFormatterExpanded =
+  '<div class="json-formatter-row json-formatter-open">' +
+    '<a class="json-formatter-toggler-link">' +
+      '<span class="json-formatter-toggler"></span>' +
+      '<span class="json-formatter-value">' +
+        '<span>' +
+          '<span class="json-formatter-constructor-name">' +
+            'Object' +
+          '</span>' +
+        '</span>' +
+      '</span>' +
+    '</a>' +
+    '<div class="json-formatter-children json-formatter-object">' +
+      '<div class="json-formatter-row">' +
+        '<a class="json-formatter-toggler-link">' +
+          '<span class="json-formatter-key">' +
+            'prop1:' +
+          '</span>' +
+          '<span class="json-formatter-string">' +
+            '"hello"' +
+          '</span>' +
+        '</a>' +
+        '<div class="json-formatter-children json-formatter-empty">' +
+        '</div>' +
+      '</div>' +
+      '<div class="json-formatter-row">' +
+        '<a class="json-formatter-toggler-link">' +
+          '<span class="json-formatter-toggler"></span>' +
+          '<span class="json-formatter-key">' +
+            'prop2:' +
+          '</span>' +
+          '<span class="json-formatter-value">' +
+            '<span>' +
+              '<span class="json-formatter-constructor-name">' +
+                'Array' +
+              '</span>' +
+              '<span>' +
+                '<span class="json-formatter-bracket">' +
+                  '[' +
+                '</span>' +
+                '<span class="json-formatter-number">' +
+                  '2' +
+                '</span>' +
+                '<span class="json-formatter-bracket">' +
+                  ']' +
+                '</span>' +
+              '</span>' +
+            '</span>' +
+          '</span>' +
+        '</a>' +
+        '<div class="json-formatter-children json-formatter-object json-formatter-array">' +
+        '</div>' +
+      '</div>' +
+      '<div class="json-formatter-row">' +
+        '<a class="json-formatter-toggler-link">' +
+          '<span class="json-formatter-key">' +
+            'prop3:' +
+          '</span>' +
+          '<span class="json-formatter-number">' +
+            '4' +
+          '</span>' +
+        '</a>' +
+        '<div class="json-formatter-children json-formatter-empty">' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
