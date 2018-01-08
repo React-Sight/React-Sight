@@ -216,7 +216,7 @@ if (!__ReactSightHasRun) {
     const rootElement = instance.Mount._instancesByReactRootID[1]._renderedComponent;
     // recursively traverse down through props chain   starting from root element
     traverseAllChildren(rootElement, components);
-    const data = { data: components, __ReactSightStore };
+    const data = { data: components, store: __ReactSightStore };
 
     // console.log('SENDING -> ', data);
     window.postMessage(JSON.parse(JSON.stringify(data)), '*');
@@ -353,7 +353,7 @@ if (!__ReactSightHasRun) {
     recur16(__ReactSightFiberDOM.current.stateNode.current, components);
     const data = {
       data: components,
-      __ReactSightStore,
+      store: __ReactSightStore,
     };
     data.data = data.data[0].children[0].children;
     // console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', data)

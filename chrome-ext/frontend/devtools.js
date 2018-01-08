@@ -9,6 +9,7 @@ import { filterRedux, filterRouter, filterDOM } from './filters';
 
 // stores last snapshot of data
 let curData;
+let previousStore;
 
 // *************
 // * FUNCTIONS *
@@ -38,7 +39,8 @@ const draw = () => {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
   } else {
-    drawStore(curData.store);
+    const { store } = curData.store;
+    previousStore = drawStore(store, previousStore);
   }
   drawBreadcrumbs(processedData.data[0]);
 };
