@@ -10,6 +10,5 @@ module.exports = {
     '<rootDir>/chrome-ext/content-script.js',
     '<rootDir>/chrome-ext/frontend/devtools.js',
     '<rootDir>/chrome-ext/frontend/drawChart.js',
-    '<rootDir>/chrome-ext/frontend/breadcrumb.js',
   ],
 };
