@@ -39,7 +39,7 @@ const draw = () => {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
   } else {
-    const { store } = curData.store;
+    const { store } = curData;
     previousStore = drawStore(store, previousStore);
   }
   drawBreadcrumbs(processedData.data[0]);
