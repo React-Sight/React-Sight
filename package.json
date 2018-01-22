@@ -14,9 +14,11 @@
   ],
   "scripts": {
     "start": "webpack -w",
+    "start:dev": "NODE_PATH=. NODE_ENV='development' webpack-dev-server --content-base chrome-ext/build",
     "test": "NODE_PATH=. node_modules/.bin/jest",
     "coveralls": "NODE_PATH=. node_modules/.bin/jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "build:debug": "NODE_ENV=debug webpack"
   },
   "repository": "git+https://github.com/React-Sight/React-Sight.git",
   "author": "David Sally, Grant Kang, & William He",
@@ -44,8 +46,13 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
+    "html-webpack-plugin": "^2.30.1",
     "jest": "^22.0.4",
+    "node-sass": "^4.7.2",
     "npm-run-all": "^4.1.1",
-    "webpack": "^3.6.0"
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }
