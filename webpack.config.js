@@ -7,7 +7,6 @@ module.exports = {
   entry: {
     bundle: './chrome-ext/frontend/devtools.js',
     installHook: './chrome-ext/backend/installHook.js',
-    // style: './chrome-ext/css/style.css',
   },
   output: {
     filename: '[name].js',
