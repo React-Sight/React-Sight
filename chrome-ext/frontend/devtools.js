@@ -7,6 +7,9 @@ import * as drawChart from './drawChart';
 import drawBreadcrumbs from './breadcrumb';
 import { filterRedux, filterRouter, filterDOM } from './filters';
 
+import '../css/style.css';
+import '../css/bootstrap.min.css';
+
 // stores last snapshot of data
 let curData;
 let previousStore;

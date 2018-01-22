@@ -2,7 +2,7 @@
 //  Copyright © 2018 React Sight. All rights reserved.
 
 /* eslint-env jest */
-import processLoader from './loader';
+import processLoader from '../../chrome-ext/frontend/loader';
 
 jest.useFakeTimers();
 

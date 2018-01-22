@@ -1,5 +1,5 @@
 {
-  "name": "React-Sight",
+  "name": "react-sight",
   "version": "1.0.5",
   "description": "Visualization tool for React Applications",
   "keywords": [
@@ -13,10 +13,9 @@
     "dev tool"
   ],
   "scripts": {
-    "webpack": "webpack -w",
+    "start": "webpack -w",
     "test": "NODE_PATH=. node_modules/.bin/jest",
     "coveralls": "NODE_PATH=. node_modules/.bin/jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "start": "npm-run-all -p webpack",
     "build": "webpack -p"
   },
   "repository": "git+https://github.com/React-Sight/React-Sight.git",
@@ -26,6 +25,10 @@
     "url": "https://github.com/React-Sight/React-Sight/issues"
   },
   "homepage": "https://github.com/React-Sight/React-Sight#readme",
+  "dependencies": {
+    "d3": "^4.10.2",
+    "json-formatter-js": "^2.2.0"
+  },
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
@@ -44,9 +47,5 @@
     "jest": "^22.0.4",
     "npm-run-all": "^4.1.1",
     "webpack": "^3.6.0"
-  },
-  "dependencies": {
-    "d3": "^4.10.2",
-    "json-formatter-js": "^2.2.0"
   }
 }

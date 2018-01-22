@@ -31,4 +31,4 @@ chrome.extension.onMessage.addListener(() => {
   listener is currently emitting anytime a new tab is open */
 });
 
-injectScript(chrome.extension.getURL('/backend/installHook.js'), 'body');
+injectScript(chrome.extension.getURL('/build/installHook.js'), 'body');

@@ -2,7 +2,7 @@
 //  Copyright © 2017 React Sight. All rights reserved.
 
 /* eslint-env jest */
-import drawVBox from './breadcrumb';
+import drawBreadcrumbs from '../../chrome-ext/frontend/breadcrumb';
 import { mockBreadcrumbsDOM } from '../../test/fixtures';
 
 describe('breadcrumb.js', () => {
@@ -29,7 +29,7 @@ describe('breadcrumb.js', () => {
         'Component[2]' +
       '</a>';
 
-    drawVBox(mockBreadcrumbsDOM.data[0]);
+    drawBreadcrumbs(mockBreadcrumbsDOM.data[0]);
     const breadcrumb = document.querySelector('.breadcrumb').innerHTML;
     expect(breadcrumb).toEqual(expected);
   });
@@ -43,7 +43,7 @@ describe('breadcrumb.js', () => {
       '<nav class="breadcrumb"></nav>' +
     '</div>';
 
-    drawVBox();
+    drawBreadcrumbs();
     const breadcrumb = document.querySelector('.breadcrumb').innerHTML;
     expect(breadcrumb).toEqual('');
   });
@@ -65,7 +65,7 @@ describe('breadcrumb.js', () => {
       children: [],
     };
 
-    drawVBox(badData);
+    drawBreadcrumbs(badData);
     const breadcrumb = document.querySelector('.breadcrumb').innerHTML;
     expect(breadcrumb).toEqual('');
   });

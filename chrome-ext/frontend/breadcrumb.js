@@ -32,7 +32,7 @@ const getNodeNames = (data, element) => {
  *
  * @param {object} data - representation of React's vDOM
  */
-const drawVBox = (data) => {
+const drawBreadcrumbs = (data) => {
   let anchorText;
   const nodeNames = {};
   getNodeNames(data, nodeNames);
@@ -62,4 +62,4 @@ const drawVBox = (data) => {
   });
 };
 
-export default drawVBox;
+export default drawBreadcrumbs;
