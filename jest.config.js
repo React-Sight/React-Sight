@@ -3,7 +3,8 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['**/chrome-ext/**/*.js'],
   coveragePathIgnorePatterns: [
-    '<rootDir>/chrome-ext/build/bundle.js',
+    '<rootDir>/chrome-ext/build/',
+    '<rootDir>/chrome-ext/backend/',
     '<rootDir>/chrome-ext/asset/',
     '<rootDir>/chrome-ext/backend/installHook.js',
     '<rootDir>/chrome-ext/background.js',
