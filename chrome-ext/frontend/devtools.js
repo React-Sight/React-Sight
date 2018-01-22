@@ -6,6 +6,7 @@ import drawLoadingScreen from './loader';
 import * as drawChart from './drawChart';
 import drawBreadcrumbs from './breadcrumb';
 import { filterRedux, filterRouter, filterDOM } from './filters';
+import { mockDOM } from '../../test/fixtures';
 
 import '../css/style.css';
 import '../css/bootstrap.min.css';
@@ -48,12 +49,10 @@ const draw = () => {
   drawBreadcrumbs(processedData.data[0]);
 };
 
-// ****************`
-// ***** MAIN *****
-// ****************
-// attach panel to chrome dev tools
-chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
-  // wire up buttons to actions
+/**
+ * Add listeners to DOM elements
+ */
+const addListeners = () => {
   document.querySelector('#router-btn').addEventListener('click', draw);
   document.querySelector('#redux-btn').addEventListener('click', draw);
   document.querySelector('#dom-btn').addEventListener('click', draw);
@@ -62,27 +61,47 @@ chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
 
   // call a zoom in / zoom out to fix first pan/drag event,
   // without this, first dragging chart will cause it to jump on screen
-  // drawChart.zoomIn();
-  // drawChart.zoomOut();
+  drawChart.zoomIn();
+  drawChart.zoomOut();
+};
 
-  const port = chrome.extension.connect({
-    name: 'React-Sight',
+/**
+ * Add panel to chrome dev tools and initialize port and listener
+ */
+const drawPanel = () => {
+  chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
+    addListeners();
+    const port = chrome.extension.connect({ name: 'React-Sight' });
+
+    // establishes a connection between devtools and background page
+    port.postMessage({
+      name: 'connect',
+      tabId: chrome.devtools.inspectedWindow.tabId,
+    });
+
+    drawLoadingScreen();
+
+    // Listens for posts sent in specific ports and redraws tree
+    port.onMessage.addListener((msg) => {
+      if (!msg.data) return; // abort if data not present, or if not of type object
+      if (typeof msg !== 'object') return;
+      curData = msg; // assign global data object
+      draw();
+    });
   });
+};
 
-  // establishes a connection between devtools and background page
-  port.postMessage({
-    name: 'connect',
-    tabId: chrome.devtools.inspectedWindow.tabId,
-  });
-
-  // appends loading screen
+// ****************`
+// ***** MAIN *****
+// ****************
+// attach panel to chrome dev tools
+if (process.env.NODE_ENV === 'development') {
+  addListeners();
   drawLoadingScreen();
-
-  // Listens for posts sent in specific ports and redraws tree
-  port.onMessage.addListener((msg) => {
-    if (!msg.data) return; // abort if data not present, or if not of type object
-    if (typeof msg !== 'object') return;
-    curData = msg; // assign global data object
+  curData = mockDOM;
+  setTimeout(() => {
     draw();
-  });
-});
+  }, 1000);
+} else {
+  drawPanel();
+}
