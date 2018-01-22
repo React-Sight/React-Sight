@@ -112,10 +112,10 @@ export const traverseAllChildren = (component, parentArr) => {
  */
 export const getData = (reactDOM) => {
   if (__ReactSightDebugMode) console.log('vDOM', reactDOM);
-  const data = [];
+  const components = [];
   const rootElement = reactDOM.Mount._instancesByReactRootID[1]._renderedComponent;
-  traverseAllChildren(rootElement);
-  const ReactSightData = { data, store: __ReactSightStore };
+  traverseAllChildren(rootElement, components);
+  const ReactSightData = { data: components, store: __ReactSightStore };
   const clone = JSON.parse(JSON.stringify(ReactSightData));
   if (__ReactSightDebugMode) console.log('SENDING -> ', ReactSightData);
   window.postMessage(JSON.parse(JSON.stringify(clone)), '*');

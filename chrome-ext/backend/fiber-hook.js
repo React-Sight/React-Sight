@@ -112,10 +112,15 @@ export const recur16 = (node, parentArr) => {
 export const traverse16 = (fiberDOM) => {
   if (typeof fiberDOM === 'undefined') return;
   if (__ReactSightDebugMode) console.log('[ReactSight] traverse16 vDOM: ', fiberDOM);
-  const data = [];
-  recur16(fiberDOM.current.stateNode.current, data);
+  const components = [];
+  recur16(fiberDOM.current.stateNode.current, components);
+  if (__ReactSightDebugMode) console.log('[ReactSight] traverse16 data: ', components);
+  const data = {
+    data: components,
+    store: __ReactSightStore,
+  };
   data.data = data.data[0].children[0].children;
-  const ReactSightData = { data, store: __ReactSightStore };
+  const ReactSightData = { data: components, store: __ReactSightStore };
   const clone = JSON.parse(JSON.stringify(ReactSightData));
   if (__ReactSightDebugMode) console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', ReactSightData);
   if (__ReactSightDebugMode) console.log('[ReactSight] SENDING -> ', clone);
