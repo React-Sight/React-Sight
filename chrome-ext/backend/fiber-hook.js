@@ -1,6 +1,11 @@
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
+
 /* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
+/* eslint no-use-before-define: off, no-var: off */
 import { parseFunction } from './common';
 
+var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
 let __ReactSightStore;
 
 /** TODO - get objects to work
@@ -8,14 +13,12 @@ let __ReactSightStore;
   * Parse the props for React 16 components
   */
 export const props16 = (node) => {
-  // console.log('props16');
   const props = {};
   const keys = Object.keys(node.memoizedProps);
 
   keys.forEach((prop) => {
-    if (typeof node.memoizedProps[prop] === 'function') {
-      props[prop] = parseFunction(node.memoizedProps[prop]);
-    }
+    const value = node.memoizedProps[prop];
+    if (typeof value === 'function') props[prop] = parseFunction(value);
     // TODO - get these objects to work, almost always children property
     else if (typeof node.memoizedProps[prop] === 'object') {
       // console.log("PROP Object: ", node.memoizedProps[prop]);
@@ -107,17 +110,14 @@ export const recur16 = (node, parentArr) => {
  *
  */
 export const traverse16 = (fiberDOM) => {
-  console.log('React > 16');
   if (typeof fiberDOM === 'undefined') return;
-  const components = [];
-  // console.log('[ReactSight]traverse16 vDOM: ', fiberDOM);
-  recur16(fiberDOM.current.stateNode.current, components);
-  const data = {
-    data: components,
-    store: __ReactSightStore,
-  };
+  if (__ReactSightDebugMode) console.log('[ReactSight] traverse16 vDOM: ', fiberDOM);
+  const data = [];
+  recur16(fiberDOM.current.stateNode.current, data);
   data.data = data.data[0].children[0].children;
-  // console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', data)
-  // console.log('[ReactSight] SENDING -> ', data);
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+  const ReactSightData = { data, store: __ReactSightStore };
+  const clone = JSON.parse(JSON.stringify(ReactSightData));
+  if (__ReactSightDebugMode) console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', ReactSightData);
+  if (__ReactSightDebugMode) console.log('[ReactSight] SENDING -> ', clone);
+  window.postMessage(clone, '*');
 };

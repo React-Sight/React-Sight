@@ -6,6 +6,8 @@
 import { traverse16 } from './fiber-hook';
 import { getData } from './react-15-hook';
 
+var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
+
 // Notes... might need additional testing..renderers provides a list of all imported React instances
 var __ReactSightHasRun; // memoize installing the hook
 
@@ -42,11 +44,11 @@ if (!__ReactSightHasRun) {
     // React fiber (16+)
     if (instance && instance.version) {
       __ReactSight_ReactVersion = instance.version;
-      // console.log('version: ', __ReactSight_ReactVersion);
+      if (__ReactSightDebugMode) console.log('version: ', __ReactSight_ReactVersion);
       devTools.onCommitFiberRoot = (function (original) {
         return function (...args) {
           __ReactSightFiberDOM = args[1];
-          // console.log('DOM: ', __ReactSightFiberDOM);
+          if (__ReactSightDebugMode) console.log('DOM: ', __ReactSightFiberDOM);
           traverse16(__ReactSightFiberDOM);
           return original(...args);
         };
@@ -68,9 +70,7 @@ if (!__ReactSightHasRun) {
         };
       })(instance.Reconciler.receiveComponent);
     }
-    else {
-      console.log('[React Sight] React not found');
-    }
+    else console.log('[React Sight] React not found');
   })();
   /* eslint-enable */
 
