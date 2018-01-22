@@ -1,8 +1,11 @@
-/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
-/* eslint no-use-before-define: off */
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
 
+/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
+/* eslint no-use-before-define: off, no-var: off */
 import { parseFunction } from './common';
 
+var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
 let __ReactSightStore;
 
 /**
@@ -11,12 +14,11 @@ let __ReactSightStore;
  * @param {object} props - Object representing a component's props
  */
 export const parseProps = (props, i = 0) => {
-  if (!props) return;
-  if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return; // window was causing infinite loops
+  if (!props) return null;
+  if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return null; // window was causing infinite loops
   if (typeof props !== 'object') return props;
+
   // check if current props has PROPS property..don't traverse further just grab name property
-  // var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
-  // if (props.hasOwnProperty('props')) {
   if (Object.prototype.hasOwnProperty.call(props, 'props')) {
     if (!props.hasOwnProperty('type')) return undefined;
     else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
@@ -24,23 +26,21 @@ export const parseProps = (props, i = 0) => {
     else if (props.hasOwnProperty('type')) return `${props.type}`;
   }
 
+  // otherwise parse the props
   else {
     const parsedProps = {};
     // TODO remove for in loop
-    for (let key in props) {
-      if (!props[key]) parsedProps[key] === null;
+    for (const key in props) {
+      if (!props[key]) parsedProps[key] = null;
+
       // stringify methods
       else if (key === 'routes') return;
-      else if (typeof props[key] === 'function') {
-        parsedProps[key] = parseFunction(props[key]);
-      }
-      else if (Array.isArray(props[key]) && key === 'children') {
-        // parseProps forEach element
-        parsedProps[key] = [];
-        props[key].forEach((child) => {
-          parsedProps[key].push(parseProps(child));
-        });
-      } else if (typeof props[key] === 'object') {
+      else if (typeof props[key] === 'function') parsedProps[key] = parseFunction(props[key]);
+      // array parse parseProps forEach element
+      else if (Array.isArray(props[key]) && key === 'children') parsedProps[key] = parseArray(props[key]);
+
+      // else if type is an object
+      else if (typeof props[key] === 'object') {
         // handle custom objects and components with one child
         if (props[key] && Object.keys(props[key]).length) {
           if (i < 3) { // limit this func
@@ -49,10 +49,8 @@ export const parseProps = (props, i = 0) => {
           } else parsedProps[key] = 'obj*'; // end recursion so we dont get infinite loops
         }
       }
-      else {
-        // handle text nodes and other random values
-        parsedProps[key] = props[key];
-      }
+      // handle text nodes and other random values
+      else parsedProps[key] = props[key];
     }
     return parsedProps;
   }
@@ -107,24 +105,32 @@ export const traverseAllChildren = (component, parentArr) => {
  * Traverse React's virtual DOM and POST the object to the window.
  * The message will be recieved by React Sight chrome extension (the content script)
  *
+ * 1. define rootElement of virtual DOM
+ * 2. recursively traverse down through props chain, starting from root element
+
  * @param {array} components - array containing parsed virtual DOM
  */
 export const getData = (reactDOM) => {
-  console.log('React < 16');
-  const components = [];
-  // define rootElement of virtual DOM
+  if (__ReactSightDebugMode) console.log('vDOM', reactDOM);
+  const data = [];
   const rootElement = reactDOM.Mount._instancesByReactRootID[1]._renderedComponent;
-  // recursively traverse down through props chain   starting from root element
-  traverseAllChildren(rootElement, components);
-  const data = { data: components, store: __ReactSightStore };
-
-  // console.log('SENDING -> ', data);
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+  traverseAllChildren(rootElement);
+  const ReactSightData = { data, store: __ReactSightStore };
+  const clone = JSON.parse(JSON.stringify(ReactSightData));
+  if (__ReactSightDebugMode) console.log('SENDING -> ', ReactSightData);
+  window.postMessage(JSON.parse(JSON.stringify(clone)), '*');
 };
 
 // ***************
 // *** HELPERS ***
 // ***************
+
+/**
+ * Parse an array and it's elements. Accepts and array and returns an array
+ *
+ * @param {array} arr
+ */
+const parseArray = arr => arr.map(elem => parseProps(elem));
 
 /**
  * Returns a React component's props, if any
