@@ -32,6 +32,13 @@ module.exports = {
         test: /\.sass$|\.scss$|\.css$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      {
+        test: /\.(gif|png|jpe?g|svg|webp)$/i,
+        loaders: [
+          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack-loader',
+        ],
+      },
     ],
   },
   devtool: 'source-map',
