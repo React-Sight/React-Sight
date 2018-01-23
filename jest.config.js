@@ -7,6 +7,7 @@ module.exports = {
     '<rootDir>/chrome-ext/backend/installHook',
     '<rootDir>/chrome-ext/backend/common',
     '<rootDir>/chrome-ext/backend/fiber-hook',
+    '<rootDir>/chrome-ext/backend/react-15-hook',
     '<rootDir>/chrome-ext/asset/',
     '<rootDir>/chrome-ext/backend/installHook.js',
     '<rootDir>/chrome-ext/background.js',
