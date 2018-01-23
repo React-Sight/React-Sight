@@ -145,12 +145,12 @@ const getProps = (component) => {
  * Return's a React component's state, if any
  * @param {React Element} component
  */
-const getState = (component) => {
+export const getState = (component) => {
   if (component._instance && component._instance.state) return component._instance.state;
   return null;
 };
 
-const getStore = (component) => {
+export const getStore = (component) => {
   // call getState() on react-redux.connect()
   if (component._currentElement.type && component._currentElement.type.propTypes && component._currentElement.type.propTypes.hasOwnProperty('store')) {
     return component._instance.store.getState();
@@ -162,7 +162,7 @@ const getStore = (component) => {
  * Returns a React component's key, if any
  * @param {React Element} component
  */
-const getKey = (component) => {
+export const getKey = (component) => {
   if (component._currentElement && component._currentElement.key) return component._currentElement.key;
   return null;
 };
@@ -171,7 +171,7 @@ const getKey = (component) => {
  * Returns a React component's ref, if any
  * @param {React Element} component
  */
-const getRef = (component) => {
+export const getRef = (component) => {
   if (component._currentElement && component._currentElement.ref) return component._currentElement.ref;
   return null;
 };
