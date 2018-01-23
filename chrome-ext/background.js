@@ -54,11 +54,7 @@ chrome.extension.onMessage.addListener(function (req, sender, res) {
     let tabId = sender.tab.id;
     if (tabId in connections) {
       connections[tabId].postMessage(req);
-    } else {
-      console.log('WARNING:: Tab not found in connection list');
-    }
-  } else {
-    console.log('WARNING:: sender.tab not defined');
-  }
+    } else console.log('WARNING:: Tab not found in connection list');
+  } else console.log('WARNING:: sender.tab not defined');
   return true;
 });
