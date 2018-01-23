@@ -1,7 +1,11 @@
-/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
+//  Created by Grant Kang, William He, and David Sally on 9/10/17.
+//  Copyright © 2017 React Sight. All rights reserved.
 
+/* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
+/* eslint no-use-before-define: off, no-var: off */
 import { parseFunction } from './common';
 
+var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
 let __ReactSightStore;
 
 /**
@@ -10,12 +14,11 @@ let __ReactSightStore;
  * @param {object} props - Object representing a component's props
  */
 export const parseProps = (props, i = 0) => {
-  if (!props) return;
-  if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return; // window was causing infinite loops
+  if (!props) return null;
+  if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return null; // window was causing infinite loops
   if (typeof props !== 'object') return props;
+
   // check if current props has PROPS property..don't traverse further just grab name property
-  // var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
-  // if (props.hasOwnProperty('props')) {
   if (Object.prototype.hasOwnProperty.call(props, 'props')) {
     if (!props.hasOwnProperty('type')) return undefined;
     else if (props.type.hasOwnProperty('name') && props.type.name.length) return props.type.name;
@@ -23,23 +26,21 @@ export const parseProps = (props, i = 0) => {
     else if (props.hasOwnProperty('type')) return `${props.type}`;
   }
 
+  // otherwise parse the props
   else {
     const parsedProps = {};
     // TODO remove for in loop
-    for (let key in props) {
-      if (!props[key]) parsedProps[key] === null;
+    for (const key in props) {
+      if (!props[key]) parsedProps[key] = null;
+
       // stringify methods
       else if (key === 'routes') return;
-      else if (typeof props[key] === 'function') {
-        parsedProps[key] = parseFunction(props[key]);
-      }
-      else if (Array.isArray(props[key]) && key === 'children') {
-        // parseProps forEach element
-        parsedProps[key] = [];
-        props[key].forEach((child) => {
-          parsedProps[key].push(parseProps(child));
-        });
-      } else if (typeof props[key] === 'object') {
+      else if (typeof props[key] === 'function') parsedProps[key] = parseFunction(props[key]);
+      // array parse parseProps forEach element
+      else if (Array.isArray(props[key]) && key === 'children') parsedProps[key] = parseArray(props[key]);
+
+      // else if type is an object
+      else if (typeof props[key] === 'object') {
         // handle custom objects and components with one child
         if (props[key] && Object.keys(props[key]).length) {
           if (i < 3) { // limit this func
@@ -48,10 +49,8 @@ export const parseProps = (props, i = 0) => {
           } else parsedProps[key] = 'obj*'; // end recursion so we dont get infinite loops
         }
       }
-      else {
-        // handle text nodes and other random values
-        parsedProps[key] = props[key];
-      }
+      // handle text nodes and other random values
+      else parsedProps[key] = props[key];
     }
     return parsedProps;
   }
@@ -64,76 +63,41 @@ export const parseProps = (props, i = 0) => {
  * @param {array} parentArr - array representing component's parent
  */
 export const traverseAllChildren = (component, parentArr) => {
-  // if no current element, return
   if (!component._currentElement) return;
+
   const newComponent = {
     children: [],
     id: null,
+    idDOM: false,
     name: 'default',
     state: null,
     props: null,
     ref: null,
     key: null,
   };
-  // get ID
-  if (component._debugID) {
-    newComponent.id = component._debugID;
-  }
-  if (component._domID) {
-    newComponent.id = component._domID;
-    newComponent.isDOM = true;
-  }
-  else {
-    newComponent.id = component._mountOrder * 100;
-    newComponent.isDOM = false;
-  }
-  // Get Name
-  if (component._currentElement.type) {
-    // check for displayName or name
-    if (component._currentElement.type.displayName) newComponent.name = component._currentElement.type.displayName;
-    else if (component._currentElement.type.name) newComponent.name = component._currentElement.type.name;
-    else newComponent.name = component._currentElement.type;
-  }
-  else newComponent.name = 'default';
 
-  // call getState() on react-redux.connect()
-  if (component._currentElement.type) {
-    if (component._currentElement.type.propTypes) {
-      if (component._currentElement.type.propTypes.hasOwnProperty('store')) {
-        __ReactSightStore = component._instance.store.getState();
-      }
-    }
-  }
+  __ReactSightStore = getStore(component);
 
-  // Get State
-  if (!newComponent.state && component._instance && component._instance.state) {
-    newComponent.state = component._instance.state;
-    if (newComponent.state && Object.keys(newComponent.state).length === 0) {
-      newComponent.state = null;
-    }
-  }
-  if (!newComponent.props && component._currentElement && component._currentElement.props) {
-    newComponent.props = parseProps(component._currentElement.props);
-  }
-  // Get key
-  if (!newComponent.key && component._currentElement && component._currentElement.key) {
-    newComponent.key = component._currentElement.key;
-  }
-  if (!newComponent.ref && component._currentElement && component._currentElement.ref) {
-    newComponent.ref = component._currentElement.ref;
-  }
+  newComponent.state = getState(component);
+  newComponent.key = getKey(component);
+  newComponent.ref = getRef(component);
+  newComponent.name = getName(component);
+  newComponent.props = getProps(component);
 
-  // go into children of current component
-  const componentChildren = component._renderedChildren;
+  const id = getId(component);
+  newComponent.id = id.id;
+  newComponent.isDOM = id.isDOM;
+
+  // Add new component to parent's array
   parentArr.push(newComponent);
-  if (componentChildren) {
-    const keys = Object.keys(componentChildren);
-    keys.forEach((key) => {
-      traverseAllChildren(componentChildren[key], newComponent.children);
-    });
-  }
-  else if (component._renderedComponent) {
-    traverseAllChildren(component._renderedComponent, newComponent.children);
+
+  const { _renderedChildren, _renderedComponent } = component;
+
+  // traverse child or children of current component
+  if (_renderedComponent) traverseAllChildren(_renderedComponent, newComponent.children);
+  else if (_renderedChildren) {
+    const keys = Object.keys(_renderedChildren);
+    keys.forEach(key => traverseAllChildren(_renderedChildren[key], newComponent.children));
   }
 };
 
@@ -141,17 +105,96 @@ export const traverseAllChildren = (component, parentArr) => {
  * Traverse React's virtual DOM and POST the object to the window.
  * The message will be recieved by React Sight chrome extension (the content script)
  *
+ * 1. define rootElement of virtual DOM
+ * 2. recursively traverse down through props chain, starting from root element
+
  * @param {array} components - array containing parsed virtual DOM
  */
 export const getData = (reactDOM) => {
-  console.log('React < 16');
+  if (__ReactSightDebugMode) console.log('vDOM', reactDOM);
   const components = [];
-  // define rootElement of virtual DOM
   const rootElement = reactDOM.Mount._instancesByReactRootID[1]._renderedComponent;
-  // recursively traverse down through props chain   starting from root element
   traverseAllChildren(rootElement, components);
-  const data = { data: components, store: __ReactSightStore };
+  const ReactSightData = { data: components, store: __ReactSightStore };
+  const clone = JSON.parse(JSON.stringify(ReactSightData));
+  if (__ReactSightDebugMode) console.log('SENDING -> ', ReactSightData);
+  window.postMessage(JSON.parse(JSON.stringify(clone)), '*');
+};
 
-  // console.log('SENDING -> ', data);
-  window.postMessage(JSON.parse(JSON.stringify(data)), '*');
+// ***************
+// *** HELPERS ***
+// ***************
+
+/**
+ * Parse an array and it's elements. Accepts and array and returns an array
+ *
+ * @param {array} arr
+ */
+const parseArray = arr => arr.map(elem => parseProps(elem));
+
+/**
+ * Returns a React component's props, if any
+ * @param {React Element} component
+ */
+const getProps = (component) => {
+  if (component._currentElement && component._currentElement.props) return parseProps(component._currentElement.props);
+  return null;
+};
+
+/**
+ * Return's a React component's state, if any
+ * @param {React Element} component
+ */
+const getState = (component) => {
+  if (component._instance && component._instance.state) return component._instance.state;
+  return null;
+};
+
+const getStore = (component) => {
+  // call getState() on react-redux.connect()
+  if (component._currentElement.type && component._currentElement.type.propTypes && component._currentElement.type.propTypes.hasOwnProperty('store')) {
+    return component._instance.store.getState();
+  }
+  return null;
+};
+
+/**
+ * Returns a React component's key, if any
+ * @param {React Element} component
+ */
+const getKey = (component) => {
+  if (component._currentElement && component._currentElement.key) return component._currentElement.key;
+  return null;
+};
+
+/**
+ * Returns a React component's ref, if any
+ * @param {React Element} component
+ */
+const getRef = (component) => {
+  if (component._currentElement && component._currentElement.ref) return component._currentElement.ref;
+  return null;
+};
+
+/**
+ * Returns a React component's name, if any
+ * @param {React Element} component
+ */
+const getName = (component) => {
+  if (component._currentElement.type) {
+    if (component._currentElement.type.displayName) return component._currentElement.type.displayName;
+    else if (component._currentElement.type.name) return component._currentElement.type.name;
+    return component._currentElement.type;
+  }
+  return 'default';
+};
+
+/**
+ * Returns a React component's id, if any
+ * @param {React Element} component
+ */
+const getId = (component) => {
+  if (component._debugID) return { id: component._debugID, isDOM: true };
+  if (component._domID) return { id: component._domID, isDOM: true };
+  return { id: component._mountOrder * 100, isDOM: false };
 };

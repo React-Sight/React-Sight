@@ -2,8 +2,13 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
+  devServer: {
+    contentBase: `${__dirname}/chrome-ext/build`,
+  },
   entry: {
     bundle: './chrome-ext/frontend/devtools.js',
     installHook: './chrome-ext/backend/installHook.js',
@@ -24,9 +29,19 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        loaders: ['style-loader', 'css-loader'],
+        test: /\.sass$|\.scss$|\.css$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: `${__dirname}/chrome-ext/devtools.html`,
+    }),
+  ],
 };
