@@ -13,7 +13,7 @@ let __ReactSightStore;
  *
  * @param {object} props - Object representing a component's props
  */
-export const parseProps = (props, i = 0) => {
+const parseProps = (props, i = 0) => {
   if (!props) return null;
   if (props.hasOwnProperty(window) || props.hasOwnProperty('prevObject') || props.hasOwnProperty(Window)) return null; // window was causing infinite loops
   if (typeof props !== 'object') return props;
@@ -145,12 +145,12 @@ const getProps = (component) => {
  * Return's a React component's state, if any
  * @param {React Element} component
  */
-const getState = (component) => {
+export const getState = (component) => {
   if (component._instance && component._instance.state) return component._instance.state;
   return null;
 };
 
-const getStore = (component) => {
+export const getStore = (component) => {
   // call getState() on react-redux.connect()
   if (component._currentElement.type && component._currentElement.type.propTypes && component._currentElement.type.propTypes.hasOwnProperty('store')) {
     return component._instance.store.getState();
@@ -162,7 +162,7 @@ const getStore = (component) => {
  * Returns a React component's key, if any
  * @param {React Element} component
  */
-const getKey = (component) => {
+export const getKey = (component) => {
   if (component._currentElement && component._currentElement.key) return component._currentElement.key;
   return null;
 };
@@ -171,7 +171,7 @@ const getKey = (component) => {
  * Returns a React component's ref, if any
  * @param {React Element} component
  */
-const getRef = (component) => {
+export const getRef = (component) => {
   if (component._currentElement && component._currentElement.ref) return component._currentElement.ref;
   return null;
 };
@@ -180,8 +180,8 @@ const getRef = (component) => {
  * Returns a React component's name, if any
  * @param {React Element} component
  */
-const getName = (component) => {
-  if (component._currentElement.type) {
+export const getName = (component) => {
+  if (component && component._currentElement && component._currentElement.type) {
     if (component._currentElement.type.displayName) return component._currentElement.type.displayName;
     else if (component._currentElement.type.name) return component._currentElement.type.name;
     return component._currentElement.type;
@@ -193,7 +193,7 @@ const getName = (component) => {
  * Returns a React component's id, if any
  * @param {React Element} component
  */
-const getId = (component) => {
+export const getId = (component) => {
   if (component._debugID) return { id: component._debugID, isDOM: true };
   if (component._domID) return { id: component._domID, isDOM: true };
   return { id: component._mountOrder * 100, isDOM: false };

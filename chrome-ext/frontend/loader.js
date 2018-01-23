@@ -36,10 +36,7 @@ const processLoader = () => {
 
   // If React isn't found, notify the user
   setTimeout(() => {
-    if (document.getElementById('loader-header')) {
-      header.innerHTML = '';
-    }
-
+    if (document.getElementById('loader-header')) header.innerHTML = '';
     if (document.getElementById('loader-sub-header')) {
       const subHeader = document.getElementById('loader-sub-header');
       subHeader.innerHTML = errorMessage;
