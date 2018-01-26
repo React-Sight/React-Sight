@@ -2,8 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devServer: {
@@ -15,7 +14,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: `${__dirname}/chrome-ext/build/`,
+    path: `${__dirname}/release/build`,
   },
   // use a load for .jsx and ES6
   module: {
@@ -48,8 +47,13 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
       },
     }),
-    new HtmlWebpackPlugin({
-      template: `${__dirname}/chrome-ext/devtools.html`,
-    }),
+    new CopyWebpackPlugin([
+      // {output}/to/file.txt
+      { from: 'chrome-ext/manifest.json', to: '../manifest.json' },
+      { from: 'chrome-ext/content-script.js', to: '../content-script.js' },
+      { from: 'chrome-ext/background.js', to: '../background.js' },
+      { from: 'chrome-ext/devtools.html', to: '../devtools.html' },
+      { from: 'chrome-ext/asset/', to: '../asset/' },
+    ]),
   ],
 };

@@ -1,6 +1,5 @@
 .DS_Store
 .vscode
-build
 node_modules
 package-lock.json
 goodSquares-dontcommit.js
@@ -16,3 +15,7 @@ react hierarchy
 .coveralls.yml
 coverage
 .travis.yml
+
+# Build folders
+release
+build
