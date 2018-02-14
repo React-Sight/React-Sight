@@ -9,8 +9,8 @@
 /**
  * Build up object containing component names and number of times they appear
  *
- * @param {object} data - object represeting vDOM
- * @param {object} object - function will build up an object of names and the number of times they appear
+ * @param {object} data - object representing vDOM
+ * @param {object} element - function will build up an object of names and the number of times they appear
  */
 const getNodeNames = (data, element) => {
   // break if no name or children list is empty
@@ -54,7 +54,7 @@ const drawBreadcrumbs = (data) => {
   });
 
   // select current breadcrumb, clear it, and re-append new breadcrumb by
-  // iteratring through breadcrumbSteps
+  // iterating through breadcrumbSteps
   const breadcrumb = document.querySelector('.breadcrumb');
   breadcrumb.innerHTML = '';
   breadcrumbSteps.forEach((node) => {

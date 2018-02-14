@@ -31,7 +31,7 @@ React Sight is a live view of the component hierarchy tree of your React applica
 
 If you'd like to build your own version of React Sight:
 
-1. Clone the repo and `npm install` dependancies
+1. Clone the repo and `npm install` dependencies
 
 2. Use `npm start` to generate the build 
 

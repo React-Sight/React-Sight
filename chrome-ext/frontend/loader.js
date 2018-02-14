@@ -20,13 +20,13 @@ const loaderHeaders = [
   'Reticulating Splines',
 ];
 
-const errorMessage = '<p>Cannot find React<br><br>Triggering a setState() ussually fixes this</p><br><br><p>Note: React-Sight works best on local projects with React v15/16</p>';
+const errorMessage = '<p>Cannot find React<br><br>Triggering a setState() usually fixes this</p><br><br><p>Note: React-Sight works best on local projects with React v15/16</p>';
 
 /**
  * Appends the loading screen with a random quote.
  *
  * The loader is removed when / if the tree is drawn,
- * after data has been recieved from the inspected page.
+ * after data has been received from the inspected page.
  * After 10 seconds, it will show an error, indicating it could not find React's root node
  */
 const processLoader = () => {
