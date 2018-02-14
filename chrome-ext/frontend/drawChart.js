@@ -82,7 +82,7 @@ function zoomed() {
 }
 
 /** Update the tree with new data
- * 
+ *
  * @param {object} source - parsed representation of React's vDOM
  */
 function update(source) {
@@ -90,13 +90,7 @@ function update(source) {
     .nodeSize([hSlider * 5, hSlider * 5]);
 
   // Creates a curved (diagonal) path from parent to the child nodes
-  const diagonal = (s, d) => {
-    const path = 'M' + s.x + ',' + s.y
-      + 'C' + s.x + ',' + (s.y + d.y) / 2
-      + ' ' + d.x + ',' + (s.y + d.y) / 2
-      + ' ' + d.x + ',' + d.y;
-    return path;
-  };
+  const diagonal = (s, d) => `M${s.x},${s.y}C${s.x},${(s.y + d.y) / 2} ${d.x},${(s.y + d.y) / 2} ${d.x},${d.y}`;
 
   // Toggle children on click.
   const click = (d) => {
@@ -135,15 +129,13 @@ function update(source) {
   // Remove any exiting nodes
   let nodeExit = node.exit().transition()
     .duration(duration)
-    .attr('transform', function (d) {
-      return 'translate(' + source.x + ',' + source.y + ')';
-    })
+    .attr('transform', () => `translate(${source.x},${source.y})`)
     // .attr('transform', d => 'translate(' + source.x + ',' + source.y + ')')
     .remove();
 
   let nodeEnter = node.enter().append('g')
     .attr('class', 'node')
-    .attr('transform', d => 'translate(' + source.x0 + ',' + source.y0 + ')')
+    .attr('transform', () => `translate(${source.x0},${source.y0})`)
     .on('click', click);
 
   // Add Circle for the nodes
@@ -192,7 +184,7 @@ function update(source) {
   // Transition to the proper position for the node
   nodeUpdate.transition()
     .duration(duration)
-    .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+    .attr('transform', d => `translate(${d.x},${d.y})`);
 
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
