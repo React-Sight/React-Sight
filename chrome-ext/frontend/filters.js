@@ -58,7 +58,7 @@ const domFilter = (node, parentArr) => {
   }
 };
 
-/** This is specifcally for redux, and looks for components names 'connect' */
+/** This is specifically for redux, and looks for components names 'connect' */
 const reduxFilter = (node, parentArr, filter) => {
   if (node.name === undefined) return;
   const newObj = {
@@ -83,19 +83,32 @@ const reduxFilter = (node, parentArr, filter) => {
   }
 };
 
+const reduxComponentNames = ['Provider', 'Connect'];
 /** Removes Redux components from tree */
 export const filterRedux = (data) => {
   const filtered = { data: [] };
-  const names = ['Provider', 'Connect'];
-  reduxFilter(data.data[0], filtered.data, names);
+  reduxFilter(data.data[0], filtered.data, reduxComponentNames);
   return filtered;
 };
 
+
+const reactRouterNames = [
+  'BrowserRouter',
+  'Router',
+  'Switch',
+  'Route',
+  'Link',
+  'StaticRouter',
+  'NavLink',
+  'Redirect',
+  'MemoryRouter',
+  'Prompt',
+  'NavLink',
+];
 /** Removes ReactRouter v4 components from JSON */
 export const filterRouter = (data) => {
   const filtered = { data: [] };
-  const names = ['BrowserRouter', 'Router', 'Switch', 'Route', 'Link', 'StaticRouter', 'NavLink', 'Redirect', 'MemoryRouter', 'Prompt', 'NavLink'];
-  routerFilter(data.data[0], filtered.data, names);
+  routerFilter(data.data[0], filtered.data, reactRouterNames);
   return filtered;
 };
 
