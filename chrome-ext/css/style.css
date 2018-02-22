@@ -124,17 +124,17 @@
   border: 1px solid red;
 }
 
-#button-container {
+.button-container {
   line-height: 10px;
   font-size: 10px;
   margin-left: 17px;
   user-select: none;
 }
 
-#button-container label {
+.button-container label {
   text-align: left;
   display: inline-block;
-  text-indent: 0px;
+  text-indent: 0;
 }
 
 #sliders-container {

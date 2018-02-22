@@ -38,12 +38,12 @@ const draw = () => {
   // run draw function to render / update tree
   drawChart.drawChart(processedData.data[0]);
 
+  const { store } = curData;
   // if no redux store, remove 'Store' from side panel, otherwise render store JSON
-  if (!curData.store) {
+  if (!store) {
     const storeContainer = document.getElementById('store-container');
     storeContainer.innerHTML = '';
   } else {
-    const { store } = curData;
     previousStore = drawStore(store, previousStore);
   }
   drawBreadcrumbs(processedData.data[0]);
