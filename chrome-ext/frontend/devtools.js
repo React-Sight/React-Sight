@@ -1,6 +1,7 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2018 React Sight. All rights reserved.
 
+import { throttle } from 'lodash';
 import drawStore from './store-panel';
 import drawLoadingScreen from './loader';
 import * as drawChart from './drawChart';
@@ -86,7 +87,7 @@ const drawPanel = () => {
       if (!msg.data) return; // abort if data not present, or if not of type object
       if (typeof msg !== 'object') return;
       curData = msg; // assign global data object
-      draw();
+      throttle(draw(), 100);
     });
   });
 };
