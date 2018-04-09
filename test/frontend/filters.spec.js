@@ -1,5 +1,5 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
-//  Copyright © 2017 React Sight. All rights reserved.
+//  8 React Sight. All rights reserved.
 
 /* eslint-env jest */
 import { filterRedux, filterRouter, filterDOM } from '../../chrome-ext/frontend/filters';
