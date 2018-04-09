@@ -1,5 +1,5 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
-//  Copyright © 2017 React Sight. All rights reserved.
+//  Copyright © 2018 React Sight. All rights reserved.
 
 /* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
 /* eslint no-use-before-define: off, no-var: off */
@@ -13,40 +13,26 @@ let __ReactSightStore;
   * Parse the props for React 16 components
   */
 export const props16 = (node) => {
-  const props = {};
-  const keys = Object.keys(node.memoizedProps);
+  try {
+    const props = {};
+    const keys = Object.keys(node.memoizedProps);
 
-  keys.forEach((prop) => {
-    const value = node.memoizedProps[prop];
-    if (typeof value === 'function') props[prop] = parseFunction(value);
-    // TODO - get these objects to work, almost always children property
-    else if (typeof node.memoizedProps[prop] === 'object') {
-      // console.log("PROP Object: ", node.memoizedProps[prop]);
-      props[prop] = 'object*';
+    keys.forEach((prop) => {
+      const value = node.memoizedProps[prop];
+      if (typeof value === 'function') props[prop] = parseFunction(value);
+      // TODO - get these objects to work, almost always children property
+      else if (typeof node.memoizedProps[prop] === 'object') {
+        // console.log("PROP Object: ", node.memoizedProps[prop]);
+        props[prop] = 'object*';
 
-      // TODO - parse object
-      // console.log('obj: ', node.memoizedProps[prop]);
-      // if (node.memoizedProps[prop] && Object.keys(node.memoizedProps[prop]).length) {
-      //   const keys = Object.keys(node.memoizedProps[props]);
-      //   console.log('keys', keys)
-      //   props[prop] = keys
-      //   props[prop] = parseProps(node.memoizedProps[props]);
-      // }
-    }
-
-    // TODO - debug this
-    // else if (prop === 'children') {
-    //   props[prop] = new node.memoizedProps[prop].constructor();
-    //   if (Array.isArray(node.memoizedProps[prop])) {
-    //     node.memoizedProps[prop].forEach((child) => {
-    //       props[prop].push(child && child.type && child.type.name);
-    //     });
-    //   }
-    //   else props[prop].name = node.memoizedProps[prop].type && node.memoizedProps[prop].type.name;
-    // }
-    else props[prop] = node.memoizedProps[prop];
-  });
-  return props;
+        // TODO - parse object
+      }
+      else props[prop] = node.memoizedProps[prop];
+    });
+    return props;
+  } catch (e) {
+    return {};
+  }
 };
 
 /** TODO: Get Props

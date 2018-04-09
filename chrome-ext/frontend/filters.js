@@ -1,5 +1,5 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
-//  Copyright © 2017 React Sight. All rights reserved.
+//  Copyright © 2018 React Sight. All rights reserved.
 //
 //  Filters work by building parsing existing JSON data, and returning a
 //  new JSON object

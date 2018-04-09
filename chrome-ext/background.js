@@ -1,5 +1,5 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
-//  Copyright © 2017 React Sight. All rights reserved.
+//  Copyright © 2018 React Sight. All rights reserved.
 
 /* eslint no-var: off, camelcase: off, max-len: off, prefer-arrow-callback: off,
 no-useless-return: off, max-len: off, no-console: off, prefer-const: off,
