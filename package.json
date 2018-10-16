@@ -50,7 +50,7 @@
     "eslint-plugin-react": "7.4.0",
     "file-loader": "1.1.6",
     "image-webpack-loader": "3.4.2",
-    "jest": "^22.1.4",
+    "jest": "23.6.0",
     "node-sass": "4.7.2",
     "npm-run-all": "4.1.1",
     "sass-loader": "6.0.6",
