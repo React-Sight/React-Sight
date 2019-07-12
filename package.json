@@ -28,9 +28,9 @@
   },
   "homepage": "https://github.com/React-Sight/React-Sight#readme",
   "dependencies": {
-    "d3": "5.0.0",
-    "json-formatter-js": "2.2.0",
-    "lodash": "4.17.5"
+    "d3": "5.9.7",
+    "json-formatter-js": "2.2.1",
+    "lodash": "4.17.14"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0",

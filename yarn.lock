@@ -2610,10 +2610,10 @@ d3-zoom@1:
     d3-selection "1"
     d3-transition "1"
 
-d3@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/d3/-/d3-5.0.0.tgz#b373ce8ccc953cbe09cef4c1e7e2223b42441df9"
-  integrity sha512-JAuq1vvO8AQnAvZ5Gi3OsUWAoB1dOZlIQZEcj+JzEnafmwLlrWcW24o5I7fM9x+tsrZpsi8n9L12iHyHr0HTlg==
+d3@5.9.7:
+  version "5.9.7"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-5.9.7.tgz#f3835648a172b438e89ed57eb6c525bdabdcd7dc"
+  integrity sha512-jENytrmdXtGPw7HuSK2S4gxRM1eUGjKvWQkQ6ct4yK+DB8SG3VcnVrwesfnsv8rIcxMUg18TafT4Q8mOZUMP4Q==
   dependencies:
     d3-array "1"
     d3-axis "1"
@@ -5839,10 +5839,10 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-json-formatter-js@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/json-formatter-js/-/json-formatter-js-2.2.0.tgz#1ed987223ef2f1d945304597faae78b580a8212b"
-  integrity sha1-HtmHIj7y8dlFMEWX+q54tYCoISs=
+json-formatter-js@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/json-formatter-js/-/json-formatter-js-2.2.1.tgz#b101d628e86f028dc9cf9a7e1c83c65e536c9f87"
+  integrity sha1-sQHWKOhvAo3Jz5p+HIPGXlNsn4c=
 
 json-parse-better-errors@^1.0.2:
   version "1.0.2"
@@ -6167,12 +6167,7 @@ lodash.templatesettings@^3.0.0:
     lodash._reinterpolate "^3.0.0"
     lodash.escape "^3.0.0"
 
-lodash@4.17.5:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
-  integrity sha512-svL3uiZf1RwhH+cWrfZn3A4+U58wbP0tGVTLQPbjplZxZ8ROD9VLuNgsRniTlLe7OlSqR79RUehXgpBW/s0IQw==
-
-lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.3.0, lodash@~4.17.10:
+lodash@4.17.14, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.3.0, lodash@~4.17.10:
   version "4.17.14"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
