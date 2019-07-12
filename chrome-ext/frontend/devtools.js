@@ -49,6 +49,8 @@ const draw = () => {
   drawBreadcrumbs(processedData.data[0]);
 };
 
+const throttledDraw = throttle(draw, 100);
+
 /**
  * Add listeners to DOM elements
  */
@@ -61,8 +63,8 @@ const addListeners = () => {
 
   // call a zoom in / zoom out to fix first pan/drag event,
   // without this, first dragging chart will cause it to jump on screen
-  drawChart.zoomIn();
-  drawChart.zoomOut();
+    drawChart.zoomIn();
+    drawChart.zoomOut();
 };
 
 /**
@@ -86,7 +88,7 @@ const drawPanel = () => {
       if (!msg.data) return; // abort if data not present, or if not of type object
       if (typeof msg !== 'object') return;
       curData = msg; // assign global data object
-      throttle(draw(), 100);
+      throttledDraw();
     });
   });
 };
