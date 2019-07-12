@@ -7,7 +7,6 @@ import drawLoadingScreen from './loader';
 import * as drawChart from './drawChart';
 import drawBreadcrumbs from './breadcrumb';
 import { filterRedux, filterRouter, filterDOM } from './filters';
-import { mockDOM } from '../../test/fixtures';
 
 import '../css/style.css';
 import '../css/bootstrap.min.css';
@@ -70,7 +69,7 @@ const addListeners = () => {
  * Add panel to chrome dev tools and initialize port and listener
  */
 const drawPanel = () => {
-  chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
+  chrome.devtools.panels.create('React-Sight', '', 'devtools.html', () => {
     addListeners();
     const port = chrome.extension.connect({ name: 'React-Sight' });
 
@@ -92,17 +91,5 @@ const drawPanel = () => {
   });
 };
 
-// ****************`
-// ***** MAIN *****
-// ****************
 // attach panel to chrome dev tools
-if (process.env.NODE_ENV === 'development') {
-  addListeners();
-  drawLoadingScreen();
-  curData = mockDOM;
-  setTimeout(() => {
-    draw();
-  }, 1000);
-} else {
-  drawPanel();
-}
+drawPanel();

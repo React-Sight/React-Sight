@@ -3,7 +3,7 @@
   "short_name": "React-Sight",
   "version": "1.0.6",
   "description": "Extends the Developer Tools, adding a sidebar that displays React Component Hierarchy.",
-  "devtools_page": "build/devtools.html",
+  "devtools_page": "devtools.html",
   "manifest_version": 2,
   "background": {
     "scripts": [
