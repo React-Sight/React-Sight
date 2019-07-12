@@ -1,7 +1,7 @@
 {
   "name": "React-Sight",
   "short_name": "React-Sight",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Extends the Developer Tools, adding a sidebar that displays React Component Hierarchy.",
   "devtools_page": "devtools.html",
   "manifest_version": 2,
@@ -11,6 +11,7 @@
     ],
     "persistent": false
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "16": "asset/icon16.png",
     "48": "asset/icon48.png",
@@ -23,6 +24,6 @@
     "file:///*"
   ],
   "web_accessible_resources": [
-    "/build/installHook.js"
+    "/installHook.js"
   ]
 }

@@ -7,6 +7,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 
+  devtool: 'cheap-source-map',
+
   devServer: {
     contentBase: `${__dirname}/chrome-ext/build`,
   },
