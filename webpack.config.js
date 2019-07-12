@@ -5,27 +5,42 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+
   devServer: {
     contentBase: `${__dirname}/chrome-ext/build`,
   },
+
   entry: {
     bundle: './chrome-ext/frontend/devtools.js',
     installHook: './chrome-ext/backend/installHook.js',
   },
+
   output: {
     filename: '[name].js',
     path: `${__dirname}/release/build`,
   },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
+
   // use a load for .jsx and ES6
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'stage-2'],
-        },
       },
       {
         test: /\.sass$|\.scss$|\.css$/,
@@ -40,13 +55,8 @@ module.exports = {
       },
     ],
   },
-  devtool: 'source-map',
+
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
-      },
-    }),
     new CopyWebpackPlugin([
       // {output}/to/file.txt
       { from: 'chrome-ext/manifest.json', to: '../manifest.json' },
