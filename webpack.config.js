@@ -18,23 +18,9 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: `${__dirname}/release/build`,
+    path: `${__dirname}/build/chrome-ext`,
   },
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all',
-        },
-      },
-    },
-  },
-
-  // use a load for .jsx and ES6
   module: {
     rules: [
       {
@@ -59,11 +45,11 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       // {output}/to/file.txt
-      { from: 'chrome-ext/manifest.json', to: '../manifest.json' },
-      { from: 'chrome-ext/content-script.js', to: '../content-script.js' },
-      { from: 'chrome-ext/background.js', to: '../background.js' },
-      { from: 'chrome-ext/devtools.html', to: '../devtools.html' },
-      { from: 'chrome-ext/asset/', to: '../asset/' },
+      { from: 'chrome-ext/manifest.json', to: '../chrome-ext/manifest.json' },
+      { from: 'chrome-ext/content-script.js', to: '../chrome-ext/content-script.js' },
+      { from: 'chrome-ext/background.js', to: '../chrome-ext/background.js' },
+      { from: 'chrome-ext/devtools.html', to: '../chrome-ext/devtools.html' },
+      { from: 'chrome-ext/asset/', to: '../chrome-ext/asset/' },
     ]),
   ],
 };

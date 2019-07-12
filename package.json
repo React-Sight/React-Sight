@@ -29,6 +29,7 @@
   "homepage": "https://github.com/React-Sight/React-Sight#readme",
   "dependencies": {
     "d3": "5.9.7",
+    "d3-interpolate": "1.3.2",
     "json-formatter-js": "2.2.1",
     "lodash": "4.17.14"
   },

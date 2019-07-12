@@ -2,7 +2,7 @@
 //  Copyright © 2018 React Sight. All rights reserved.
 
 import * as d3 from 'd3';
-import { parseSvg } from "d3-interpolate/src/transform/parse";
+import { parseSvg } from 'd3-interpolate/src/transform/parse';
 import updateStateProps from './state-props-panel';
 
 // ************
