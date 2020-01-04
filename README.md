@@ -14,6 +14,8 @@ React Sight is a live view of the component hierarchy tree of your React applica
 
 ### We are currently working on squashing bugs related to fiber
 
+_*Note: project is not actively maintained. If you would like to maintain, feel free to submit PRs._
+
 
 ## Set Up | Install From Chrome Store
 
