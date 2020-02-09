@@ -43,7 +43,7 @@
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-airbnb-base": "13.2.0",
-    "eslint-plugin-import": "2.18.0",
+    "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.2",
     "file-loader": "4.0.0",
