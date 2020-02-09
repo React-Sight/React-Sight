@@ -63,8 +63,8 @@ const addListeners = () => {
 
   // call a zoom in / zoom out to fix first pan/drag event,
   // without this, first dragging chart will cause it to jump on screen
-    drawChart.zoomIn();
-    drawChart.zoomOut();
+  drawChart.zoomIn();
+  drawChart.zoomOut();
 };
 
 /**
