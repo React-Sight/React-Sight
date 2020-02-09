@@ -15,7 +15,7 @@
   "scripts": {
     "start": "webpack -w",
     "start:dev": "NODE_PATH=. NODE_ENV='development' webpack-dev-server --content-base chrome-ext/build",
-    "test": "NODE_PATH=. node_modules/.bin/jest",
+    "test": "jest",
     "coveralls": "NODE_PATH=. node_modules/.bin/jest && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build": "webpack -p",
     "build:debug": "NODE_ENV=debug webpack -w"
@@ -34,6 +34,9 @@
     "lodash": "4.17.14"
   },
   "devDependencies": {
+    "@babel/core": "7.8.4",
+    "@babel/preset-env": "7.8.4",
+    "babel-jest": "25.1.0",
     "copy-webpack-plugin": "5.0.3",
     "coveralls": "3.0.0",
     "css-loader": "3.0.0",
