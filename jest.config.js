@@ -15,4 +15,5 @@ module.exports = {
     '<rootDir>/chrome-ext/frontend/devtools.js',
     '<rootDir>/chrome-ext/frontend/drawChart.js',
   ],
+  transform: { '^.+\\.jsx?$': 'babel-jest' },
 };
