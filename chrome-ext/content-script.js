@@ -14,7 +14,7 @@ function injectScript(file, node) {
 window.addEventListener('message', (e) => {
   if (e.source !== window) return;
   // send message to background
-  chrome.extension.sendMessage(e.data, () => {
+  chrome.runtime.sendMessage(e.data, () => {
     if (typeof e.data === 'object') {
       // console.log('**Content-scripts** received data sending to devtools...', e.data);
     }
@@ -26,4 +26,7 @@ chrome.extension.onMessage.addListener(() => {
   window.dispatchEvent(newEvent);
 });
 
-injectScript(chrome.extension.getURL('/installHook.js'), 'body');
+setTimeout(() => {
+  injectScript(chrome.runtime.getURL('/installHook.js'), 'body');
+}, 5000)
+

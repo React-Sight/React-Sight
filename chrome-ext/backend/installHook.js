@@ -13,8 +13,8 @@ var __ReactSightHasRun; // memoize installing the hook
 
 if (!__ReactSightHasRun) {
   if (!window.__REACT_DEVTOOLS_GLOBAL_HOOK__) console.warn('[React-Sight]: React Sight requires React Dev Tools to be installed.');
-  const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers || null;
-  const instance = reactInstances[Object.keys(reactInstances)[0]];
+  const reactInstances = window.__REACT_DEVTOOLS_GLOBAL_HOOK__.renderers || null;
+  const instance = reactInstances.get(1);
   // const reactRoot = window.document.body.childNodes;
   const devTools = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
