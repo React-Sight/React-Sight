@@ -68,8 +68,6 @@ d3.select('#hSlider').on('input', () => {
 });
 
 // center graph on page -> may not be needed
-// drawChart.zoomIn();
-// drawChart.zoomOut();
 d3.select('svg').transition().duration(1).call(zoom.transform, transform);
 
 // *************
