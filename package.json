@@ -31,7 +31,7 @@
     "d3": "5.15.0",
     "d3-interpolate": "1.4.0",
     "json-formatter-js": "2.2.1",
-    "lodash": "4.17.14"
+    "lodash": "4.17.15"
   },
   "devDependencies": {
     "@babel/core": "7.8.4",

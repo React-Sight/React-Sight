@@ -1,7 +1,7 @@
 //  Created by Grant Kang, William He, and David Sally on 9/10/17.
 //  Copyright © 2018 React Sight. All rights reserved.
 
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import drawStore from './store-panel';
 import drawLoadingScreen from './loader';
 import * as drawChart from './drawChart';
