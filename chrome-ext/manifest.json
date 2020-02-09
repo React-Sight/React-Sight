@@ -11,6 +11,10 @@
     ],
     "persistent": false
   },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content-script.js"]
+  }],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "16": "asset/icon16.png",
@@ -19,9 +23,8 @@
   },
   "permissions": [
     "tabs",
-    "http://*/*",
-    "https://*/*",
-    "file:///*"
+    "activeTab", 
+    "<all_urls>"
   ],
   "web_accessible_resources": [
     "/installHook.js"
