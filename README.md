@@ -31,13 +31,15 @@ _*Note: project is not actively maintained. If you would like to maintain, feel 
 
 ## Building Your Own Version
 
-If you'd like to build your own version of React Sight:
+If you'd like to build your own version of React Sight from the source code, follow these steps:
 
-1. Clone the repo and `npm install` dependencies
+- Clone the repo and run `yarn install` or `npm install` to install dependencies.
 
-2. Use `npm start` to generate the build 
+- Use `yarn build` to generate the build.
 
-3. In Chrome, open the extensions tab and click 'Load Unpacked Extension'. Load the folder '~/ReactSight/chrome-ext'
+- Open Chrome and go to the extensions page. Toggle developer mode in the upper right corner if necessary, then click 'Load unpacked'.
+
+- Load the folder '~/ReactSight/build/chrome-ext'
 
 If you have any additional questions send us a message at reactsight@gmail.com :)
 
