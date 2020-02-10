@@ -28,5 +28,4 @@ chrome.extension.onMessage.addListener(() => {
 
 setTimeout(() => {
   injectScript(chrome.runtime.getURL('/installHook.js'), 'body');
-}, 5000)
-
+}, 5000);
