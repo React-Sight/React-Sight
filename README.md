@@ -25,24 +25,32 @@ _*Note: project is *barely* maintained. If you would like to maintain, feel free
 1. Run your React application, or open (almost!) any website running React!
 1. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
 
+## Set Up |  Firefox
+This is the same as Chrome, except you will use the addons from the Firefox website
+
+1. Add [React Dev Tools](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/?src=search)
+1. Add [React Sight](https://addons.mozilla.org/en-US/firefox/addon/react-sight/) from the Firefox addons website. 
+
 ## Building Your Own Version
 
 If you'd like to build your own version of React Sight from the source code, follow these steps:
 
 1. Clone the repo and run `yarn install` or `npm install` to install dependencies.
 1. Use `yarn build` to generate the build.
-1. Open Chrome and go to the extensions page. Toggle developer mode in the upper right corner if necessary, then click 'Load unpacked'.
-1. Load the folder `~/ReactSight/build/chrome-ext`
 
-If you have any additional questions send us a message at reactsight@gmail.com :)
+### Adding to Chrome
+1. Open Chrome and go to the extensions page
+1. Toggle developer mode in the upper right corner if necessary
+1. Click 'Load unpacked'
+1. Load the folder `~/ReactSight/build/chrome-ext`
 
 ### Firefox 
 
-If you are using fox, follow steps 1-3 for building the extension locally. Then, to load the extension: 
-
-1. Load the extension as a "Temporary Extension" by navigating to: `about:debugging#/runtime/this-firefox`.
+1. Load the extension as a "Temporary Extension" by navigating to: `about:debugging#/runtime/this-firefox`
 1. Click "Load Temporary Add-on"
-1. Load the file `~/ReactSight/build/chrome-ext/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder.
+1. Load the file `~/ReactSight/build/chrome-ext/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder
+
+If you have any additional questions send us a message at reactsight@gmail.com :)
 
 ## Usage
 
