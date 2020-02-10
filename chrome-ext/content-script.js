@@ -21,7 +21,7 @@ window.addEventListener('message', (e) => {
   });
 });
 
-chrome.extension.onMessage.addListener(() => {
+chrome.runtime.onMessage.addListener(() => {
   const newEvent = new Event('reactsight');
   window.dispatchEvent(newEvent);
 });
