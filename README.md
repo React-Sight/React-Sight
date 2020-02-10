@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/React-Sight/React-Sight.svg?branch=master)](https://travis-ci.org/React-Sight/React-Sight)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
+![Mozilla Add-on](https://img.shields.io/amo/v/react-sight)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
