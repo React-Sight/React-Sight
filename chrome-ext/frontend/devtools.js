@@ -71,7 +71,7 @@ const addListeners = () => {
  * Add panel to chrome dev tools and initialize port and listener
  */
 const drawPanel = () => {
-  chrome.devtools.panels.create('React-Sight', null, 'devtools.html', () => {
+  chrome.devtools.panels.create('React-Sight', '', 'devtools.html', () => {
     addListeners();
     const port = chrome.runtime.connect({ name: 'React-Sight' });
 
