@@ -5,43 +5,44 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
-React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux.
+<br />
 
+React Sight is a live view of the component hierarchy tree of your React application with support for React Router and Redux. _Now with support for Firefox!_
+
+<br/>
 <p align="center">
   <img src="/assets/testingDEMO.gif">
 </p>
+<br/>
 
+_*Note: project is *barely* maintained. If you would like to maintain, feel free to submit PRs or reach out to @davidcsally_
 
-### We are currently working on squashing bugs related to fiber
-
-_*Note: project is not actively maintained. If you would like to maintain, feel free to submit PRs._
-
-
-## Set Up | Install From Chrome Store
+## Set Up | Install From the Chrome Store
 
 1. Make sure you've added [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to Chrome. 
-
-2. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
-
-3. If you are running local file URLs, make sure to enable "Allow access to file URLs" in the extension settings for both React Dev Tools and React Sight
-
-4. Run your React application, or open (almost!) any website running React!
-
-5. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
+1. Install [React Sight](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn) from the Chrome web store
+1. If you are running local file URLs, make sure to enable "Allow access to file URLs" in the extension settings for both React Dev Tools and React Sight
+1. Run your React application, or open (almost!) any website running React!
+1. Open Chrome Developer Tools (cmd+opt+j) -> React Sight panel
 
 ## Building Your Own Version
 
 If you'd like to build your own version of React Sight from the source code, follow these steps:
 
-- Clone the repo and run `yarn install` or `npm install` to install dependencies.
-
-- Use `yarn build` to generate the build.
-
-- Open Chrome and go to the extensions page. Toggle developer mode in the upper right corner if necessary, then click 'Load unpacked'.
-
-- Load the folder '~/ReactSight/build/chrome-ext'
+1. Clone the repo and run `yarn install` or `npm install` to install dependencies.
+1. Use `yarn build` to generate the build.
+1. Open Chrome and go to the extensions page. Toggle developer mode in the upper right corner if necessary, then click 'Load unpacked'.
+1. Load the folder `~/ReactSight/build/chrome-ext`
 
 If you have any additional questions send us a message at reactsight@gmail.com :)
+
+### Firefox 
+
+If you are using fox, follow steps 1-3 for building the extension locally. Then, to load the extension: 
+
+1. Load the extension as a "Temporary Extension" by navigating to: `about:debugging#/runtime/this-firefox`.
+1. Click "Load Temporary Add-on"
+1. Load the file `~/ReactSight/build/chrome-ext/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder.
 
 ## Usage
 
@@ -77,7 +78,7 @@ This is a bug where the parsing functions get stuck in an infinite loop. We are 
 
 ## Testing
 
-Run `npm test` to run the test suite
+Run `yarn test` to run the test suite. Tests are run using `jest`.
 
 ## Contributing
 
@@ -107,16 +108,15 @@ Visit us at www.reactsight.com
 
 Here's our top development priorities
 
-1. Better support across all React versions, especially fiber
-2. More consistent detection of root nodes when React Sight is opened
-3. Support for multiple React Applications / mounting nodes 
-4. More robust error handling and guard blocks for extracting state, props, and store
-5. Logging / Debugging mode for development, feedback, and error reporting
-6. Performance and stability updates
-7. Mousewheel zoom in D3 chart (if you can solve this I will order you 🍕)
-8. UX improvements
-9. Improved documentation
-10. Hook into React DevTool's reporting so that we don't have to reimplement it :)
+1. Better support across on React 16+.
+1. More consistent detection of root nodes when React Sight is opened.
+1. Support for multiple React Applications / mounting nodes, currently it picks the first React application in the renderers list.
+1. More robust error handling and guard blocks for extracting state, props, and store
+1. Logging / Debugging mode for development, feedback, and error reporting
+1. Performance and stability updates
+1. UX improvements
+1. Improved documentation
+1. Hook into the react-devtools-backend so that we don't have to reimplement it :)
 
 ## License
 
