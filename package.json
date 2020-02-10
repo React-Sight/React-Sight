@@ -13,6 +13,7 @@
     "dev tool"
   ],
   "scripts": {
+    "lint": "eslint chrome-ext",
     "start": "webpack -w",
     "start:dev": "NODE_PATH=. NODE_ENV='development' webpack-dev-server --content-base chrome-ext/build",
     "test": "jest",
@@ -40,12 +41,9 @@
     "copy-webpack-plugin": "5.1.1",
     "coveralls": "3.0.9",
     "css-loader": "3.0.0",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb": "17.1.1",
-    "eslint-config-airbnb-base": "13.2.0",
-    "eslint-plugin-import": "2.18.0",
-    "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.14.2",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-plugin-import": "2.20.1",
     "file-loader": "4.0.0",
     "image-webpack-loader": "5.0.0",
     "jest": "25.1.0",
