@@ -68,6 +68,8 @@ The raw data is then processed and fed to D3, where it is displayed to the user.
 
 ## Troubleshooting
 
+***In React16 you will need to trigger a render to have your application show up. The data is not exposed until React's renderer is called.***
+
 'React not found' or no data:
 
 Sometimes React-Sight doesn't get a snapshot of the data at load, triggering a setState ussually fixes this
