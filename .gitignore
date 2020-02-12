@@ -4,10 +4,10 @@ node_modules
 package-lock.json
 goodSquares-dontcommit.js
 react-sight.crx
-chrome-ext.crx
-chrome-ext.pem
+extension.crx
+extension.pem
 reactsight.zip
-chrome-ext.zip
+extension.zip
 builds
 monitor
 react hierarchy

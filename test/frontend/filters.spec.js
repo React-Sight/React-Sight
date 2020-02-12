@@ -2,7 +2,7 @@
 //  8 React Sight. All rights reserved.
 
 /* eslint-env jest */
-import { filterRedux, filterRouter, filterDOM } from '../../chrome-ext/frontend/filters';
+import { filterRedux, filterRouter, filterDOM } from '../../extension/frontend/filters';
 import { mockDOM, mockFilterRedux, mockFilterRouter, mockFilterDOM } from '../../test/fixtures';
 
 describe('filterRedux', () => {

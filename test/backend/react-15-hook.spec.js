@@ -4,7 +4,7 @@
 /* eslint-env jest */
 /* eslint quotes: off */
 
-import { getName, getId, getRef, getKey, getState, getStore } from '../../chrome-ext/backend/react-15-hook';
+import { getName, getId, getRef, getKey, getState, getStore } from '../../extension/backend/react-15-hook';
 
 describe(`[react-15-hook.js]: getName`, () => {
   it(`should get a node's dispayName`, () => {

@@ -3,7 +3,7 @@
 
 /* eslint-env jest */
 
-import updatePanel from '../../chrome-ext/frontend/state-props-panel';
+import updatePanel from '../../extension/frontend/state-props-panel';
 
 describe('updatePanel', () => {
   it('says none if state is null and props are null', () => {

@@ -43,13 +43,13 @@ If you'd like to build your own version of React Sight from the source code, fol
 1. Open Chrome and go to the extensions page
 1. Toggle developer mode in the upper right corner if necessary
 1. Click 'Load unpacked'
-1. Load the folder `~/ReactSight/build/chrome-ext`
+1. Load the folder `~/ReactSight/build/extension`
 
 ### Firefox 
 
 1. Load the extension as a "Temporary Extension" by navigating to: `about:debugging#/runtime/this-firefox`
 1. Click "Load Temporary Add-on"
-1. Load the file `~/ReactSight/build/chrome-ext/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder
+1. Load the file `~/ReactSight/build/extension/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder
 
 If you have any additional questions send us a message at reactsight@gmail.com :)
 

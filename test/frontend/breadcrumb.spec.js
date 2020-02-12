@@ -2,7 +2,7 @@
 //  Copyright © 2018 React Sight. All rights reserved.
 
 /* eslint-env jest */
-import drawBreadcrumbs from '../../chrome-ext/frontend/breadcrumb';
+import drawBreadcrumbs from '../../extension/frontend/breadcrumb';
 import { mockBreadcrumbsDOM } from '../../test/fixtures';
 
 describe('breadcrumb.js', () => {
