@@ -1,9 +1,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/React-Sight/React-Sight/badge.svg?branch=master)](https://coveralls.io/github/React-Sight/React-Sight?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a7c8e7cd0346c45cc7c6/maintainability)](https://codeclimate.com/github/React-Sight/React-Sight/maintainability)
 [![Build Status](https://travis-ci.org/React-Sight/React-Sight.svg?branch=master)](https://travis-ci.org/React-Sight/React-Sight)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
 ![Mozilla Add-on](https://img.shields.io/amo/v/react-sight)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
 <br />
@@ -43,13 +45,13 @@ If you'd like to build your own version of React Sight from the source code, fol
 1. Open Chrome and go to the extensions page
 1. Toggle developer mode in the upper right corner if necessary
 1. Click 'Load unpacked'
-1. Load the folder `~/ReactSight/build/chrome-ext`
+1. Load the folder `~/ReactSight/build/extension`
 
 ### Firefox 
 
 1. Load the extension as a "Temporary Extension" by navigating to: `about:debugging#/runtime/this-firefox`
 1. Click "Load Temporary Add-on"
-1. Load the file `~/ReactSight/build/chrome-ext/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder
+1. Load the file `~/ReactSight/build/extension/manifest.json`. In Firefox, you load the extension's manifest instead of the extension's folder
 
 If you have any additional questions send us a message at reactsight@gmail.com :)
 

@@ -2,7 +2,7 @@
 //  Copyright © 2018 React Sight. All rights reserved.
 
 /* eslint-env jest */
-import drawStore from '../../chrome-ext/frontend/store-panel';
+import drawStore from '../../extension/frontend/store-panel';
 import {
   mockReduxStore,
   mockStorePanel,
