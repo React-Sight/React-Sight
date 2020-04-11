@@ -1,9 +1,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/React-Sight/React-Sight/badge.svg?branch=master)](https://coveralls.io/github/React-Sight/React-Sight?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a7c8e7cd0346c45cc7c6/maintainability)](https://codeclimate.com/github/React-Sight/React-Sight/maintainability)
 [![Build Status](https://travis-ci.org/React-Sight/React-Sight.svg?branch=master)](https://travis-ci.org/React-Sight/React-Sight)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/aalppolilappfakpmdfdkpppdnhpgifn.svg)](https://chrome.google.com/webstore/detail/react-sight/aalppolilappfakpmdfdkpppdnhpgifn)
 ![Mozilla Add-on](https://img.shields.io/amo/v/react-sight)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
 <br />
