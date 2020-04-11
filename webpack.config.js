@@ -9,10 +9,6 @@ module.exports = {
 
   devtool: 'cheap-source-map',
 
-  devServer: {
-    contentBase: `${__dirname}/chrome-ext/build`,
-  },
-
   entry: {
     bundle: './chrome-ext/frontend/devtools.js',
     installHook: './chrome-ext/backend/installHook.js',
