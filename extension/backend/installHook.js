@@ -6,6 +6,7 @@
 import { traverse16 } from './fiber-hook';
 import { getData } from './react-15-hook';
 
+// TODO fix this, I don't think node.process.env exits here, maybe need the define plugin
 var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
 
 // Notes... might need additional testing..renderers provides a list of all imported React instances
@@ -45,6 +46,8 @@ if (!__ReactSightHasRun) {
     if (instance && instance.version) {
       __ReactSight_ReactVersion = instance.version;
       if (__ReactSightDebugMode) console.log('version: ', __ReactSight_ReactVersion);
+
+      // onCommitFiberRoot
       devTools.onCommitFiberRoot = (function (original) {
         return function (...args) {
           __ReactSightFiberDOM = args[1];

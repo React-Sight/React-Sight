@@ -3,10 +3,13 @@
 
 /* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
 /* eslint no-use-before-define: off, no-var: off */
+import circular from 'circular';
+
 import { parseFunction } from './common';
 
-var __ReactSightDebugMode = (process.env.NODE_ENV === 'debug');
-let __ReactSightStore;
+// TODO fix this garbage
+var __ReactSightDebugMode = false;
+let __ReactSightStore = [];
 
 /** TODO - get objects to work
   *
@@ -75,9 +78,16 @@ export const recur16 = (node, parentArr) => {
   // get store
   if (node.type && node.type.propTypes) {
     if (node.type.propTypes.hasOwnProperty('store')) {
-      __ReactSightStore = node.stateNode.store.getState();
+      // TODO replace with safety check
+      try {
+        __ReactSightStore = node.stateNode.store.getState();
+      } catch (e) {
+        // noop
+        // console.log('Error getting store: ', e);
+      }
     }
   }
+
   newComponent.children = [];
   parentArr.push(newComponent);
   if (node.child != null) recur16(node.child, newComponent.children);
@@ -101,13 +111,11 @@ export const traverse16 = (fiberDOM) => {
   const components = [];
   recur16(fiberDOM.current.stateNode.current, components);
   if (__ReactSightDebugMode) console.log('[ReactSight] traverse16 data: ', components);
-  const data = {
-    data: components,
-    store: __ReactSightStore,
-  };
-  data.data = data.data[0].children[0].children;
+
   const ReactSightData = { data: components, store: __ReactSightStore };
-  const clone = JSON.parse(JSON.stringify(ReactSightData));
+
+  const clone = JSON.parse(JSON.stringify(ReactSightData, circular()));
+
   if (__ReactSightDebugMode) console.log('[ReactSight] retrieved data --> posting to content-scripts...: ', ReactSightData);
   if (__ReactSightDebugMode) console.log('[ReactSight] SENDING -> ', clone);
   window.postMessage(clone, '*');
