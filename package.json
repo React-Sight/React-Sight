@@ -45,7 +45,7 @@
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.20.1",
-    "file-loader": "5.0.2",
+    "file-loader": "6.0.0",
     "image-webpack-loader": "6.0.0",
     "jest": "25.1.0",
     "node-sass": "4.13.1",
