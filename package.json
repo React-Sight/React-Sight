@@ -31,7 +31,7 @@
   "homepage": "https://github.com/React-Sight/React-Sight#readme",
   "dependencies": {
     "circular": "^1.0.5",
-    "d3": "5.15.0",
+    "d3": "6.2.0",
     "d3-interpolate": "1.4.0",
     "json-formatter-js": "2.3.4",
     "lodash": "4.17.15"
