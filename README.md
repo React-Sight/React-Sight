@@ -6,6 +6,10 @@
 ![Mozilla Add-on](https://img.shields.io/amo/v/react-sight)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+_**Note: project isn't actively maintained. If you would like to maintain, feel free to submit PRs or reach out to @davidcsally**_
+_**I also suggest installing it as click-to-run or inside its own chrome profile, so that it doesn't slow down regular browsing**_
+
+
 # React Sight
 <img src="/assets/sidewaylogo4.png" width="300"/>
 <br />
@@ -18,7 +22,6 @@ React Sight is a live view of the component hierarchy tree of your React applica
 </p>
 <br/>
 
-_*Note: project is *barely* maintained. If you would like to maintain, feel free to submit PRs or reach out to @davidcsally_
 
 ## Set Up | Install From the Chrome Store
 
